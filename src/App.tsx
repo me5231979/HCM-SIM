@@ -1,0 +1,103 @@
+import { lazy, Suspense, useEffect, useRef, useState } from 'react';
+import { personById } from './content';
+import { urgency } from './engine/clock';
+import { paydayBeats, useGame } from './store/game';
+import { ListView } from './a11y/ListView';
+import { Binder } from './ui/Binder';
+import { Briefing } from './ui/Briefing';
+import { Debrief } from './ui/Debrief';
+import { HUD } from './ui/HUD';
+import { Inbox, NoiseReader } from './ui/Inbox';
+import { Payday } from './ui/Payday';
+import { Settings } from './ui/Settings';
+import { TaskPanel } from './ui/TaskPanel';
+import { Title } from './ui/Title';
+
+const Scene = lazy(() => import('./scene/Scene'));
+
+function hasWebGL(): boolean {
+  try {
+    const c = document.createElement('canvas');
+    return !!(c.getContext('webgl2') || c.getContext('webgl'));
+  } catch {
+    return false;
+  }
+}
+
+export default function App() {
+  const s = useGame();
+  const { phase, settings, snap } = s;
+  const [webgl] = useState(hasWebGL);
+  const [zoomStep, setZoom] = useState(0);
+  const last = useRef(performance.now());
+  const lastUrgency = useRef('normal');
+
+  useEffect(() => {
+    if (!webgl && settings.view === '3d') { s.setSettings({ view: '2d' }); s.announce('3D isn\'t available in this browser, so the game opened in List view.'); }
+  }, [webgl]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // Real-time clock loop. The store decides whether sim time actually moves.
+  useEffect(() => {
+    const id = window.setInterval(() => {
+      const now = performance.now();
+      useGame.getState().tick(Math.min(500, now - last.current));
+      last.current = now;
+    }, 100);
+    return () => window.clearInterval(id);
+  }, []);
+
+  useEffect(() => {
+    if (!snap || phase !== 'playing') return;
+    const u = urgency(snap.time, snap.cutoff);
+    if (u !== lastUrgency.current) {
+      if (u === 'warning') s.announce('Payroll cutoff is less than 24 hours away.');
+      if (u === 'critical') s.announce('Final 4 hours before payroll cutoff.');
+      lastUrgency.current = u;
+    }
+  }, [snap?.time, phase]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // Pay day: the camera visits each speaker.
+  useEffect(() => {
+    if (phase !== 'payday' || !snap) return;
+    const b = paydayBeats(snap)[s.beat];
+    if (!b) return;
+    const desk = personById(b.speaker).desk;
+    s.setPanel({ focus: desk.startsWith('office_') ? desk : desk === 'hcm_2' ? 'terminal' : 'overview' });
+  }, [phase, s.beat]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => {
+    document.documentElement.style.fontSize = `${settings.textScale * 100}%`;
+    document.documentElement.dataset.reducedMotion = String(settings.reducedMotion);
+  }, [settings.textScale, settings.reducedMotion]);
+
+  const show3d = settings.view === '3d' && webgl;
+  const playingUi = phase === 'playing';
+
+  return (
+    <div className={`app phase-${phase} view-${show3d ? '3d' : '2d'}`}>
+      <a href="#main" className="skip">Skip to content</a>
+      <div className="stage" aria-hidden={phase === 'debrief' ? true : undefined}>
+        {show3d ? <Suspense fallback={<div className="scene-loading" role="status">Building the office…</div>}><Scene zoomStep={zoomStep} /></Suspense> : <div className="backdrop" />}
+      </div>
+      <div className="vignette" aria-hidden="true" />
+
+      {phase === 'title' && <Title />}
+      {phase === 'briefing' && <Briefing />}
+      {(playingUi || phase === 'payday') && !show3d && <ListView />}
+      {playingUi && (
+        <>
+          <HUD zoomStep={zoomStep} setZoom={setZoom} />
+          {s.inboxOpen && <Inbox />}
+          <TaskPanel />
+          <NoiseReader />
+        </>
+      )}
+      {phase === 'payday' && <Payday />}
+      {phase === 'debrief' && <Debrief />}
+      {s.binderOpen && <Binder />}
+      {s.settingsOpen && <Settings />}
+      {show3d && playingUi && <main id="main" className="sr-only" aria-label="Office">Use the Places bar, the Inbox, or switch to List view to work through tasks.</main>}
+      <div className="sr-only" role="status" aria-live="polite" aria-atomic="true">{s.announcement}</div>
+    </div>
+  );
+}

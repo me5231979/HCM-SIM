@@ -1,0 +1,13 @@
+{
+  "entries": [
+    { "id": "timecard_order", "title": "Timecard approval order", "body": "Employees enter and approve their own time. Managers approve. Payroll signs off. After sign-off, an approval can't be removed until payroll removes the sign-off.", "source": "HCM Academy: Review and approve time cards", "sme": false },
+    { "id": "save_not_submit", "title": "Open pay period: Save, don't Submit", "body": "If you enter time for someone in an open pay period, Save. Submitting early means you must edit, update, and resubmit later.", "source": "HCM Academy: Weekly time card check", "sme": false },
+    { "id": "pto_increment", "title": "Non-exempt PTO increments", "body": "Non-exempt PTO is entered in 4-hour increments.", "source": "HCM Academy: Enter PTO for an employee", "sme": false },
+    { "id": "overtime", "title": "Overtime for non-exempt staff", "body": "Federal law requires paying non-exempt employees overtime for hours over 40 in a workweek, even if the overtime wasn't approved in advance. Not getting approval is a conduct issue for the manager to address, not a reason to withhold pay.", "source": "U.S. Department of Labor, Fair Labor Standards Act", "sme": false },
+    { "id": "documented_edits", "title": "Editing someone else's time", "body": "Only change an employee's time when the employee and manager have confirmed the correct time, and keep a record of that confirmation. [SME] Confirm where Vanderbilt expects the documentation to live.", "source": "[SME]", "sme": true },
+    { "id": "manager_approval", "title": "Late manager approvals", "body": "Remind the manager with the exact names and the deadline. If they can't approve in time, escalate to their supervisor or the designated backup approver. Don't approve as the manager yourself. [SME] Confirm the backup approver rule.", "source": "[SME]", "sme": true },
+    { "id": "retro", "title": "Retroactive pay changes", "body": "Use the effective date on the approved document, even when it is in the past. Payroll recalculates past periods and pays the difference.", "source": "HCM Academy: Change salary; Compensation impacts on payroll", "sme": false },
+    { "id": "cutoff", "title": "Payroll cutoff", "body": "Everything must be approved before cutoff. After cutoff, fixes become off-cycle payments or corrections in the next run. [SME] Confirm the biweekly cutoff day and time.", "source": "[SME]", "sme": true },
+    { "id": "off_cycle", "title": "Off-cycle payments", "body": "An off-cycle payment needs both the corrected Oracle transaction and the off-cycle request form. Payroll runs it; you request it.", "source": "HCM Academy: Request an off-cycle payment", "sme": false }
+  ]
+}

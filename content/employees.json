@@ -1,0 +1,16 @@
+{
+  "people": [
+    { "id": "dir_park", "name": "Dr. Helen Park", "title": "Director", "role": "director", "type": "exempt", "payBasis": "salary", "payRate": 128000, "managerId": null, "desk": "office_c", "outfit": "black" },
+    { "id": "mgr_ortiz", "name": "Dana Ortiz", "title": "Operations Manager", "role": "manager", "type": "exempt", "payBasis": "salary", "payRate": 92000, "managerId": "dir_park", "desk": "office_a", "outfit": "gold" },
+    { "id": "mgr_bell", "name": "Marcus Bell", "title": "Program Manager", "role": "manager", "type": "exempt", "payBasis": "salary", "payRate": 88000, "managerId": "dir_park", "desk": "office_b", "outfit": "black" },
+    { "id": "coach", "name": "Renee Holt", "title": "Senior HCM (your mentor)", "role": "coach", "type": "exempt", "payBasis": "salary", "payRate": 81000, "managerId": "dir_park", "desk": "hcm_2", "outfit": "gold" },
+    { "id": "emp_reyes", "name": "Jordan Reyes", "title": "Program Coordinator", "role": "employee", "type": "nonexempt", "payBasis": "hourly", "payRate": 23.0, "managerId": "mgr_bell", "desk": "pod_1", "outfit": "cream" },
+    { "id": "emp_nair", "name": "Priya Nair", "title": "Event Specialist", "role": "employee", "type": "nonexempt", "payBasis": "hourly", "payRate": 26.0, "managerId": "mgr_ortiz", "desk": "pod_2", "outfit": "gold" },
+    { "id": "emp_okafor", "name": "Sam Okafor", "title": "Office Assistant", "role": "employee", "type": "nonexempt", "payBasis": "hourly", "payRate": 19.75, "managerId": "mgr_ortiz", "desk": "pod_3", "outfit": "black" },
+    { "id": "emp_kowalski", "name": "Lena Kowalski", "title": "Data Assistant", "role": "employee", "type": "nonexempt", "payBasis": "hourly", "payRate": 22.0, "managerId": "mgr_ortiz", "desk": "pod_4", "outfit": "cream" },
+    { "id": "emp_rivera", "name": "Tomás Rivera", "title": "Facilities Technician", "role": "employee", "type": "nonexempt", "payBasis": "hourly", "payRate": 23.25, "managerId": "mgr_bell", "desk": "pod_5", "outfit": "black" },
+    { "id": "emp_grant", "name": "Aisha Grant", "title": "Student Services Assistant", "role": "employee", "type": "nonexempt", "payBasis": "hourly", "payRate": 21.5, "managerId": "mgr_bell", "desk": "pod_6", "outfit": "gold" },
+    { "id": "emp_brennan", "name": "Kai Brennan", "title": "Instructional Designer", "role": "employee", "type": "exempt", "payBasis": "salary", "payRate": 71000, "managerId": "mgr_ortiz", "desk": "pod_7", "outfit": "cream" },
+    { "id": "emp_chen", "name": "Mei Chen", "title": "Budget Analyst", "role": "employee", "type": "exempt", "payBasis": "salary", "payRate": 74000, "managerId": "mgr_ortiz", "desk": "pod_8", "outfit": "black" }
+  ]
+}

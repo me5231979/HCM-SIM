@@ -1,0 +1,40 @@
+{
+  "name": "pay-period",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Pay Period: an HCM simulation for HCM Academy.",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview --port 4173",
+    "test": "vitest run",
+    "test:e2e": "playwright test",
+    "typecheck": "tsc -b --noEmit",
+    "validate:content": "vitest run tests/unit/content.test.ts"
+  },
+  "dependencies": {
+    "@react-three/drei": "^10.7.9",
+    "@react-three/fiber": "^9.8.2",
+    "@xstate/react": "^6.1.0",
+    "motion": "^14.6.0",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "three": "^0.186.1",
+    "xstate": "^5.33.3",
+    "zod": "^4.6.7",
+    "zustand": "^5.0.16"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.56.1",
+    "@types/node": "^22.20.5",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@types/three": "^0.186.0",
+    "@vitejs/plugin-react": "^6.1.2",
+    "axe-core": "^4.14.0",
+    "typescript": "5.9",
+    "vite": "^8.3.5",
+    "vitest": "^5.0.5"
+  }
+}
