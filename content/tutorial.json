@@ -38,6 +38,7 @@
     "title": "Practice: where deadlines live",
     "from": "coach",
     "context": "Renee: \"Quick warm-up before the clock starts. This one isn't scored.\"",
+    "intro": "Quick warm-up before the clock starts. This one isn't scored.",
     "hint": "Dates move with weekends, holidays, and year end. Where would you check every time?",
     "decision": {
       "id": "practice",

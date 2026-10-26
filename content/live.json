@@ -1,0 +1,34 @@
+{
+  "privacy": {
+    "provider": "ElevenLabs",
+    "points": [
+      "Your microphone audio goes to ElevenLabs, our voice provider, only while the conversation is open.",
+      "Audio is not recorded or kept. The text transcript is deleted after 30 days.",
+      "We don't send your name or any account details. Please don't share personal information.",
+      "Dana is an AI character. She can make mistakes, and nothing she says is policy.",
+      "Each conversation stops after 3 minutes. End it any time, or type instead of talking."
+    ]
+  },
+  "conversations": [
+    {
+      "id": "dana_ot",
+      "agentId": "agent_1901m5wnrbg4f9195cbqxtdfkst4",
+      "speaker": "mgr_ortiz",
+      "stepId": "timecards",
+      "decisionId": "nair_ot",
+      "title": "Talk it through with Dana",
+      "pitch": "Practice the real conversation. Dana is a live AI character who answers what you actually say. It takes about 2 minutes.",
+      "maxSeconds": 180,
+      "outcomes": { "pay": "pay", "shift": "shift", "cut": "cut" },
+      "coaching": [
+        { "field": "explained_overtime_rule", "is": true, "good": true, "text": "You named the rule: hours over 40 in a workweek are paid as overtime, approved or not." },
+        { "field": "explained_overtime_rule", "is": false, "good": false, "text": "Name the rule out loud next time: hours over 40 in a workweek are paid as overtime, approved or not." },
+        { "field": "suggested_conduct_conversation", "is": true, "good": true, "text": "You gave Dana the real fix: a conversation with Priya about getting approval first." },
+        { "field": "suggested_conduct_conversation", "is": false, "good": false, "text": "Give Dana the real fix: a conversation with Priya about getting approval first. The time card stays as worked." },
+        { "field": "hcm_edit", "is": true, "good": false, "text": "Managers fix their own team's time. You advise and follow up; you don't edit it for them." },
+        { "field": "tone", "is": "respectful", "good": true, "text": "You kept it respectful. Managers come back to the HCM who helps them, not the one who corrects them." },
+        { "field": "tone", "is": "dismissive", "good": false, "text": "Dana is your partner here. A respectful explanation lands better and keeps her coming back to you.", "deltas": { "managerSatisfaction": -3 } }
+      ]
+    }
+  ]
+}

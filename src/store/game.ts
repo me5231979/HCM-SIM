@@ -83,9 +83,7 @@ export const paydayBeats = (snap: Snapshot): PaydayBeat[] => {
   beats.push({
     speaker: 'coach',
     tone: negatives ? 'negative' : 'positive',
-    line: negatives === 0
-      ? 'Clean pay day. Nobody at your desk with a pay stub. That is what good payroll support looks like: nothing happens.'
-      : `${negatives} ${negatives === 1 ? 'problem' : 'problems'} reached people's paychecks. Let's trace each one back to the decision that caused it.`,
+    line: negatives === 0 ? payroll.payday.clean : payroll.payday.problems,
     summary: 'Debrief',
   });
   return beats;

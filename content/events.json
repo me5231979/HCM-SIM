@@ -21,6 +21,7 @@
         "title": "Headcount report in one hour",
         "from": "dir_park",
         "location": "office_c",
+        "opener": { "speaker": "dir_park", "line": "I have a budget meeting at eleven, and I need a headcount report for the department. Can you have it to me in an hour?" },
         "priority": "high",
         "dueMinutes": 60,
         "context": "Dr. Park: \"Budget meeting at 11. I need a headcount report for the department. Can you have it to me in an hour?\" Today is the HCM transaction cutoff, and Jordan's raise has to be in by 5:00 PM.",

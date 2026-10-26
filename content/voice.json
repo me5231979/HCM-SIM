@@ -1,0 +1,318 @@
+{
+  "cast": {
+    "coach": {
+      "voiceId": "YyRJWuwyhKdMZRRnm464",
+      "voiceName": "Katie - E-Learning & Podcast Host"
+    },
+    "mgr_ortiz": {
+      "voiceId": "g6xIsTj2HwM6VR4iXFCw",
+      "voiceName": "Jessica Anne Bogart - Conversations"
+    },
+    "dir_park": {
+      "voiceId": "cVOjvbxC2c4mOyGcx3AH",
+      "voiceName": "Jessica - Engaging, textured, grounded"
+    },
+    "mgr_bell": {
+      "voiceId": "iP95p4xoKVk53GoZ742B",
+      "voiceName": "Chris - Charming, Down-to-Earth"
+    },
+    "emp_rivera": {
+      "voiceId": "CwhRBWXzGAHq8TQ4Fs17",
+      "voiceName": "Roger - Laid-Back, Casual, Resonant"
+    },
+    "emp_reyes": {
+      "voiceId": "bIHbv24MWmeRgasZH58o",
+      "voiceName": "Will - Relaxed Optimist"
+    },
+    "emp_okafor": {
+      "voiceId": "DLtA8Q1hnOvB5FUKBFY9",
+      "voiceName": "Oliver - Inquisitive, Warm, Calm"
+    },
+    "emp_nair": {
+      "voiceId": "imS9VaqDG0p1hKsDR12k",
+      "voiceName": "Asal"
+    },
+    "emp_kowalski": {
+      "voiceId": "PHAPuAHARHKi7JvhoY4v",
+      "voiceName": "Bree - Friendly Girl Next Door"
+    },
+    "emp_grant": {
+      "voiceId": "cgSgspJ2msm6clMCkdW9",
+      "voiceName": "Jessica - Playful, Bright, Warm"
+    }
+  },
+  "lines": [
+    {
+      "id": "brief.0",
+      "speaker": "coach",
+      "text": "Morning. It's Thursday, Oct 22. We're in pay period 22, Oct 11 to Oct 24. These dates come straight from the real 2026 payroll calendar.",
+      "say": "Morning. It's Thursday, October twenty-second. We're in pay period twenty-two, October eleventh to October twenty-fourth. These dates come straight from the real 2026 payroll calendar."
+    },
+    {
+      "id": "brief.1",
+      "speaker": "coach",
+      "text": "Two deadlines run your week. Transactions close at the HCM transaction cutoff this Friday, Oct 23. Time cards are due Monday, Oct 26 at noon. Then payroll signs off and runs payroll. We don't run payroll; we make sure what they get is right.",
+      "say": "Two deadlines run your week. Transactions close at the H C M transaction cutoff this Friday, October twenty-third. Time cards are due Monday, October twenty-sixth, at noon. Then payroll signs off and runs payroll. We don't run payroll; we make sure what they get is right."
+    },
+    {
+      "id": "brief.2",
+      "speaker": "coach",
+      "text": "Your job: get transactions in before Friday's cutoff, check time cards, get problems to the right manager and help them fix them, and make sure every time card is approved by Monday at noon."
+    },
+    {
+      "id": "brief.3",
+      "speaker": "coach",
+      "text": "Requests land in your inbox through the day. Some are urgent; some are noise. On pay day, Friday Oct 30, you'll see what your decisions did.",
+      "say": "Requests land in your inbox through the day. Some are urgent; some are noise. On pay day, Friday, October thirtieth, you'll see what your decisions did."
+    },
+    {
+      "id": "open.calendar",
+      "speaker": "coach",
+      "text": "These dates come straight from the real payroll calendar. Before you open anything, tell me how this week works."
+    },
+    {
+      "id": "open.reminder",
+      "speaker": "coach",
+      "text": "Week two time cards are still in progress. Let's get a reminder out, so everything's approved by Monday at noon."
+    },
+    {
+      "id": "open.timecards",
+      "speaker": "coach",
+      "text": "Your weekly check turned up three exceptions. Remember, managers review their own team's time. Spot the problem, get it to the right manager, and help them fix it."
+    },
+    {
+      "id": "open.retro",
+      "speaker": "mgr_bell",
+      "text": "Jordan's raise finally came through. The approval letter's attached. Can you get it in before Friday's cutoff?"
+    },
+    {
+      "id": "open.approvals",
+      "speaker": "coach",
+      "text": "It's Monday, and time cards are due at noon. Marcus still has three waiting on him."
+    },
+    {
+      "id": "open.finalcheck",
+      "speaker": "coach",
+      "text": "Before payroll signs off at noon, check the totals one more time. Lena updated her time card Thursday night."
+    },
+    {
+      "id": "open.escalate",
+      "speaker": "coach",
+      "text": "Marcus just set his out of office. He's out sick today, and his team's time cards are still waiting."
+    },
+    {
+      "id": "open.headcount",
+      "speaker": "dir_park",
+      "text": "I have a budget meeting at eleven, and I need a headcount report for the department. Can you have it to me in an hour?"
+    },
+    {
+      "id": "spoken.timecards.nair_ot",
+      "speaker": "mgr_ortiz",
+      "text": "Priya put down 44 hours in week 1, and I never approved overtime. Can I just change her time to 40?",
+      "say": "Priya put down forty-four hours in week one, and I never approved overtime. Can I just change her time to forty?"
+    },
+    {
+      "id": "hint.calendar",
+      "speaker": "coach",
+      "text": "Transactions and time cards don't share a deadline. One of them closes before the pay period even ends."
+    },
+    {
+      "id": "hint.reminder",
+      "speaker": "coach",
+      "text": "Who has to act before Monday at noon? It isn't only the employees."
+    },
+    {
+      "id": "hint.timecards",
+      "speaker": "coach",
+      "text": "For each exception, ask: whose employee is this, and what does that manager need from you to fix it?"
+    },
+    {
+      "id": "hint.retro",
+      "speaker": "coach",
+      "text": "The approval letter answers both fields. Copy, don't calculate. Then make sure it's in before Friday's cutoff."
+    },
+    {
+      "id": "hint.approvals",
+      "speaker": "coach",
+      "text": "You can make it easy for Marcus. You can't do it for him."
+    },
+    {
+      "id": "hint.finalcheck",
+      "speaker": "coach",
+      "text": "A normal two weeks is about 80 hours. Look for anything far from that.",
+      "say": "A normal two weeks is about eighty hours. Look for anything far from that."
+    },
+    {
+      "id": "hint.escalate",
+      "speaker": "coach",
+      "text": "Whose job is it when the approver can't approve?"
+    },
+    {
+      "id": "hint.headcount",
+      "speaker": "coach",
+      "text": "Ask what the director actually needs for the meeting. It's often smaller than the request."
+    },
+    {
+      "id": "hint.practice",
+      "speaker": "coach",
+      "text": "Dates move with weekends, holidays, and year end. Where would you check every time?"
+    },
+    {
+      "id": "practice.context",
+      "speaker": "coach",
+      "text": "Quick warm-up before the clock starts. This one isn't scored."
+    },
+    {
+      "id": "pay.reminder.timing.monday",
+      "speaker": "emp_grant",
+      "text": "My check is short. I saw the reminder Monday, but I was out and couldn't add Wednesday's hours in time."
+    },
+    {
+      "id": "pay.reminder.timing.last_call",
+      "speaker": "emp_grant",
+      "text": "The reminder came half an hour before the deadline. My Wednesday hours aren't on my check."
+    },
+    {
+      "id": "pay.timecards.reyes_punch.self_fix",
+      "speaker": "emp_reyes",
+      "text": "Quick thing. I left at 3:30 on the 20th for a doctor visit, but I was paid for a full day. I don't want that coming back on me.",
+      "say": "Quick thing. I left at three thirty on the twentieth for a doctor visit, but I was paid for a full day. I don't want that coming back on me."
+    },
+    {
+      "id": "pay.timecards.reyes_punch.leave",
+      "speaker": "emp_reyes",
+      "text": "My check is missing all of Tuesday the 20th. I have rent due.",
+      "say": "My check is missing all of Tuesday the twentieth. I have rent due."
+    },
+    {
+      "id": "pay.timecards.nair_ot.shift",
+      "speaker": "emp_nair",
+      "text": "My overtime from the event setup isn't here, and week 2 shows hours I didn't work. Who changed my time card?",
+      "say": "My overtime from the event setup isn't here, and week two shows hours I didn't work. Who changed my time card?"
+    },
+    {
+      "id": "pay.timecards.nair_ot.cut",
+      "speaker": "emp_nair",
+      "text": "I worked 44 hours that week. Why was I paid for 40?",
+      "say": "I worked forty-four hours that week. Why was I paid for forty?"
+    },
+    {
+      "id": "pay.retro.effective.sep27",
+      "speaker": "emp_reyes",
+      "text": "My raise and the back pay for September came through. Thank you for getting it in before the cutoff."
+    },
+    {
+      "id": "pay.retro.effective.oct11",
+      "speaker": "emp_reyes",
+      "text": "I was told my raise went back to September 27. The back pay isn't here.",
+      "say": "I was told my raise went back to September twenty-seventh. The back pay isn't here."
+    },
+    {
+      "id": "pay.retro.effective.oct22",
+      "speaker": "emp_reyes",
+      "text": "My raise only shows for the last few days. It was supposed to start September 27.",
+      "say": "My raise only shows for the last few days. It was supposed to start September twenty-seventh."
+    },
+    {
+      "id": "pay.retro.effective.not_entered",
+      "speaker": "mgr_bell",
+      "text": "I sent Jordan's raise Thursday morning. Why isn't it on this check?"
+    },
+    {
+      "id": "pay.retro.rate.wrong",
+      "speaker": "emp_reyes",
+      "text": "My new rate on the pay stub doesn't match my letter."
+    },
+    {
+      "id": "pay.approvals.remind.approve",
+      "speaker": "mgr_bell",
+      "text": "Audit flagged approvals on my team that I never made. I need to know why."
+    },
+    {
+      "id": "pay.finalcheck.flag.missed",
+      "speaker": "emp_kowalski",
+      "text": "My check is huge. I think I typed 80 instead of 8 on Thursday. I don't want to spend money that isn't mine.",
+      "say": "My check is huge. I think I typed eighty instead of eight on Thursday. I don't want to spend money that isn't mine."
+    },
+    {
+      "id": "pay.finalcheck.fix.after",
+      "speaker": "emp_kowalski",
+      "text": "My check was way too big, and now there's a recovery. I told everyone Thursday was a typo."
+    },
+    {
+      "id": "pay.escalate.escalate.approve",
+      "speaker": "mgr_bell",
+      "text": "I came back to find my team's time approved without me. That can't happen."
+    },
+    {
+      "id": "pay.escalate.escalate.leave",
+      "speaker": "emp_rivera",
+      "text": "Half my hours aren't on this check. Jordan and Aisha are saying the same thing."
+    },
+    {
+      "id": "pay.headcount.triage.ignore",
+      "speaker": "dir_park",
+      "text": "I went into the budget meeting Friday with no numbers. A quick reply would have been enough."
+    },
+    {
+      "id": "pay.coach.clean",
+      "speaker": "coach",
+      "text": "Clean pay day. Nobody at your desk with a pay stub. That is what good payroll support looks like: nothing happens."
+    },
+    {
+      "id": "pay.coach.problems",
+      "speaker": "coach",
+      "text": "Some problems reached people's paychecks. Let's trace each one back to the decision that caused it."
+    },
+    {
+      "id": "greet.dir_park",
+      "speaker": "dir_park",
+      "text": "Good to see you. Let's keep the week on schedule."
+    },
+    {
+      "id": "greet.mgr_ortiz",
+      "speaker": "mgr_ortiz",
+      "text": "Hi. Budget season. Let me know if you need me."
+    },
+    {
+      "id": "greet.mgr_bell",
+      "speaker": "mgr_bell",
+      "text": "Hey there. My door's always open. Well, mostly."
+    },
+    {
+      "id": "greet.coach",
+      "speaker": "coach",
+      "text": "I'm right here if you need a hint."
+    },
+    {
+      "id": "greet.emp_reyes",
+      "speaker": "emp_reyes",
+      "text": "Morning! Just finishing the event schedule."
+    },
+    {
+      "id": "greet.emp_nair",
+      "speaker": "emp_nair",
+      "text": "Still recovering from the fall event setup. Worth it, though."
+    },
+    {
+      "id": "greet.emp_okafor",
+      "speaker": "emp_okafor",
+      "text": "Hi! Let me know if you need anything copied or filed."
+    },
+    {
+      "id": "greet.emp_kowalski",
+      "speaker": "emp_kowalski",
+      "text": "Hey. Cleaning up the enrollment data today."
+    },
+    {
+      "id": "greet.emp_rivera",
+      "speaker": "emp_rivera",
+      "text": "Morning. The second floor printer's my next stop."
+    },
+    {
+      "id": "greet.emp_grant",
+      "speaker": "emp_grant",
+      "text": "Hi! It's a busy week at the student services desk."
+    }
+  ]
+}
