@@ -14,6 +14,8 @@ Every item here needs confirmation from HCM superusers before the pilot. The gam
 | Events | Timecard system outage workaround | events.json `timecard_outage` | Planned, not live |
 | Events | Holiday pay rules | events.json `holiday_pay` | Planned, not live |
 | Scoring | Certification pass threshold | src/engine/scoring.ts `rating` | Ready = all A; Almost ready = all A or B |
+| Live practice | Dana's role-play prompt and the coaching notes for the overtime conversation | ElevenLabs agent prompt, content/live.json `coaching` | Written from FLSA overtime rules and the manager-reviews-time model; needs an SME read |
+| Live practice | Daily conversation cap for the pilot | ElevenLabs agent call limits | 100 a day, 5 at once, 3 minutes each |
 
 Sourced (not SME): the pay period, HCM transaction cutoff date, time card deadline, and paycheck date (Vanderbilt 2026 Payroll Calendar, biweekly period 22); the HCM's role in payroll; the time card approval order; Save vs Submit; the 4-hour PTO increment; FLSA overtime; retro effective dates; off-cycle requests. Sources are listed in policies.json.
 

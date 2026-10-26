@@ -1,3 +1,4 @@
+import { speechSupported } from '../audio/speech';
 import { SPEEDS, type Speed } from '../engine/clock';
 import { useGame } from '../store/game';
 import { Dialog } from './common';
@@ -25,6 +26,9 @@ export function Settings() {
           <input type="range" min={0} max={100} step={5} value={Math.round(settings.voiceVolume * 100)} disabled={!settings.voices} onChange={(e) => setSettings({ voiceVolume: Number(e.target.value) / 100 })} />
           <span className="range-val" aria-hidden="true">{Math.round(settings.voiceVolume * 100)}%</span>
         </label>
+        {speechSupported() ? (
+          <label className="check"><input type="checkbox" checked={settings.speakBack} onChange={(e) => setSettings({ speakBack: e.target.checked })} data-testid="set-speak" />Answer out loud <span className="muted">(say an option instead of clicking; your browser's speech service turns it into text, which can mean sending it to Google or Apple)</span></label>
+        ) : <p className="fine">Answer out loud isn't supported in this browser. Every answer can be clicked or chosen with the keyboard.</p>}
         <label className="check"><input type="checkbox" checked={settings.live} onChange={(e) => setSettings({ live: e.target.checked })} />Offer live conversations <span className="muted">(opt in each time; uses ElevenLabs)</span></label>
         {settings.liveConsent && <button type="button" className="link-btn" onClick={() => setSettings({ liveConsent: false })}>Show the live conversation privacy notice again</button>}
       </fieldset>
@@ -34,7 +38,7 @@ export function Settings() {
         <button className="btn btn--ghost" onClick={clearData}>Clear my data</button>
         <button className="btn btn--gold" onClick={() => setPanel({ settingsOpen: false })}>Done</button>
       </div>
-      <p className="fine">Saved only in this browser (pp_settings, pp_progress, pp_current_run). No cookies, no analytics. The game makes no network calls unless you start a live conversation.</p>
+      <p className="fine">Saved only in this browser (pp_settings, pp_progress, pp_current_run). No cookies, no analytics. The game makes no network calls unless you start a live conversation or turn on Answer out loud in a browser that recognizes speech online.</p>
     </Dialog>
   );
 }

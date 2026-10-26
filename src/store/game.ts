@@ -27,6 +27,7 @@ type RunAction =
 interface SavedRun { seed: string; mode: Mode; actions: RunAction[] }
 interface Progress { runs: number; best: string | null; last: string | null }
 
+export interface LiveResult { summary: string; notes: { good: boolean; text: string }[] }
 export interface PaydayBeat { speaker: string; tone: ConsequenceT['tone']; line: string; summary: string; task?: string; causedBy?: string }
 
 const prefersReduced = typeof window !== 'undefined' && window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
@@ -56,6 +57,10 @@ interface State {
   dayNotice: { id: number; text: string } | null;
   /** A greeting from someone you clicked who has nothing waiting. */
   bubble: { id: number; speaker: string; text: string } | null;
+  /** A live conversation is open: the sim clock waits for it in every mode. */
+  liveOpen: boolean;
+  /** What a live conversation settled, shown with the decision's feedback (step.decision). */
+  liveResults: Record<string, LiveResult>;
   readIds: string[];
   focus: string | null;
   announcement: string;
@@ -76,7 +81,9 @@ interface State {
   finishPeriod(): void;
   openStep(id: string | null): void;
   openNoise(id: string | null): void;
-  setPanel(p: Partial<Pick<State, 'inboxOpen' | 'binderOpen' | 'settingsOpen' | 'helpOpen' | 'paused' | 'focus' | 'dayNotice' | 'bubble'>>): void;
+  setPanel(p: Partial<Pick<State, 'inboxOpen' | 'binderOpen' | 'settingsOpen' | 'helpOpen' | 'paused' | 'focus' | 'dayNotice' | 'bubble' | 'liveOpen'>>): void;
+  /** Record the answer a live conversation settled, after the player confirms it. */
+  recordLive(stepId: string, decisionId: string, choiceId: string, extra: Record<string, number> | undefined, result: LiveResult): void;
   togglePause(): void;
   announce(msg: string): void;
   nextBeat(): void;
@@ -188,6 +195,8 @@ export const useGame = create<State>((set, get) => {
     tourStep: 0,
     dayNotice: null,
     bubble: null,
+    liveOpen: false,
+    liveResults: {},
     readIds: [],
     focus: null,
     announcement: '',
@@ -206,7 +215,7 @@ export const useGame = create<State>((set, get) => {
       const mode = opts.mode ?? get().settings.mode;
       get().setSettings({ mode, seed: '' });
       const game = makeGame(seed, mode);
-      set({ game, actions: [], readIds: [], openStepId: null, openNoiseId: null, paused: false, pauses: 0, carry: 0, focus: null, hasSavedRun: false, dayNotice: null, bubble: null, tourStep: 0 });
+      set({ game, actions: [], readIds: [], openStepId: null, openNoiseId: null, paused: false, pauses: 0, carry: 0, focus: null, hasSavedRun: false, dayNotice: null, bubble: null, liveOpen: false, liveResults: {}, tourStep: 0 });
       if (actor.getSnapshot().value !== 'title') actor.send({ type: 'RESTART' });
       actor.send({ type: 'START' });
       sync();
@@ -248,6 +257,10 @@ export const useGame = create<State>((set, get) => {
       push({ t: 'decide', stepId, decisionId, choice, extra });
       withArrivals(() => game.decide(stepId, decisionId, choice, { extra }));
     },
+    recordLive(stepId, decisionId, choiceId, extra, result) {
+      set((s) => ({ liveResults: { ...s.liveResults, [`${stepId}.${decisionId}`]: result } }));
+      get().decide(stepId, decisionId, choiceId, extra);
+    },
     flagRows(stepId, flagged) {
       const { game } = get();
       const step = game?.stepById(stepId);
@@ -268,7 +281,7 @@ export const useGame = create<State>((set, get) => {
     },
     tick(realMs) {
       const s = get();
-      if (s.phase !== 'playing' || !s.game || s.paused) return;
+      if (s.phase !== 'playing' || !s.game || s.paused || s.liveOpen) return;
       if (s.settings.speed === 'manual') return;
       if (s.settings.mode === 'training' && (s.openStepId || s.binderOpen || s.settingsOpen || s.helpOpen || s.openNoiseId)) return;
       // Caught up: time runs faster until the next request, so nobody sits waiting.
@@ -314,7 +327,7 @@ export const useGame = create<State>((set, get) => {
     skipPayday() { actor.send({ type: 'SKIP_PAYDAY' }); },
     restart() {
       actor.send({ type: 'RESTART' });
-      set({ game: null, snap: null, actions: [], openStepId: null, focus: null, hasSavedRun: false, helpOpen: false, dayNotice: null, bubble: null, tourStep: 0 });
+      set({ game: null, snap: null, actions: [], openStepId: null, focus: null, hasSavedRun: false, helpOpen: false, dayNotice: null, bubble: null, liveOpen: false, liveResults: {}, tourStep: 0 });
     },
     clearData() {
       clearAll();

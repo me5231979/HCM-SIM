@@ -104,9 +104,9 @@ export function HUD({ zoomStep, setZoom }: { zoomStep: number; setZoom: (n: numb
   const items = inboxItems(s);
   const unread = items.filter((i) => i.unread).length;
   const openCount = (loc: string) => snap.steps.filter((st) => st.location === loc && game.status(st) === 'open').length;
-  const timed = !(settings.mode === 'training' && (s.openStepId || s.binderOpen || s.settingsOpen || s.helpOpen || s.openNoiseId));
+  const timed = !s.liveOpen && !(settings.mode === 'training' && (s.openStepId || s.binderOpen || s.settingsOpen || s.helpOpen || s.openNoiseId));
   const { caughtUp: idle } = caughtUp(s);
-  const clockNote = settings.speed === 'manual' ? 'Manual clock: Skip moves ahead' : s.paused ? 'Paused' : !timed ? 'Clock paused while you read' : idle ? 'Caught up: time is moving faster' : null;
+  const clockNote = s.liveOpen ? 'Clock paused while you talk' : settings.speed === 'manual' ? 'Manual clock: Skip moves ahead' : s.paused ? 'Paused' : !timed ? 'Clock paused while you read' : idle ? 'Caught up: time is moving faster' : null;
   const inert = s.phase === 'tour';
 
   return (

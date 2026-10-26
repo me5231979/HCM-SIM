@@ -10,6 +10,8 @@ import { Avatar, Dialog, priorityLabel } from './common';
 import { Icon } from './icons';
 import { voicePlayer } from '../audio/voice';
 import { Quote, SpeakingAvatar, VoiceButton } from './Voice';
+import { LiveOffer, LiveRecap } from './Live';
+import { SayAnswer } from './SayAnswer';
 
 const hrs = (n: number) => n.toFixed(1);
 
@@ -43,22 +45,26 @@ function ChoiceDecision({ step, d, seed, disabled }: { step: ActiveStep; d: Deci
   const decide = useGame((s) => s.decide);
   const order = useOrder(seed, d);
   const [pick, setPick] = useState<string>('');
-  if (res) return <div className="decision is-done"><p className="legend">{d.label ? `${d.label}: ` : ''}{d.prompt}</p><Feedback d={d} res={res} /></div>;
+  const numbered = useGame((s) => s.settings.speakBack);
+  if (res) return <div className="decision is-done"><p className="legend">{d.label ? `${d.label}: ` : ''}{d.prompt}</p><Feedback d={d} res={res} /><LiveRecap stepId={step.id} decisionId={d.id} /></div>;
   return (
     <form className="decision" onSubmit={(e) => { e.preventDefault(); if (pick) decide(step.id, d.id, pick); }}>
       {d.spoken && <Quote speaker={d.spoken.speaker} text={d.spoken.line} className="quote--decision" />}
+      <LiveOffer step={step} d={d} disabled={disabled} />
       <fieldset>
         <legend className="legend">{d.label && <span className="legend-label">{d.label}</span>}{d.prompt}</legend>
         <div className="options">
-          {order.map((c) => (
+          {order.map((c, i) => (
             <label key={c.id} className={`option ${pick === c.id ? 'is-on' : ''}`}>
               <input type="radio" name={`${step.id}-${d.id}`} value={c.id} checked={pick === c.id} onChange={() => setPick(c.id)} disabled={disabled} />
+              {numbered && <span className="opt-num" aria-hidden="true">{i + 1}</span>}
               <span>{c.text}</span>
               {c.timeCost >= 15 && <span className="opt-time" aria-label={`takes about ${c.timeCost} minutes`}><Icon.clock />{c.timeCost >= 60 ? `${c.timeCost / 60}h` : `${c.timeCost}m`}</span>}
             </label>
           ))}
         </div>
       </fieldset>
+      <SayAnswer options={order} onPick={setPick} disabled={disabled} />
       <button className="btn btn--gold" type="submit" disabled={!pick || disabled}>Decide</button>
     </form>
   );
