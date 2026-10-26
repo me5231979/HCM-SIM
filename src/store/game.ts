@@ -10,7 +10,15 @@ import { payrollMachine, type PayrollPhase } from '../machines/payrollMachine';
 import type { ConsequenceT } from '../../content/schemas';
 
 export type View = '3d' | '2d';
-export interface Settings { mode: Mode; speed: Speed; reducedMotion: boolean; view: View; textScale: number; seed: string; tourDone: boolean }
+export interface Settings {
+  mode: Mode; speed: Speed; reducedMotion: boolean; view: View; textScale: number; seed: string; tourDone: boolean;
+  /** Character voices (captions are always shown). */
+  voices: boolean; voiceVolume: number;
+  /** Opt-in: answer choices out loud with the browser's speech recognition. */
+  speakBack: boolean;
+  /** Offer live AI conversations; liveConsent records that the player agreed to the privacy notice. */
+  live: boolean; liveConsent: boolean;
+}
 type RunAction =
   | { t: 'decide'; stepId: string; decisionId: string; choice: string; extra?: Record<string, number> }
   | { t: 'hint'; stepId: string }
@@ -22,7 +30,7 @@ interface Progress { runs: number; best: string | null; last: string | null }
 export interface PaydayBeat { speaker: string; tone: ConsequenceT['tone']; line: string; summary: string; task?: string; causedBy?: string }
 
 const prefersReduced = typeof window !== 'undefined' && window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
-const defaultSettings: Settings = { mode: 'training', speed: 'standard', reducedMotion: !!prefersReduced, view: '3d', textScale: 1, seed: '', tourDone: false };
+const defaultSettings: Settings = { mode: 'training', speed: 'standard', reducedMotion: !!prefersReduced, view: '3d', textScale: 1, seed: '', tourDone: false, voices: true, voiceVolume: 0.9, speakBack: false, live: true, liveConsent: false };
 
 const liveEventSteps = () =>
   events.filter((e) => e.status === 'live' && e.mission === 'payroll' && e.step && e.window)
@@ -46,6 +54,8 @@ interface State {
   helpOpen: boolean;
   tourStep: number;
   dayNotice: { id: number; text: string } | null;
+  /** A greeting from someone you clicked who has nothing waiting. */
+  bubble: { id: number; speaker: string; text: string } | null;
   readIds: string[];
   focus: string | null;
   announcement: string;
@@ -66,7 +76,7 @@ interface State {
   finishPeriod(): void;
   openStep(id: string | null): void;
   openNoise(id: string | null): void;
-  setPanel(p: Partial<Pick<State, 'inboxOpen' | 'binderOpen' | 'settingsOpen' | 'helpOpen' | 'paused' | 'focus' | 'dayNotice'>>): void;
+  setPanel(p: Partial<Pick<State, 'inboxOpen' | 'binderOpen' | 'settingsOpen' | 'helpOpen' | 'paused' | 'focus' | 'dayNotice' | 'bubble'>>): void;
   togglePause(): void;
   announce(msg: string): void;
   nextBeat(): void;
@@ -177,6 +187,7 @@ export const useGame = create<State>((set, get) => {
     helpOpen: false,
     tourStep: 0,
     dayNotice: null,
+    bubble: null,
     readIds: [],
     focus: null,
     announcement: '',
@@ -195,7 +206,7 @@ export const useGame = create<State>((set, get) => {
       const mode = opts.mode ?? get().settings.mode;
       get().setSettings({ mode, seed: '' });
       const game = makeGame(seed, mode);
-      set({ game, actions: [], readIds: [], openStepId: null, openNoiseId: null, paused: false, pauses: 0, carry: 0, focus: null, hasSavedRun: false, dayNotice: null, tourStep: 0 });
+      set({ game, actions: [], readIds: [], openStepId: null, openNoiseId: null, paused: false, pauses: 0, carry: 0, focus: null, hasSavedRun: false, dayNotice: null, bubble: null, tourStep: 0 });
       if (actor.getSnapshot().value !== 'title') actor.send({ type: 'RESTART' });
       actor.send({ type: 'START' });
       sync();
@@ -303,7 +314,7 @@ export const useGame = create<State>((set, get) => {
     skipPayday() { actor.send({ type: 'SKIP_PAYDAY' }); },
     restart() {
       actor.send({ type: 'RESTART' });
-      set({ game: null, snap: null, actions: [], openStepId: null, focus: null, hasSavedRun: false, helpOpen: false, dayNotice: null, tourStep: 0 });
+      set({ game: null, snap: null, actions: [], openStepId: null, focus: null, hasSavedRun: false, helpOpen: false, dayNotice: null, bubble: null, tourStep: 0 });
     },
     clearData() {
       clearAll();

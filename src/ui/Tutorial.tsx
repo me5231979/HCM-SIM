@@ -3,8 +3,9 @@ import { personById, tutorial } from '../content';
 import { clockLabel, dateLabel } from '../engine/clock';
 import { useGame } from '../store/game';
 import type { TutorialT } from '../../content/schemas';
-import { Avatar, Dialog } from './common';
+import { Dialog } from './common';
 import { Icon, LegendIcon } from './icons';
+import { SpeakingAvatar, useSay, VoiceButton } from './Voice';
 
 type LegendKey = keyof TutorialT['legends'];
 
@@ -28,9 +29,11 @@ function Practice({ onDone }: { onDone: () => void }) {
   const [result, setResult] = useState<string | null>(null);
   const [hint, setHint] = useState(false);
   const chosen = p.decision.choices.find((c) => c.id === result);
+  useSay(p.from, p.intro);
+  useSay('coach', hint ? p.hint : null);
   return (
     <div className="practice">
-      <div className="practice-head"><Avatar id={p.from} size={36} /><div><p className="eyebrow">{personById(p.from).name} · Practice, not scored</p><h3>{p.title}</h3></div></div>
+      <div className="practice-head"><SpeakingAvatar id={p.from} size={36} /><div><p className="eyebrow">{personById(p.from).name} · Practice, not scored</p><h3>{p.title}</h3></div></div>
       <p className="context">{p.context}</p>
       {!chosen ? (
         <form className="decision" onSubmit={(e) => { e.preventDefault(); if (pick) { setResult(pick); onDone(); } }}>
@@ -47,7 +50,7 @@ function Practice({ onDone }: { onDone: () => void }) {
           </fieldset>
           <div className="practice-actions">
             <button className="btn btn--gold" type="submit" disabled={!pick}>Decide</button>
-            {hint ? <p className="hint"><Avatar id="coach" size={24} /><span><strong>Renee:</strong> {p.hint}</span></p>
+            {hint ? <p className="hint"><SpeakingAvatar id="coach" size={24} /><span><strong>Renee:</strong> {p.hint}</span><VoiceButton speaker="coach" text={p.hint} /></p>
               : <button type="button" className="btn btn--ghost" onClick={() => setHint(true)}><Icon.hint /> Ask Renee for a hint <span className="muted">(free in practice)</span></button>}
           </div>
         </form>

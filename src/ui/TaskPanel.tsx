@@ -8,6 +8,8 @@ import { useGame } from '../store/game';
 import type { ChoiceT, DecisionT } from '../../content/schemas';
 import { Avatar, Dialog, priorityLabel } from './common';
 import { Icon } from './icons';
+import { voicePlayer } from '../audio/voice';
+import { Quote, SpeakingAvatar, VoiceButton } from './Voice';
 
 const hrs = (n: number) => n.toFixed(1);
 
@@ -44,6 +46,7 @@ function ChoiceDecision({ step, d, seed, disabled }: { step: ActiveStep; d: Deci
   if (res) return <div className="decision is-done"><p className="legend">{d.label ? `${d.label}: ` : ''}{d.prompt}</p><Feedback d={d} res={res} /></div>;
   return (
     <form className="decision" onSubmit={(e) => { e.preventDefault(); if (pick) decide(step.id, d.id, pick); }}>
+      {d.spoken && <Quote speaker={d.spoken.speaker} text={d.spoken.line} className="quote--decision" />}
       <fieldset>
         <legend className="legend">{d.label && <span className="legend-label">{d.label}</span>}{d.prompt}</legend>
         <div className="options">
@@ -204,6 +207,7 @@ export function TaskPanel() {
           </p>
         </div>
       </div>
+      {step.opener && <Quote speaker={step.opener.speaker} text={step.opener.line} auto once={`open.${step.id}.${s.snap.seed}`} note />}
       <p className="context">{step.context}</p>
       {step.attachment && (
         <figure className={`attachment att-${step.attachment.kind}`}>
@@ -219,8 +223,8 @@ export function TaskPanel() {
 
       <div className="task-foot">
         {s.settings.mode === 'training' && !allDone && (
-          hinted || hintOpen === step.id ? <p className="hint"><Avatar id="coach" size={28} /><span><strong>Renee:</strong> {step.hint}</span></p>
-            : <button className="btn btn--ghost" onClick={() => { s.hint(step.id); setHintOpen(step.id); }}><Icon.hint /> Ask Renee for a hint <span className="muted">(costs 2 {meterLabel})</span></button>
+          hinted || hintOpen === step.id ? <p className="hint"><SpeakingAvatar id="coach" size={28} /><span><strong>Renee:</strong> {step.hint}</span><VoiceButton speaker="coach" text={step.hint} /></p>
+            : <button className="btn btn--ghost" onClick={() => { s.hint(step.id); setHintOpen(step.id); void voicePlayer.say('coach', step.hint); }}><Icon.hint /> Ask Renee for a hint <span className="muted">(costs 2 {meterLabel})</span></button>
         )}
         {step.policyIds.length > 0 && (
           <details className="policies"><summary><Icon.book /> Policy Binder: {step.policyIds.map((p) => policyById(p)?.title).join(', ')}</summary>

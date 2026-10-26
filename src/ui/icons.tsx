@@ -28,13 +28,20 @@ export const Icon = {
   flag: () => <svg {...S}><path d="M5 21V4M5 4h11l-2 4 2 4H5" /></svg>,
   help: () => <svg {...S}><circle cx="12" cy="12" r="9" /><path d="M9.5 9.5a2.5 2.5 0 114 2c-.9.6-1.5 1.1-1.5 2.2" /><path d="M12 17v.01" /></svg>,
   ring: () => <svg {...S}><ellipse cx="12" cy="14" rx="9" ry="4.5" /><ellipse cx="12" cy="14" rx="5" ry="2.2" /></svg>,
+  volume: () => <svg {...S}><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z" /><path d="M15.5 9a4 4 0 010 6M18 6.5a7.5 7.5 0 010 11" /></svg>,
+  mute: () => <svg {...S}><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z" /><path d="M16 9.5l5 5M21 9.5l-5 5" /></svg>,
+  mic: () => <svg {...S}><rect x="9" y="3" width="6" height="11" rx="3" /><path d="M5.5 11a6.5 6.5 0 0013 0M12 17.5V21M8.5 21h7" /></svg>,
+  micOff: () => <svg {...S}><path d="M15 9.5V6a3 3 0 00-5.6-1.5M9 9v2a3 3 0 004.7 2.5" /><path d="M18.5 11a6.5 6.5 0 01-1 3.4M5.5 11a6.5 6.5 0 009.7 5.7M12 17.5V21M8.5 21h7M3 3l18 18" /></svg>,
+  stop: () => <svg {...S}><rect x="6" y="6" width="12" height="12" rx="1.5" fill="currentColor" /></svg>,
+  chat: () => <svg {...S}><path d="M4 5h16v10H9l-5 4z" /><path d="M8 9h8M8 12h5" /></svg>,
+  keyboard: () => <svg {...S}><rect x="3" y="6" width="18" height="12" rx="2" /><path d="M7 10h.01M11 10h.01M15 10h.01M7 14h10" /></svg>,
 };
 
 /** Icon for a legend entry in the tour and Help: symbols, controls, and meters share one lookup. */
 export function LegendIcon({ k }: { k: string }) {
   if (k === 'talk' || k === 'issue' || k === 'done') return <StatusGlyph kind={k} />;
   if (k === 'payrollAccuracy' || k === 'complianceRisk' || k === 'employeeTrust' || k === 'managerSatisfaction') return <MeterGlyph k={k} />;
-  const map: Record<string, () => JSX.Element> = { ring: Icon.ring, skip: Icon.skip, pause: Icon.pause, zoom: Icon.plus, view: Icon.list, binder: Icon.book, settings: Icon.gear, help: Icon.help };
+  const map: Record<string, () => JSX.Element> = { ring: Icon.ring, skip: Icon.skip, pause: Icon.pause, zoom: Icon.plus, view: Icon.list, binder: Icon.book, voices: Icon.volume, settings: Icon.gear, help: Icon.help };
   const C = map[k];
   return C ? <C /> : null;
 }

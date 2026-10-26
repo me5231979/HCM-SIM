@@ -30,6 +30,7 @@
       { "key": "zoom", "label": "Zoom", "text": "Zoom the 3D office out or in." },
       { "key": "view", "label": "View", "text": "Switch between the 3D office and List view. Same game, no 3D needed." },
       { "key": "binder", "label": "Binder", "text": "The Policy Binder: the policies behind every decision, searchable." },
+      { "key": "voices", "label": "Voices", "text": "Turns character voices on or off. Captions always show, so you never need sound." },
       { "key": "settings", "label": "Settings", "text": "Clock speed (including Manual), text size, reduced motion, and view." },
       { "key": "help", "label": "Help", "text": "This guide: the symbols, the controls, and the tour." }
     ]

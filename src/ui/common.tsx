@@ -34,7 +34,10 @@ export function BlurText({ text, italic, className, as: Tag = 'h1', delay = 0.08
   );
 }
 
-/** Accessible dialog shell: focus moves in once on open, Escape closes, focus returns to the opener. */
+/**
+ * Accessible dialog shell: focus moves in once on open, Escape closes, focus returns to the opener.
+ * Content scrolls inside .panel-body so the glass background and close button stay put.
+ */
 export function Dialog({ label, onClose, children, className = '', modal = true, labelId, style }: { label?: string; labelId?: string; onClose?: () => void; children: ReactNode; className?: string; modal?: boolean; style?: CSSProperties }) {
   const ref = useRef<HTMLDivElement>(null);
   // Keep the latest onClose without re-running the focus effect on every render (the clock re-renders often).
@@ -61,7 +64,7 @@ export function Dialog({ label, onClose, children, className = '', modal = true,
   return (
     <div ref={ref} role="dialog" aria-modal={modal || undefined} aria-label={labelId ? undefined : label} aria-labelledby={labelId} className={`panel ${className}`} style={style}>
       {onClose && <button className="icon-btn close" onClick={onClose} aria-label="Close"><Icon.close /></button>}
-      {children}
+      <div className="panel-body">{children}</div>
     </div>
   );
 }

@@ -3,6 +3,7 @@ import { useGame } from '../store/game';
 import { personStatus } from '../status';
 import { InboxList } from '../ui/Inbox';
 import { StatusGlyph } from '../ui/icons';
+import { activatePerson } from '../scene/actions';
 
 /** 2D alternative to the 3D diorama: the same tasks and people, no WebGL required. */
 export function ListView() {
@@ -23,6 +24,8 @@ export function ListView() {
               <li key={p.id}>
                 {st.stepId && s.phase === 'playing' ? (
                   <button className="lv-person" onClick={() => s.openStep(st.stepId!)}><span><strong>{p.name}</strong><span className="muted">{p.title}</span></span><span className={`chip chip--${st.kind}`}><StatusGlyph kind={st.kind} />{st.label}</span></button>
+                ) : p.greeting && s.phase === 'playing' ? (
+                  <button className="lv-person" onClick={() => activatePerson(p.id)}><span><strong>{p.name}</strong><span className="muted">{p.title}</span></span>{st.kind !== 'none' ? <span className={`chip chip--${st.kind}`}><StatusGlyph kind={st.kind} />{st.label}</span> : <span className="muted lv-hello">Say hello</span>}</button>
                 ) : (
                   <div className="lv-person"><span><strong>{p.name}</strong><span className="muted">{p.title}</span></span>{st.kind !== 'none' && <span className={`chip chip--${st.kind}`}><StatusGlyph kind={st.kind} />{st.label}</span>}</div>
                 )}

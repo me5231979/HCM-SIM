@@ -19,13 +19,22 @@ export function Settings() {
         {[1, 1.25, 1.5, 2].map((n) => <label key={n} className="radio"><input type="radio" name="text" checked={settings.textScale === n} onChange={() => setSettings({ textScale: n })} />{n * 100}%</label>)}
       </fieldset>
       <label className="check"><input type="checkbox" checked={settings.reducedMotion} onChange={(e) => setSettings({ reducedMotion: e.target.checked })} />Reduce motion <span className="muted">(no camera easing, pulses, or figure animation)</span></label>
+      <fieldset className="set-row set-sound"><legend>Sound and voice</legend>
+        <label className="check"><input type="checkbox" checked={settings.voices} onChange={(e) => setSettings({ voices: e.target.checked })} data-testid="set-voices" />Character voices <span className="muted">(captions always show)</span></label>
+        <label className="range"><span>Voice volume</span>
+          <input type="range" min={0} max={100} step={5} value={Math.round(settings.voiceVolume * 100)} disabled={!settings.voices} onChange={(e) => setSettings({ voiceVolume: Number(e.target.value) / 100 })} />
+          <span className="range-val" aria-hidden="true">{Math.round(settings.voiceVolume * 100)}%</span>
+        </label>
+        <label className="check"><input type="checkbox" checked={settings.live} onChange={(e) => setSettings({ live: e.target.checked })} />Offer live conversations <span className="muted">(opt in each time; uses ElevenLabs)</span></label>
+        {settings.liveConsent && <button type="button" className="link-btn" onClick={() => setSettings({ liveConsent: false })}>Show the live conversation privacy notice again</button>}
+      </fieldset>
       {settings.mode === 'certification' && phase === 'playing' && <p className="fine">Certification mode: pause is available and logged ({pauses} so far), never penalized.</p>}
       <div className="set-actions">
         {phase !== 'title' && <button className="btn btn--ghost" onClick={() => { setPanel({ settingsOpen: false }); restart(); }}>Quit to title</button>}
         <button className="btn btn--ghost" onClick={clearData}>Clear my data</button>
         <button className="btn btn--gold" onClick={() => setPanel({ settingsOpen: false })}>Done</button>
       </div>
-      <p className="fine">Saved only in this browser (pp_settings, pp_progress, pp_current_run). No cookies, no analytics, no network calls.</p>
+      <p className="fine">Saved only in this browser (pp_settings, pp_progress, pp_current_run). No cookies, no analytics. The game makes no network calls unless you start a live conversation.</p>
     </Dialog>
   );
 }

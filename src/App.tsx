@@ -13,6 +13,8 @@ import { Settings } from './ui/Settings';
 import { TaskPanel } from './ui/TaskPanel';
 import { Title } from './ui/Title';
 import { Help, Tutorial } from './ui/Tutorial';
+import { Bubble } from './ui/Voice';
+import { voicePlayer } from './audio/voice';
 
 const Scene = lazy(() => import('./scene/Scene'));
 
@@ -36,6 +38,16 @@ export default function App() {
   useEffect(() => {
     if (!webgl && settings.view === '3d') { s.setSettings({ view: '2d' }); s.announce('3D isn\'t available in this browser, so the game opened in List view.'); }
   }, [webgl]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // Browsers only allow audio after a tap or key press; unlock the voice player on the first one.
+  useEffect(() => {
+    const unlock = () => voicePlayer.unlock();
+    window.addEventListener('pointerdown', unlock, { once: true });
+    window.addEventListener('keydown', unlock, { once: true });
+    return () => { window.removeEventListener('pointerdown', unlock); window.removeEventListener('keydown', unlock); };
+  }, []);
+  useEffect(() => { if (!settings.voices) voicePlayer.stop(); }, [settings.voices]);
+  useEffect(() => { if (phase === 'title' || phase === 'debrief') voicePlayer.stop(); }, [phase]);
 
   // Real-time clock loop. The store decides whether sim time actually moves.
   useEffect(() => {
@@ -94,6 +106,7 @@ export default function App() {
           {phase === 'playing' && <>
             <CaughtUp />
             <DayNotice />
+            <Bubble />
             {s.inboxOpen && <Inbox />}
             <TaskPanel />
             <NoiseReader />

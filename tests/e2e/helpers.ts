@@ -1,10 +1,10 @@
 import { expect, type Page } from '@playwright/test';
 import AxeBuilder from './axe';
 
-export async function start(page: Page, opts: { view?: '3d' | '2d'; mode?: 'training' | 'certification'; code?: string; tour?: boolean } = {}) {
-  await page.addInitScript(([view]) => {
-    localStorage.setItem('pp_settings', JSON.stringify({ view, reducedMotion: true, speed: 'manual' }));
-  }, [opts.view ?? '3d']);
+export async function start(page: Page, opts: { view?: '3d' | '2d'; mode?: 'training' | 'certification'; code?: string; tour?: boolean; voices?: boolean } = {}) {
+  await page.addInitScript(([view, voices]) => {
+    localStorage.setItem('pp_settings', JSON.stringify({ view, reducedMotion: true, speed: 'manual', voices }));
+  }, [opts.view ?? '3d', opts.voices ?? false] as const);
   await page.goto('/');
   if (opts.mode === 'certification') await page.getByText('Certification', { exact: true }).click();
   if (opts.code) {

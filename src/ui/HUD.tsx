@@ -6,6 +6,7 @@ import { METERS } from '../engine/scoring';
 import { caughtUp, inboxItems, useGame } from '../store/game';
 import { Icon, MeterGlyph } from './icons';
 import { activateHotspot } from '../scene/actions';
+import { voicePlayer } from '../audio/voice';
 import type { MeterKey } from '../../content/schemas';
 
 const PLACES: { id: string; label: string }[] = [
@@ -163,6 +164,8 @@ export function HUD({ zoomStep, setZoom }: { zoomStep: number; setZoom: (n: numb
           </>}
           <Tool icon={settings.view === '3d' ? <Icon.list /> : <Icon.cube />} label={settings.view === '3d' ? 'List view' : '3D view'} onClick={() => s.setSettings({ view: settings.view === '3d' ? '2d' : '3d' })} />
           <Tool icon={<Icon.book />} label="Binder" onClick={() => s.setPanel({ binderOpen: true })} title="Policy Binder" />
+          <Tool icon={settings.voices ? <Icon.volume /> : <Icon.mute />} label="Voices" pressed={settings.voices} testId="voices"
+            onClick={() => { if (settings.voices) voicePlayer.stop(); s.setSettings({ voices: !settings.voices }); }} title={settings.voices ? 'Character voices are on. Captions always show.' : 'Character voices are off. Captions always show.'} />
           <Tool icon={<Icon.gear />} label="Settings" onClick={() => s.setPanel({ settingsOpen: true })} />
           <Tool icon={<Icon.help />} label="Help" onClick={() => s.setPanel({ helpOpen: true })} testId="help" title="Symbols, controls, and the tour" />
         </div>

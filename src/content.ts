@@ -1,4 +1,4 @@
-import { AcademyMap, Department, Employees, Events, Live, Mission, Policies, Tutorial, Voice } from '../content/schemas';
+import { AcademyMap, Department, Employees, Events, Live, Mission, Policies, Tutorial, Voice, VoiceEnvelopes } from '../content/schemas';
 import departmentJson from '../content/department.json';
 import employeesJson from '../content/employees.json';
 import policiesJson from '../content/policies.json';
@@ -8,6 +8,7 @@ import tutorialJson from '../content/tutorial.json';
 import payrollJson from '../content/missions/payroll.json';
 import voiceJson from '../content/voice.json';
 import liveJson from '../content/live.json';
+import envelopesJson from '../content/voice-envelopes.json';
 import { at, dateStart } from './engine/clock';
 
 /** Every content file is parsed with Zod at load. A bad file fails loudly, never silently. */
@@ -20,6 +21,7 @@ export const tutorial = Tutorial.parse(tutorialJson);
 export const payroll = Mission.parse(payrollJson);
 export const voice = Voice.parse(voiceJson);
 export const live = Live.parse(liveJson);
+export const envelopes = VoiceEnvelopes.parse(envelopesJson);
 
 /** The real calendar row, as sim times. */
 export const period = {

@@ -1,6 +1,7 @@
 import { Canvas } from '@react-three/fiber';
 import { Suspense, useMemo } from 'react';
 import { useGame, paydayBeats } from '../store/game';
+import { useVoice } from '../audio/voice';
 import { activateHotspot, activatePerson } from './actions';
 import { CameraRig } from './CameraRig';
 import { Figures } from './Figures';
@@ -21,7 +22,9 @@ export default function Scene({ zoomStep }: { zoomStep: number }) {
     return set;
   }, [game, snap, phase]);
 
-  const speaker = phase === 'payday' && snap ? paydayBeats(snap)[beat]?.speaker ?? null : null;
+  const voice = useVoice();
+  const talking = voice.status === 'playing' ? voice.speaker : null;
+  const speaker = talking ?? (phase === 'payday' && snap ? paydayBeats(snap)[beat]?.speaker ?? null : null);
 
   return (
     <div className="scene" role="img" aria-label="3D office diorama of the Office of Learning Operations. Every place and person here is also reachable from the Places bar and the List view.">

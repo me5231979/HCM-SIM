@@ -2,8 +2,9 @@ import { motion } from 'motion/react';
 import { useEffect, useState } from 'react';
 import { payroll, personById } from '../content';
 import { useGame } from '../store/game';
-import { Avatar, Dialog } from './common';
+import { Dialog } from './common';
 import { Icon } from './icons';
+import { SpeakingAvatar, useSay, VoiceButton } from './Voice';
 
 export function Briefing() {
   const { begin, startTour } = useGame();
@@ -13,12 +14,13 @@ export function Briefing() {
   const [i, setI] = useState(0);
   const coach = personById('coach');
   const last = i === payroll.briefing.length - 1;
+  useSay('coach', payroll.briefing[i]);
   // The Next button is replaced on the last line, so move focus to the new main choice.
   useEffect(() => { if (last) document.querySelector<HTMLElement>('.brief-choice [data-autofocus]')?.focus(); }, [last]);
   return (
     <Dialog labelId="brief-h" className="briefing liquid-glass-strong" modal>
       <div className="brief-head">
-        <Avatar id="coach" size={56} />
+        <SpeakingAvatar id="coach" size={56} />
         <div><p className="eyebrow">Briefing · {mode === 'training' ? 'Training' : 'Certification'}</p><h2 id="brief-h">{coach.name}</h2><p className="muted">{coach.title}</p></div>
       </div>
       <motion.p key={i} className="brief-line" initial={reduced ? false : { opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} aria-live="polite">{payroll.briefing[i]}</motion.p>
@@ -29,6 +31,7 @@ export function Briefing() {
       )}
       <div className="brief-actions">
         <span className="muted" aria-hidden="true">{i + 1} / {payroll.briefing.length}</span>
+        <VoiceButton speaker="coach" text={payroll.briefing[i]} label="Replay" />
         {!last ? <button className="btn btn--gold" onClick={() => setI(i + 1)} data-autofocus>Next <Icon.arrow /></button> : (
           <span className="brief-choice">
             {/* First run: the tour is the main path. After that, it stays one click away. */}

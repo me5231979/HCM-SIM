@@ -8,6 +8,7 @@ import { personStatus, type PersonStatusKind } from '../status';
 import { facesGlass, seatFor } from './layout';
 import { C, OUTFIT, SKIN } from './palette';
 import { StatusGlyph } from '../ui/icons';
+import { voicePlayer } from '../audio/voice';
 
 const mat = (color: string) => new THREE.MeshStandardMaterial({ color, roughness: 0.75, flatShading: true });
 
@@ -18,6 +19,7 @@ function Figure({ id, outfit, skin, desk, status, statusLabel, speaking, reduced
   const torso = useRef<THREE.Group>(null);
   const armL = useRef<THREE.Group>(null);
   const armR = useRef<THREE.Group>(null);
+  const head = useRef<THREE.Mesh>(null);
   const [hover, setHover] = useState(false);
   const standing = status === 'talk' || speaking;
   const pos = seatFor(desk);
@@ -33,8 +35,11 @@ function Figure({ id, outfit, skin, desk, status, statusLabel, speaking, reduced
       if (armL.current) armL.current.rotation.x = -1.15 + Math.sin(t * 9) * 0.06;
       if (armR.current) armR.current.rotation.x = -1.15 + Math.cos(t * 9) * 0.06;
     } else if (armR.current) {
-      armR.current.rotation.x = speaking ? -0.4 + Math.sin(t * 3) * 0.25 : -0.15;
-      if (armL.current) armL.current.rotation.x = -0.1;
+      // Talking: the gesture and a small nod follow the loudness of the recorded line.
+      const lv = speaking ? voicePlayer.level() : 0;
+      armR.current.rotation.x = speaking ? -0.35 - lv * 0.45 + Math.sin(t * 3) * 0.08 : -0.15;
+      if (armL.current) armL.current.rotation.x = -0.1 - lv * 0.15;
+      if (head.current) head.current.rotation.x = -lv * 0.18;
     }
     if (root.current) root.current.position.y = standing ? Math.abs(Math.sin(t * 1.2)) * 0.015 : 0;
   });
@@ -64,7 +69,7 @@ function Figure({ id, outfit, skin, desk, status, statusLabel, speaking, reduced
         <group ref={torso} position={[0, hipY, 0]}>
           <mesh position={[0, 0.3, 0]} material={mats.cloth} castShadow><capsuleGeometry args={[0.17, 0.3, 4, 10]} /></mesh>
           <mesh position={[0, 0.6, 0]} material={mats.skin}><cylinderGeometry args={[0.05, 0.06, 0.08, 8]} /></mesh>
-          <mesh position={[0, 0.77, 0]} material={mats.skin} castShadow><sphereGeometry args={[0.135, 14, 12]} /></mesh>
+          <mesh ref={head} position={[0, 0.77, 0]} material={mats.skin} castShadow><sphereGeometry args={[0.135, 14, 12]} /></mesh>
           {[-1, 1].map((side) => (
             <group key={side} ref={side < 0 ? armL : armR} position={[side * 0.22, 0.47, 0]} rotation-x={standing ? -0.1 : -1.15}>
               <mesh position={[0, -0.2, 0]} material={mats.cloth} castShadow><capsuleGeometry args={[0.055, 0.3, 3, 8]} /></mesh>

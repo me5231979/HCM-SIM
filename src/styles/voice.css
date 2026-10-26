@@ -1,0 +1,38 @@
+/* Character voices: speaking halo, play buttons, voiced quotes, greeting bubbles. */
+.speaker { position: relative; display: inline-grid; place-items: center; flex: none; --level: 0; }
+.speaker .avatar { position: relative; z-index: 1; }
+.speaker .halo { position: absolute; inset: -6px; border-radius: 50%; border: 2px solid var(--gold); opacity: 0; transform: scale(1); pointer-events: none; }
+.speaker.is-speaking .halo { opacity: calc(.45 + var(--level) * .55); transform: scale(calc(1 + var(--level) * .22)); box-shadow: 0 0 calc(6px + var(--level) * 22px) rgba(207, 174, 112, calc(.25 + var(--level) * .45)); }
+
+.voice-btn { display: inline-flex; align-items: center; gap: .4rem; min-height: 36px; padding: .3rem .8rem; border-radius: 999px; border: 1px solid var(--line); background: rgba(245, 243, 239, .05); color: var(--text); font-size: .85rem; font-weight: 600; cursor: pointer; }
+.voice-btn:hover { background: rgba(245, 243, 239, .12); }
+.voice-btn svg { color: var(--gold); width: 16px; height: 16px; }
+.voice-btn.is-blocked { border-color: var(--gold); background: rgba(207, 174, 112, .16); }
+
+.quote { display: flex; gap: .8rem; align-items: flex-start; margin: 0 0 .9rem; padding: .8rem .9rem; border-radius: 14px; background: rgba(207, 174, 112, .08); border: 1px solid var(--line); }
+.quote-body { min-width: 0; }
+.quote-name { font: 700 .76rem/1.2 var(--cond); letter-spacing: .12em; text-transform: uppercase; color: var(--gold); margin-bottom: .3rem; }
+.quote-name .muted { color: var(--muted); }
+.quote blockquote { margin: 0 0 .5rem; font-family: var(--serif); font-size: 1.05rem; line-height: 1.45; }
+.quote--decision { background: rgba(245, 243, 239, .04); }
+.quote--note { padding: .55rem .7rem; gap: .65rem; align-items: center; background: transparent; border-style: dashed; }
+.quote--note .quote-body { display: grid; grid-template-columns: 1fr auto; column-gap: .8rem; align-items: center; width: 100%; }
+.quote--note .quote-name { grid-column: 1 / -1; margin-bottom: .15rem; }
+.quote--note blockquote { margin: 0; font-size: .98rem; font-style: italic; color: var(--muted); }
+
+.hint .voice-btn { margin-left: auto; flex: none; }
+.brief-actions .voice-btn { margin: 0 .6rem 0 auto; }
+.dl-actions .voice-btn { align-self: center; }
+
+.bubble { position: fixed; left: 0; right: 0; margin: 0 auto; bottom: 150px; width: max-content; max-width: calc(100vw - 32px); z-index: 21; display: flex; align-items: center; gap: .7rem; padding: .6rem 1.1rem .6rem .7rem; border-radius: 999px; }
+.bubble p { margin: 0; font-family: var(--serif); }
+
+.set-sound .check { margin-bottom: .2rem; width: 100%; }
+.range { display: flex; align-items: center; gap: .7rem; width: 100%; min-height: 36px; }
+.range input { accent-color: var(--gold); flex: 1; max-width: 240px; }
+.range-val { font: 700 .9rem var(--cond); letter-spacing: .06em; color: var(--gold); min-width: 3ch; }
+.lv-hello { font-size: .8rem; }
+
+@media (max-width: 560px) {
+  .bubble { bottom: 120px; border-radius: 18px; }
+}
