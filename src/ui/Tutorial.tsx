@@ -119,7 +119,9 @@ export function Tutorial() {
             {i > 0 && <button className="btn btn--ghost" onClick={() => setTourStep(i - 1)}>Back</button>}
             {last
               ? <button className="btn btn--gold" onClick={endTour} data-testid="tour-done">Start the clock <Icon.arrow /></button>
-              : <button className="btn btn--gold" onClick={() => setTourStep(i + 1)} data-testid="tour-next">{step.practice && !practiced ? 'Skip practice' : 'Next'} <Icon.arrow /></button>}
+              : step.practice && !practiced
+                ? <button className="btn btn--ghost" onClick={() => setTourStep(i + 1)} data-testid="tour-next">Skip practice</button>
+                : <button className="btn btn--gold" onClick={() => setTourStep(i + 1)} data-testid="tour-next">Next <Icon.arrow /></button>}
           </span>
         </div>
       </Dialog>

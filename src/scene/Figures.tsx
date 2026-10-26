@@ -2,9 +2,8 @@ import { Html } from '@react-three/drei';
 import { useFrame, type ThreeEvent } from '@react-three/fiber';
 import { useMemo, useRef, useState } from 'react';
 import * as THREE from 'three';
-import { people } from '../content';
 import { useGame } from '../store/game';
-import { personStatus, type PersonStatusKind } from '../status';
+import { onsite, personStatus, type PersonStatusKind } from '../status';
 import { facesGlass, seatFor } from './layout';
 import { C, OUTFIT, SKIN } from './palette';
 import { StatusGlyph } from '../ui/icons';
@@ -95,7 +94,7 @@ export function Figures({ reduced, onActivate, speaker }: { reduced: boolean; on
   const snap = useGame((s) => s.snap);
   return (
     <group>
-      {people.map((p, i) => {
+      {onsite(snap?.time).map((p, i) => {
         const st = personStatus(p.id, game, snap);
         return (
           <Figure key={p.id} id={p.id} index={i} outfit={p.outfit} skin={SKIN[i % SKIN.length]} desk={p.desk}

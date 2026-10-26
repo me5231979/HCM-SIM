@@ -21,6 +21,8 @@
   --line-soft: rgba(245, 243, 239, 0.14);
   --glass: rgba(20, 20, 20, 0.70);
   --glass-strong: rgba(17, 17, 17, 0.86);
+  /* Solid panel, where text would otherwise sit over other text (phones, List view) */
+  --panel-solid: #161616;
   --good: #9CCB8F;
   --bad: #F09C82;
   --warn: #F2C55C;

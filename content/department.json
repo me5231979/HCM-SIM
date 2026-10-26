@@ -1,17 +1,49 @@
 {
   "id": "olo",
   "name": "Office of Learning Operations",
-  "note": "A fictional department. No real people, departments, or system screens. The pay period dates are real, from the published payroll calendar.",
+  "note": "A fictional department. No real people, departments, or system screens. The payroll calendar dates come from the published 2026 payroll calendar; dates marked [SME] still need confirming.",
   "director": "dir_park",
-  "payPeriod": {
-    "number": 22,
-    "frequency": "biweekly",
-    "begin": "2026-10-11",
-    "end": "2026-10-24",
-    "hcmCutoff": "2026-10-23",
-    "timecardsDue": { "date": "2026-10-26", "at": "12:00" },
-    "paycheck": "2026-10-30",
-    "source": "Vanderbilt 2026 Payroll Calendar, biweekly period 22",
-    "frequencyNote": "Biweekly covers hourly (non-exempt) staff paid from approved UKG time cards. Exempt staff are paid monthly."
-  }
+  "calendars": [
+    {
+      "id": "monthly",
+      "label": "Monthly",
+      "who": "Exempt staff and faculty",
+      "period": "October 2026",
+      "begin": "2026-10-01",
+      "end": "2026-10-31",
+      "hcmCutoff": { "date": "2026-10-18", "at": "17:00" },
+      "note": "October's cutoff has passed when the week starts. Exempt changes approved this week pay in November, with retro for October where the element supports it. Next cutoff: Wed Nov 18. Exempt time off is entered in CampusHR absences, not on time cards.",
+      "source": "2026 Payroll Calendar, monthly payroll (the published rows put each monthly cutoff on the 18th)",
+      "sme": true
+    },
+    {
+      "id": "biweekly",
+      "label": "Biweekly",
+      "who": "Non-exempt (hourly) staff, paid from approved time cards",
+      "period": "Pay period 22",
+      "begin": "2026-10-11",
+      "end": "2026-10-24",
+      "hcmCutoff": { "date": "2026-10-23", "at": "17:00" },
+      "retroCutoff": { "date": "2026-10-21", "at": "17:00" },
+      "timecardsDue": { "date": "2026-10-26", "at": "12:00" },
+      "paycheck": "2026-10-30",
+      "note": "Time cards are due Monday at noon; then payroll signs off. The Retro Change Cutoff (for changes dated in past periods) is usually two business days before the HCM transaction cutoff.",
+      "source": "2026 Payroll Calendar, biweekly period 22",
+      "sme": false
+    },
+    {
+      "id": "weekly",
+      "label": "Weekly",
+      "who": "Some non-exempt staff",
+      "period": "Week of Oct 18",
+      "begin": "2026-10-18",
+      "end": "2026-10-24",
+      "hcmCutoff": { "date": "2026-10-23", "at": "17:00" },
+      "timecardsDue": { "date": "2026-10-26", "at": "12:00" },
+      "paycheck": "2026-10-30",
+      "note": "Weekly time cards close every week. Check them weekly, like biweekly ones.",
+      "source": "2026 Payroll Calendar, weekly payroll",
+      "sme": true
+    }
+  ]
 }

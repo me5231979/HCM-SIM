@@ -1,11 +1,11 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { courseFor, people, personById, policyById } from '../content';
+import { courseLink, learnerText, people, personById, policyById } from '../content';
 import { clockLabel, dateLabel } from '../engine/clock';
 import { computeTotals, isDecisionActive, type ActiveStep, type Resolution } from '../engine/game';
 import { createRng } from '../engine/rng';
 import { METERS } from '../engine/scoring';
 import { useGame } from '../store/game';
-import type { ChoiceT, DecisionT } from '../../content/schemas';
+import type { ChoiceT, DecisionT, DeltasT, MeterKey } from '../../content/schemas';
 import { Avatar, Dialog, priorityLabel } from './common';
 import { Icon } from './icons';
 import { voicePlayer } from '../audio/voice';
@@ -24,18 +24,38 @@ function shuffled(seed: string, d: DecisionT): ChoiceT[] {
 }
 const useOrder = (seed: string, d: DecisionT) => useMemo(() => shuffled(seed, d), [seed, d]);
 
+/** What a decision did to each meter, with an icon and a word, never color alone. */
+export function MeterChanges({ deltas }: { deltas: DeltasT }) {
+  const list = (Object.entries(deltas) as [MeterKey, number][]).filter(([, v]) => v);
+  if (!list.length) return null;
+  return (
+    <ul className="fb-deltas" aria-label="Meter changes">
+      {list.map(([k, v]) => {
+        const m = METERS.find((x) => x.key === k)!;
+        const good = m.lowerIsBetter ? v < 0 : v > 0;
+        return <li key={k} className={good ? 'is-good' : 'is-bad'}>{good ? <Icon.check /> : <Icon.alert />}{m.short} {v > 0 ? '+' : ''}{v}<span className="sr-only">{good ? ' (better)' : ' (worse)'}</span></li>;
+      })}
+    </ul>
+  );
+}
+
 function Feedback({ d, res }: { d: DecisionT; res: Resolution }) {
   const mode = useGame((s) => s.settings.mode);
-  const c = d.choices.find((x) => x.id === res.choiceId)!;
+  const event = useGame((s) => s.snap?.log.find((e) => e.id === res.eventId));
   if (mode === 'certification') return <p className="feedback is-neutral" role="status"><Icon.check /> Recorded at {clockLabel(res.at)}. You'll see how it played out on pay day.</p>;
-  const course = c.errorCode ? courseFor(c.errorCode) : undefined;
+  const c = d.choices.find((x) => x.id === res.choiceId)!;
   const ok = c.correct && !res.missed;
+  const courses = ok ? [] : d.courses.slice(0, 2).map(courseLink).filter((x) => !!x);
+  const extraFlags = d.kind !== 'number' && res.value ? res.value.split(',').map((id) => personById(id).name) : [];
   return (
     <div className={`feedback ${ok ? 'is-good' : 'is-bad'}`} role="status">
       <p className="fb-head">{ok ? <><Icon.check /> Good call</> : res.missed ? <><Icon.clock /> Missed: the deadline passed</> : <><Icon.cross /> Not the best move</>}</p>
-      {!ok && !res.missed && <p className="fb-choice">You chose: {res.value ? `$${res.value}` : c.text}</p>}
-      <p>{c.feedback}</p>
-      {course && <a className="fb-course" href={course.url} target="_blank" rel="noreferrer">HCM Academy: {course.title} <Icon.external /><span className="sr-only"> (opens in a new tab)</span></a>}
+      {!ok && !res.missed && <p className="fb-choice">You chose: {d.kind === 'number' ? `$${res.value}` : c.text}</p>}
+      <p>{learnerText(c.feedback)}</p>
+      {extraFlags.length > 0 && <p className="fb-extra"><Icon.flag /> You also flagged {extraFlags.join(' and ')}. Those totals were in the normal range, so each extra flag cost a manager a few minutes. If a note worries you, ask the manager before noon.</p>}
+      {event && <MeterChanges deltas={event.deltas} />}
+      {!ok && (c.consequences?.length ?? 0) > 0 && <p className="fb-later"><Icon.clock /> This will show up on pay day.</p>}
+      {courses.map((x) => <a key={x.slug} className="fb-course" href={x.url} target="_blank" rel="noreferrer">HCM Academy: {x.title} <Icon.external /><span className="sr-only"> (opens in a new tab)</span></a>)}
     </div>
   );
 }
@@ -59,13 +79,12 @@ function ChoiceDecision({ step, d, seed, disabled }: { step: ActiveStep; d: Deci
               <input type="radio" name={`${step.id}-${d.id}`} value={c.id} checked={pick === c.id} onChange={() => setPick(c.id)} disabled={disabled} />
               {numbered && <span className="opt-num" aria-hidden="true">{i + 1}</span>}
               <span>{c.text}</span>
-              {c.timeCost >= 15 && <span className="opt-time" aria-label={`takes about ${c.timeCost} minutes`}><Icon.clock />{c.timeCost >= 60 ? `${c.timeCost / 60}h` : `${c.timeCost}m`}</span>}
             </label>
           ))}
         </div>
       </fieldset>
       <SayAnswer options={order} onPick={setPick} disabled={disabled} />
-      <button className="btn btn--gold" type="submit" disabled={!pick || disabled}>Decide</button>
+      <div className="decide-bar"><button className="btn btn--gold" type="submit" disabled={!pick || disabled}>Decide</button></div>
     </form>
   );
 }
@@ -97,7 +116,7 @@ function FormStep({ step, seed, disabled }: { step: ActiveStep; seed: string; di
           )}
         </div>
       ))}
-      <button className="btn btn--gold" type="submit" disabled={!ready || disabled}>{step.id === 'reminder' ? 'Send reminder' : 'Save and submit'}</button>
+      <div className="decide-bar"><button className="btn btn--gold" type="submit" disabled={!ready || disabled}>{step.id === 'reminder' ? 'Send reminder' : 'Save and submit'}</button></div>
     </form>
   );
 }
@@ -119,12 +138,12 @@ function GridStep({ step, seed, disabled }: { step: ActiveStep; seed: string; di
                 <tr key={r.employeeId} className={r.exceptionDecision && !resolved ? 'has-ex' : ''}>
                   <th scope="row">{p.name}</th>
                   {r.cells.map((c, i) => (
-                    <td key={i} className={r.exceptionCell === i && !resolved ? 'ex-cell' : ''}>
+                    <td key={i} data-label={g.days[i]} className={r.exceptionCell === i && !resolved ? 'ex-cell' : ''}>
                       {r.exceptionCell === i && !resolved && <Icon.alert />}{c || <span className="muted">Not entered</span>}
                     </td>
                   ))}
-                  <td>{r.total}</td>
-                  <td className="ex-col">{r.exceptionDecision ? (resolved ? <span className="st-done"><Icon.check /> Resolved</span> : <span className="st-ex"><Icon.alert /> {r.exceptionLabel}</span>) : (r.note ?? <span className="muted">None</span>)}</td>
+                  <td data-label="Total">{r.total}</td>
+                  <td className="ex-col" data-label="Exception">{r.exceptionDecision ? (resolved ? <span className="st-done"><Icon.check /> Resolved</span> : <span className="st-ex"><Icon.alert /> {r.exceptionLabel}</span>) : (r.note ?? <span className="muted">None</span>)}</td>
                 </tr>
               );
             })}
@@ -155,13 +174,13 @@ function ReviewStep({ step, seed, disabled }: { step: ActiveStep; seed: string; 
             {lines.map((l) => (
               <tr key={l.employeeId} className={flags.includes(l.employeeId) ? 'is-flagged' : ''}>
                 {!res?.flag && (
-                  <td className="flag-col"><label className="flag"><input type="checkbox" checked={flags.includes(l.employeeId)} disabled={disabled}
+                  <td className="flag-col" data-label="Flag"><label className="flag"><input type="checkbox" checked={flags.includes(l.employeeId)} disabled={disabled}
                     onChange={(e) => setFlags(e.target.checked ? [...flags, l.employeeId] : flags.filter((x) => x !== l.employeeId))} /><Icon.flag /><span className="sr-only">Flag {l.name}</span></label></td>
                 )}
                 <th scope="row">{l.name}</th>
-                <td>{hrs(l.week1)}</td><td>{hrs(l.week2)}</td><td>{hrs(l.total)}</td>
-                <td className={`approval ap-${l.approval.startsWith('Approved') ? 'ok' : 'wait'}`}>{l.approval.startsWith('Approved') ? <Icon.check /> : <Icon.clock />}{l.approval}</td>
-                <td className="notes">{l.notes.join('; ') || <span className="muted">None</span>}</td>
+                <td data-label="Week 1 hrs">{hrs(l.week1)}</td><td data-label="Week 2 hrs">{hrs(l.week2)}</td><td data-label="Total hrs">{hrs(l.total)}</td>
+                <td data-label="Approval state" className={`approval ap-${l.approval.startsWith('Approved') ? 'ok' : 'wait'}`}>{l.approval.startsWith('Approved') ? <Icon.check /> : <Icon.clock />}{l.approval}</td>
+                <td className="notes" data-label="Notes">{l.notes.join('; ') || <span className="muted">None</span>}</td>
               </tr>
             ))}
           </tbody>
@@ -180,11 +199,16 @@ function ReviewStep({ step, seed, disabled }: { step: ActiveStep; seed: string; 
   );
 }
 
-/** Appears when a request is finished; takes focus so keyboard users land on the way out. */
-function BackButton({ onClick }: { onClick: () => void }) {
+/** Appears when a request is finished: straight on to the next open request (it takes focus), or back to the office. */
+function Done({ next, onNext, onBack }: { next?: ActiveStep; onNext: () => void; onBack: () => void }) {
   const ref = useRef<HTMLButtonElement>(null);
   useEffect(() => { ref.current?.focus({ preventScroll: true }); }, []);
-  return <button ref={ref} className="btn btn--gold" onClick={onClick}>Back to the office</button>;
+  return (
+    <div className="done-actions">
+      {next && <button ref={ref} className="btn btn--gold" onClick={onNext} data-testid="next-request">Next request: {next.title} <Icon.arrow /></button>}
+      <button ref={next ? undefined : ref} className={`btn ${next ? 'btn--ghost' : 'btn--gold'}`} onClick={onBack}>Back to the office</button>
+    </div>
+  );
 }
 
 export function TaskPanel() {
@@ -199,9 +223,10 @@ export function TaskPanel() {
   const meterLabel = METERS.find((m) => m.key === step.hintMeter)!.short;
   const close = () => s.openStep(null);
   const allDone = status === 'done' || status === 'missed';
+  const next = allDone ? s.snap.steps.filter((x) => x.id !== step.id && s.game!.status(x) === 'open').sort((a, b) => a.dueAt - b.dueAt)[0] : undefined;
   return (
     <Dialog labelId="task-h" onClose={close} className="drawer drawer--right liquid-glass-strong task" modal={false}>
-      <div className="task-head">
+      <div className="task-head" data-step={step.id}>
         <Avatar id={step.from} size={44} />
         <div>
           <p className="eyebrow">{from.name} · {from.title}</p>
@@ -214,7 +239,7 @@ export function TaskPanel() {
         </div>
       </div>
       {step.opener && <Quote speaker={step.opener.speaker} text={step.opener.line} auto once={`open.${step.id}.${s.snap.seed}`} note />}
-      <p className="context">{step.context}</p>
+      <p className="context">{learnerText(step.context)}</p>
       {step.attachment && (
         <figure className={`attachment att-${step.attachment.kind}`}>
           <figcaption>{step.attachment.title}</figcaption>
@@ -229,15 +254,15 @@ export function TaskPanel() {
 
       <div className="task-foot">
         {s.settings.mode === 'training' && !allDone && (
-          hinted || hintOpen === step.id ? <p className="hint"><SpeakingAvatar id="coach" size={28} /><span><strong>Renee:</strong> {step.hint}</span><VoiceButton speaker="coach" text={step.hint} /></p>
+          hinted || hintOpen === step.id ? <p className="hint"><SpeakingAvatar id="coach" size={28} /><span><strong>Renee:</strong> {learnerText(step.hint)}</span><VoiceButton speaker="coach" text={step.hint} /></p>
             : <button className="btn btn--ghost" onClick={() => { s.hint(step.id); setHintOpen(step.id); void voicePlayer.say('coach', step.hint); }}><Icon.hint /> Ask Renee for a hint <span className="muted">(costs 2 {meterLabel})</span></button>
         )}
         {step.policyIds.length > 0 && (
-          <details className="policies"><summary><Icon.book /> Policy Binder: {step.policyIds.map((p) => policyById(p)?.title).join(', ')}</summary>
-            {step.policyIds.map((p) => { const pol = policyById(p)!; return <div key={p} className="policy"><h3>{pol.title}{pol.sme && <span className="tag tag--sme">[SME]</span>}</h3><p>{pol.body.replace(/\s*\[SME\][^.]*\./g, '')}</p><p className="fine">Source: {pol.source}</p></div>; })}
+          <details className="policies" onToggle={(e) => { const el = e.currentTarget; if (el.open) requestAnimationFrame(() => el.scrollIntoView({ block: 'start', behavior: s.settings.reducedMotion ? 'auto' : 'smooth' })); }}><summary><Icon.book /> Policy Binder: {step.policyIds.map((p) => policyById(p)?.title).join(', ')}</summary>
+            {step.policyIds.map((p) => { const pol = policyById(p)!; return <div key={p} className="policy"><h3>{pol.title}{pol.sme && <span className="tag tag--sme">Being confirmed</span>}</h3><p>{learnerText(pol.body)}</p><p className="fine">Source: {pol.source}</p></div>; })}
           </details>
         )}
-        {allDone && <BackButton onClick={close} />}
+        {allDone && <Done next={next} onNext={() => s.openStep(next!.id)} onBack={close} />}
       </div>
     </Dialog>
   );

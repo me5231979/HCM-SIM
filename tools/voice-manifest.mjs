@@ -2,10 +2,14 @@
 // Every line is copied verbatim from content (briefing, openers, spoken decisions, hints, pay day
 // reactions, greetings), so captions always match the game text; tests/unit/voice.test.ts fails if they drift.
 // Run: node tools/voice-manifest.mjs   (then regenerate audio for any changed line ids)
-import { readFileSync, writeFileSync } from 'node:fs';
+import { copyFileSync, existsSync, readFileSync, writeFileSync } from 'node:fs';
+import { speakable } from './speakable.mjs';
 
 const read = (p) => JSON.parse(readFileSync(new URL(`../content/${p}`, import.meta.url), 'utf8'));
-const payroll = read('missions/payroll.json');
+const payroll = read('week.json');
+// The current manifest: a line whose speaker and text are unchanged keeps its recording (and how it was said).
+const previous = existsSync(new URL('../content/voice.json', import.meta.url)) ? read('voice.json').lines : [];
+const recorded = new Map(previous.map((l) => [`${l.speaker}|${l.text}`, l]));
 const events = read('events.json');
 const tutorial = read('tutorial.json');
 const employees = read('employees.json');
@@ -21,26 +25,37 @@ const cast = {
   emp_nair: { voiceId: 'imS9VaqDG0p1hKsDR12k', voiceName: 'Asal' },
   emp_kowalski: { voiceId: 'PHAPuAHARHKi7JvhoY4v', voiceName: 'Bree - Friendly Girl Next Door' },
   emp_grant: { voiceId: 'cgSgspJ2msm6clMCkdW9', voiceName: 'Jessica - Playful, Bright, Warm' },
+  emp_brennan: { voiceId: 'mBcvUzCDfAZ1sGXGWSep', voiceName: 'Ryan - Calm & Distinct' },
+  emp_chen: { voiceId: 'puJYvK3avsWRTxWzoVJJ', voiceName: 'Billie Voice' },
+  new_haddad: { voiceId: 'etmIPb5HGDEg61TyHOPX', voiceName: 'Julia-Casual & Friendly' },
+  stu_brooks: { voiceId: '9CJWFnjd4IwAq3ZNBcdc', voiceName: 'Toya J' },
+  stu_patel: { voiceId: '9dss9PXMvjrPM8yVW0tW', voiceName: 'Vick - Casual' },
+  ec_menon: { voiceId: 'cjVigY5qzO86Huf0OWal', voiceName: 'Eric - Smooth, Trustworthy' },
+  pay_liu: { voiceId: 'kfGEdprt9Oe4pbdP8VTo', voiceName: 'Katie - IVR & Customer Service' },
+  leave_ruiz: { voiceId: 'PtAEeZ6bHB6UxPL8CyWP', voiceName: 'Sandra - Warm & Soothing' },
+  rec_nguyen: { voiceId: 'Iw7E78ChW7UcKWq9OUqG', voiceName: 'Josh - Conversational & Friendly' },
+  fin_weiss: { voiceId: 'MCi1Bk7M6CBxQ8rrMHDy', voiceName: 'Dr. Deb' },
+  caller: { voiceId: 't3QWIMpbzg4RdPJvfexr', voiceName: 'Ordinary Sun V2 - Friendly Energy' },
 };
 
-// How to say lines that contain digits or dates. Every line with a digit must have one.
+// How to say a line when the automatic spelling (tools/speakable.mjs) would get it wrong.
 const say = {
-  'brief.0': "Morning. It's Thursday, October twenty-second. We're in pay period twenty-two, October eleventh to October twenty-fourth. These dates come straight from the real 2026 payroll calendar.",
-  'brief.1': "Two deadlines run your week. Transactions close at the H C M transaction cutoff this Friday, October twenty-third. Time cards are due Monday, October twenty-sixth, at noon. Then payroll signs off and runs payroll. We don't run payroll; we make sure what they get is right.",
-  'brief.3': "Requests land in your inbox through the day. Some are urgent; some are noise. On pay day, Friday, October thirtieth, you'll see what your decisions did.",
-  'hint.finalcheck': 'A normal two weeks is about eighty hours. Look for anything far from that.',
-  'pay.timecards.reyes_punch.self_fix': "Quick thing. I left at three thirty on the twentieth for a doctor visit, but I was paid for a full day. I don't want that coming back on me.",
-  'pay.timecards.reyes_punch.leave': 'My check is missing all of Tuesday the twentieth. I have rent due.',
-  'pay.timecards.nair_ot.shift': "My overtime from the event setup isn't here, and week two shows hours I didn't work. Who changed my time card?",
-  'pay.timecards.nair_ot.cut': 'I worked forty-four hours that week. Why was I paid for forty?',
-  'pay.retro.effective.oct11': "I was told my raise went back to September twenty-seventh. The back pay isn't here.",
-  'pay.retro.effective.oct22': 'My raise only shows for the last few days. It was supposed to start September twenty-seventh.',
-  'pay.finalcheck.flag.missed': "My check is huge. I think I typed eighty instead of eight on Thursday. I don't want to spend money that isn't mine.",
-  'spoken.timecards.nair_ot': 'Priya put down forty-four hours in week one, and I never approved overtime. Can I just change her time to forty?',
+  'pay.transfer_costing.date.nov6': 'Sam\'s costing ends November sixth, so his whole last period will charge program triple zero instead of the front office code.',
+  'pay.position_new.hours.std30': 'The Events Coordinator position shows one point oh F T E. I budgeted point seven five for it, so my numbers don\'t match.',
+  'open.q_ferdc': 'I got a form for an F E R D C appointment starting in January. Can you set it up like Doctor Osei\'s record?',
+  'hint.q_ferdc': 'Do you know yet what an F E R D C appointment is and how it\'s set up? Who would?',
+  'pay.hours.standard.set30': 'Aisha still shows as one point oh F T E on my budget report. Isn\'t she on thirty hours now?',
 };
 
 const lines = [];
-const add = (id, speaker, text) => lines.push({ id, speaker, text, ...(say[id] ? { say: say[id] } : {}) });
+const hasAudio = (id) => existsSync(new URL(`../public/audio/${id}.mp3`, import.meta.url));
+const add = (id, speaker, text) => {
+  // A recorded line keeps the spelling it was recorded with; anything else gets the current spelling.
+  const before = recorded.get(`${speaker}|${text}`);
+  const auto = speakable(text);
+  const spoken = say[id] ?? (before && hasAudio(before.id) ? before.say : auto !== text ? auto : undefined);
+  lines.push({ id, speaker, text, ...(spoken ? { say: spoken } : {}) });
+};
 
 payroll.briefing.forEach((t, i) => add(`brief.${i}`, 'coach', t));
 
@@ -63,15 +78,25 @@ add('pay.coach.problems', 'coach', payroll.payday.problems);
 for (const p of employees.people) if (p.greeting) add(`greet.${p.id}`, p.id, p.greeting);
 
 for (const l of lines) {
-  if (!cast[l.speaker]) throw new Error(`No voice for ${l.speaker} (${l.id})`);
   if (/\d/.test(l.text) && !l.say) throw new Error(`Line ${l.id} has digits but no "say" spelling`);
   if (/[–—]/.test(l.text + (l.say ?? ''))) throw new Error(`Line ${l.id} contains an em or en dash`);
 }
 const ids = new Set(lines.map((l) => l.id));
 if (ids.size !== lines.length) throw new Error('Duplicate line ids');
 for (const k of Object.keys(say)) if (!ids.has(k)) throw new Error(`say entry for unknown line ${k}`);
+const missingCast = [...new Set(lines.filter((l) => !cast[l.speaker]).map((l) => l.speaker))];
+if (missingCast.length) throw new Error(`No voice for ${missingCast.join(', ')}`);
+
+// A line that moved to a new id keeps its recording.
+for (const l of lines) {
+  const before = recorded.get(`${l.speaker}|${l.text}`);
+  const to = new URL(`../public/audio/${l.id}.mp3`, import.meta.url);
+  const from = before && new URL(`../public/audio/${before.id}.mp3`, import.meta.url);
+  if (before && before.id !== l.id && !existsSync(to) && existsSync(from)) { copyFileSync(from, to); console.log(`reused ${before.id} as ${l.id}`); }
+}
 
 writeFileSync(new URL('../content/voice.json', import.meta.url), JSON.stringify({ cast, lines }, null, 2) + '\n');
 const chars = lines.reduce((n, l) => n + (l.say ?? l.text).length, 0);
-console.log(`${lines.length} lines, ${chars} characters`);
-for (const l of lines) console.log(`${l.id}\t${l.speaker}\t${(l.say ?? l.text).length}`);
+const todo = lines.filter((l) => !existsSync(new URL(`../public/audio/${l.id}.mp3`, import.meta.url)));
+console.log(`${lines.length} lines, ${chars} characters; ${todo.length} to record (${todo.reduce((n, l) => n + (l.say ?? l.text).length, 0)} characters)`);
+if (process.argv.includes('--list')) for (const l of todo) console.log(`${l.id}\t${l.speaker}\t${(l.say ?? l.text).length}`);

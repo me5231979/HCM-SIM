@@ -1,4 +1,4 @@
-# Pay Period: HCM Simulation
+# Role of the HCM: HCM Simulation
 
 Read SPEC.md fully before any work.
 
@@ -20,6 +20,10 @@ Rules:
 - Run `npm test` and `npm run test:e2e` before every commit.
 - Keep model payload under 8 MB and draw calls under 150. Use instancing for repeated furniture.
 - Build in phase order. Do not skip acceptance criteria.
+
+The game is one comprehensive week (`content/week.json`, run by `src/machines/weekMachine.ts`), not separate missions.
+Every request belongs to one of the eight HCM Academy areas, and every decision lists the Academy courses it practices.
+`npm test` fails if any of the 79 courses goes unpracticed or a right answer can be spotted by its length.
 
 Deviations from SPEC section 4 (deliberate):
 - React 19, because @react-three/fiber 9 requires it.

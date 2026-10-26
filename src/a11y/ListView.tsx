@@ -1,4 +1,4 @@
-import { people } from '../content';
+import { onsite } from '../status';
 import { useGame } from '../store/game';
 import { personStatus } from '../status';
 import { InboxList } from '../ui/Inbox';
@@ -10,7 +10,7 @@ export function ListView() {
   const s = useGame();
   return (
     <main className="listview" id="main" aria-labelledby="lv-h">
-      <h1 id="lv-h" className="sr-only">Pay Period, list view</h1>
+      <h1 id="lv-h" className="sr-only">Role of the HCM, list view</h1>
       <section className="lv-col liquid-glass" aria-labelledby="lv-inbox">
         <h2 id="lv-inbox">Inbox</h2>
         <InboxList compact />
@@ -18,7 +18,7 @@ export function ListView() {
       <section className="lv-col liquid-glass" aria-labelledby="lv-people">
         <h2 id="lv-people">People</h2>
         <ul className="lv-people">
-          {people.map((p) => {
+          {onsite(s.snap?.time).map((p) => {
             const st = personStatus(p.id, s.game, s.snap);
             return (
               <li key={p.id}>

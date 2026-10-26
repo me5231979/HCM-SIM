@@ -39,15 +39,25 @@ describe('clock on the real calendar', () => {
 
 describe('scoring', () => {
   it('clamps meters to 0..100', () => {
-    expect(applyDeltas(initialMeters(), { payrollAccuracy: 30, complianceRisk: -5 })).toMatchObject({ payrollAccuracy: 100, complianceRisk: 0 });
+    expect(applyDeltas(initialMeters(), { accuracy: 30, complianceRisk: -5 })).toMatchObject({ accuracy: 100, complianceRisk: 0 });
   });
   it('grades compliance risk with lower as better', () => {
     expect(grade('complianceRisk', 5)).toBe('A');
     expect(grade('complianceRisk', 40)).toBe('D');
-    expect(grade('payrollAccuracy', 95)).toBe('A');
+    expect(grade('accuracy', 95)).toBe('A');
   });
-  it('rates a perfect meter set Ready', () => {
-    expect(rating({ payrollAccuracy: 100, complianceRisk: 0, employeeTrust: 80, managerSatisfaction: 80 })).toBe('Ready');
+  it('a week that changed nothing earns no credit: trust and managers start at a C', () => {
+    const m = initialMeters();
+    expect(grade('employeeTrust', m.employeeTrust)).toBe('C');
+    expect(grade('managerSatisfaction', m.managerSatisfaction)).toBe('C');
+    expect(grade('employeeTrust', 86)).toBe('A');
+  });
+  it('rates readiness from mastery by area, with risk as a gate', () => {
+    const m = { accuracy: 100, complianceRisk: 0, employeeTrust: 80, managerSatisfaction: 80 };
+    expect(rating([{ right: 5, total: 5 }, { right: 4, total: 5 }], m)).toBe('Ready');
+    expect(rating([{ right: 5, total: 5 }, { right: 3, total: 5 }], m)).toBe('Almost ready');
+    expect(rating([{ right: 5, total: 5 }, { right: 2, total: 5 }], m)).toBe('Keep practicing');
+    expect(rating([{ right: 5, total: 5 }], { ...m, complianceRisk: 30 })).toBe('Almost ready');
   });
 });
 

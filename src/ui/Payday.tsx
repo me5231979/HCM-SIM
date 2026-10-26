@@ -1,5 +1,5 @@
 import { motion } from 'motion/react';
-import { period, personById } from '../content';
+import { payday, personById, learnerText } from '../content';
 import { dateLabel } from '../engine/clock';
 import { paydayBeats, useGame } from '../store/game';
 import { Icon } from './icons';
@@ -15,7 +15,7 @@ export function Payday() {
   return (
     <section className="payday" aria-labelledby="payday-h">
       <div className="payday-banner liquid-glass">
-        <p className="eyebrow">Pay day · {dateLabel(period.paycheck)}</p>
+        <p className="eyebrow">Pay day · {dateLabel(payday)}</p>
         <h2 id="payday-h">Checks are out.</h2>
         <p className="muted">Payroll signed off when time cards came due, Monday at noon.</p>
         <p className="muted">{beat + 1} of {beats.length}</p>
@@ -25,7 +25,7 @@ export function Payday() {
         <div className="dl-body">
           <p className="dl-name">{p.name} <span className="muted">· {p.title}</span></p>
           <p className="dl-line" aria-live="polite">"{b.line}"</p>
-          {b.speaker !== 'coach' && <p className={`dl-summary ${b.tone === 'positive' ? 'is-good' : 'is-bad'}`}>{b.tone === 'positive' ? <Icon.check /> : <Icon.alert />}{b.summary}{b.task ? ` Next period: ${b.task}` : ''}</p>}
+          {b.speaker !== 'coach' && <p className={`dl-summary ${b.tone === 'positive' ? 'is-good' : 'is-bad'}`}>{b.tone === 'positive' ? <Icon.check /> : <Icon.alert />}{learnerText(b.summary)}{b.task ? ` Next period: ${learnerText(b.task)}` : ''}</p>}
           <div className="dl-actions">
             <button className="btn btn--gold" onClick={nextBeat} data-testid="next-beat" autoFocus>{beat + 1 < beats.length ? 'Next' : 'See the debrief'} <Icon.arrow /></button>
             {beat + 1 < beats.length && <button className="btn btn--ghost" onClick={skipPayday}>Skip to debrief</button>}

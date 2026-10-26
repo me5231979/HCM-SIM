@@ -1,4 +1,9 @@
+import { people } from './content';
+import { at } from './engine/clock';
 import type { Game, Snapshot } from './engine/game';
+
+/** People in the office now: no central partners, and a new hire only from their first day. */
+export const onsite = (time: number | undefined) => people.filter((p) => p.desk !== 'offsite' && (!p.arrives || (time ?? 0) >= at(p.arrives)));
 
 export type PersonStatusKind = 'issue' | 'talk' | 'done' | 'none';
 export interface PersonStatus { kind: PersonStatusKind; label: string; stepId?: string }

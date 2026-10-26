@@ -46,7 +46,8 @@ export function Dialog({ label, onClose, children, className = '', modal = true,
   useEffect(() => {
     const opener = document.activeElement as HTMLElement | null;
     const el = ref.current;
-    const first = el?.querySelector<HTMLElement>('[data-autofocus], h2, button, [href], input, select');
+    // An explicit autofocus wins (the main button), then the heading, then the first control.
+    const first = el?.querySelector<HTMLElement>('[data-autofocus]') ?? el?.querySelector<HTMLElement>('.panel-body h2') ?? el?.querySelector<HTMLElement>('button, [href], input, select');
     if (first && first.tagName === 'H2') first.setAttribute('tabindex', '-1');
     first?.focus({ preventScroll: true });
     const onKey = (e: KeyboardEvent) => {

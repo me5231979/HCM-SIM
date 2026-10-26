@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { policies } from '../content';
+import { learnerText, policies } from '../content';
 import { useGame } from '../store/game';
 import { Dialog } from './common';
 
@@ -11,12 +11,12 @@ export function Binder() {
       <p className="eyebrow">Policy Binder</p>
       <h2 id="binder-h">Search the <em>binder</em>.</h2>
       <label className="search"><span className="sr-only">Search policies</span><input type="search" value={q} onChange={(e) => setQ(e.target.value)} placeholder="Search: overtime, retro, cutoff" data-autofocus /></label>
-      <p className="fine" role="status">{list.length} of {policies.length} entries. Entries marked [SME] are waiting on validation by HCM superusers.</p>
+      <p className="fine" role="status">{list.length} of {policies.length} entries. Entries marked Being confirmed have a detail still being checked with HCM superusers.</p>
       <div className="binder-list">
         {list.map((p) => (
           <article key={p.id} className="policy">
-            <h3>{p.title}{p.sme && <span className="tag tag--sme">[SME]</span>}</h3>
-            <p>{p.body}</p>
+            <h3>{p.title}{p.sme && <span className="tag tag--sme">Being confirmed</span>}</h3>
+            <p>{learnerText(p.body)}</p>
             <p className="fine">Source: {p.source}</p>
           </article>
         ))}

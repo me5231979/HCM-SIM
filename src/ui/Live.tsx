@@ -38,11 +38,11 @@ export function LiveOffer({ step, d, disabled }: { step: ActiveStep; d: Decision
         <h3>{conv.title}</h3>
         <p className="muted">{conv.pitch}</p>
         <div className="live-offer-actions">
-          <button type="button" className="btn btn--gold btn--sm" disabled={disabled || !mic} onClick={() => setMode('voice')} data-testid="live-voice"><Icon.mic /> Talk out loud</button>
+          <button type="button" className="btn btn--ghost btn--sm" disabled={disabled || !mic} onClick={() => setMode('voice')} data-testid="live-voice"><Icon.mic /> Talk out loud</button>
           <button type="button" className="btn btn--ghost btn--sm" disabled={disabled} onClick={() => setMode('text')} data-testid="live-text"><Icon.keyboard /> Type to {first}</button>
         </div>
         {!mic && <p className="fine">This browser can't share a microphone here, so typing is the way in.</p>}
-        <p className="fine">Or choose your answer below. Talking to {first} is never required.</p>
+        <p className="fine">Uses an outside voice service; you'll see what's shared before anything connects. Or choose your answer below. Talking to {first} is never required.</p>
       </div>
       {mode && createPortal(<><div className="live-backdrop" aria-hidden="true" /><LiveDialog conv={conv} step={step} d={d} initialMode={mode} onClose={() => setMode(null)} /></>, document.body)}
     </div>

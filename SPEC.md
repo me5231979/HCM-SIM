@@ -3,6 +3,10 @@
 
 Version 0.1 | Owner: Matt Estes, Futures Learning Hub | Program: HCM Academy
 
+> Note, October 2026: the game is now **Role of the HCM**. It grew from the payroll mission this spec describes
+> into one full week that covers all eight HCM Academy topics (60 requests, 100 decisions, all 79 courses) on
+> three payroll calendars. Where this spec and CLAUDE.md differ, CLAUDE.md records the deliberate changes.
+
 ---
 
 ## 0. How Claude Code should use this document

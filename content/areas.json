@@ -1,0 +1,68 @@
+{
+  "areas": [
+    {
+      "id": "start",
+      "number": "00",
+      "label": "Start Here: HCM Foundations",
+      "short": "Foundations",
+      "tab": "start",
+      "practice": "Read the payroll calendars, track transactions in the notifications bell, protect confidential data, and know what each new person needs before day one."
+    },
+    {
+      "id": "hiring",
+      "number": "01",
+      "label": "Positions, Recruitment & Hiring",
+      "short": "Hiring",
+      "tab": "recruiting",
+      "practice": "Build positions and requisitions right the first time, and never let anyone start before they are cleared and converted."
+    },
+    {
+      "id": "payroll",
+      "number": "02",
+      "label": "Payroll & Timecards",
+      "short": "Payroll",
+      "tab": "payroll",
+      "practice": "Get transactions in before the cutoff, check time cards weekly, route problems to the manager, and escalate late approvals."
+    },
+    {
+      "id": "assignments",
+      "number": "03",
+      "label": "Assignments",
+      "short": "Assignments",
+      "tab": "positions",
+      "practice": "Process hours changes, transfers, and departures with the right transaction and the right effective date."
+    },
+    {
+      "id": "leave",
+      "number": "04",
+      "label": "Leave Management",
+      "short": "Leave",
+      "tab": "leave",
+      "practice": "Get leave needs to the leave team fast, put time off in the right system for the worker, and keep the record and status in step."
+    },
+    {
+      "id": "costing",
+      "number": "05",
+      "label": "Costing Management",
+      "short": "Costing",
+      "tab": "costing",
+      "practice": "Charge pay to the right accounts, fix past periods through the retro process, and review costing after every move."
+    },
+    {
+      "id": "students",
+      "number": "06",
+      "label": "Student & Faculty Hiring and Assignments",
+      "short": "Students & Faculty",
+      "tab": "students",
+      "practice": "Hire students who work as student workers, end assignments at term end, and use faculty setups for faculty."
+    },
+    {
+      "id": "records",
+      "number": "07",
+      "label": "Document Records & Reporting",
+      "short": "Records",
+      "tab": "records",
+      "practice": "File final signed documents as Document Records, and run reports that answer the real question."
+    }
+  ]
+}

@@ -5,7 +5,7 @@
       "Your microphone audio goes to ElevenLabs, our voice provider, only while the conversation is open.",
       "Audio is not recorded or kept. The text transcript is deleted after 30 days.",
       "We don't send your name or any account details. Please don't share personal information.",
-      "Dana is an AI character. She can make mistakes, and nothing she says is policy.",
+      "The characters you talk with are AI. They can make mistakes, and nothing they say is policy.",
       "Each conversation stops after 3 minutes. End it any time, or type instead of talking."
     ]
   },
@@ -27,7 +27,28 @@
         { "field": "suggested_conduct_conversation", "is": false, "good": false, "text": "Give Dana the real fix: a conversation with Priya about getting approval first. The time card stays as worked." },
         { "field": "hcm_edit", "is": true, "good": false, "text": "Managers fix their own team's time. You advise and follow up; you don't edit it for them." },
         { "field": "tone", "is": "respectful", "good": true, "text": "You kept it respectful. Managers come back to the HCM who helps them, not the one who corrects them." },
-        { "field": "tone", "is": "dismissive", "good": false, "text": "Dana is your partner here. A respectful explanation lands better and keeps her coming back to you.", "deltas": { "managerSatisfaction": -3 } }
+        { "field": "tone", "is": "dismissive", "good": false, "text": "Dana is your partner here. A respectful explanation lands better and keeps her coming back to you.", "deltas": {"managerSatisfaction": -3} }
+      ]
+    },
+    {
+      "id": "marcus_start",
+      "agentId": "agent_0401m5wwnmhteaesd74gzwsekttc",
+      "speaker": "mgr_bell",
+      "stepId": "start_early",
+      "decisionId": "start",
+      "title": "Talk it through with Marcus",
+      "pitch": "Practice the real conversation. Marcus is a live AI character who answers what you actually say, and he wants Noor started fast. It takes about 2 minutes.",
+      "maxSeconds": 180,
+      "outcomes": { "wait": "wait", "start_wed": "start_wed", "volunteer": "volunteer" },
+      "coaching": [
+        { "field": "explained_clear_to_start", "is": true, "good": true, "text": "You named the gate: no one starts until PEBC sends clear to start and you convert her." },
+        { "field": "explained_clear_to_start", "is": false, "good": false, "text": "Name the gate next time: no one starts until PEBC sends clear to start and you convert her." },
+        { "field": "explained_i9", "is": true, "good": true, "text": "You named the timing: I-9 Section 1 is due on her first day, so the paperwork can't come after." },
+        { "field": "explained_i9", "is": false, "good": false, "text": "Add the I-9 next time: Section 1 is due on her first day, so the paperwork can't come after." },
+        { "field": "gave_date", "is": true, "good": true, "text": "You gave Marcus a plan he can work with, not just a no." },
+        { "field": "gave_date", "is": false, "good": false, "text": "Give Marcus a date or a plan, so the no comes with a next step." },
+        { "field": "tone", "is": "respectful", "good": true, "text": "You kept it respectful. Managers come back to the HCM who helps them, not the one who corrects them." },
+        { "field": "tone", "is": "dismissive", "good": false, "text": "Marcus is your partner here. A respectful explanation lands better and keeps him coming back to you.", "deltas": {"managerSatisfaction": -3} }
       ]
     }
   ]

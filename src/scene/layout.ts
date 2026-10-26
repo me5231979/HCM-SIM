@@ -34,6 +34,8 @@ export function seatFor(desk: string): Vec3 {
   if (PODS[desk]) { const [x, , z] = PODS[desk]; return [x, 0, z + 0.62]; }
   if (desk === 'office_a' || desk === 'office_b' || desk === 'office_c') { const [x] = SPOTS[desk]; return [x, 0, -7.05]; }
   if (desk === 'hcm_2') { const [x, , z] = SPOTS.hcm_2; return [x, 0, z + 0.62]; }
+  // A new hire waits at reception on their first morning.
+  if (desk === 'reception') { const [x, , z] = SPOTS.reception; return [x + 1.1, 0, z - 0.4]; }
   return [0, 0, 0];
 }
 

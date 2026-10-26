@@ -1,24 +1,46 @@
 import { useState } from 'react';
-import { payroll, personById } from '../content';
+import { areaById, areas, personById, week } from '../content';
 import { clockLabel, weekdayLabel } from '../engine/clock';
 import { inboxItems, useGame } from '../store/game';
 import { Avatar, Dialog, priorityLabel } from './common';
-import { Icon } from './icons';
+import { AreaGlyph, Icon } from './icons';
+import type { AreaId } from '../../content/schemas';
 
 type Sort = 'received' | 'due' | 'priority';
 const PR = { urgent: 0, high: 1, normal: 2, low: 3 } as const;
 
 export function InboxList({ compact = false }: { compact?: boolean }) {
   const s = useGame();
-  const [sort, setSort] = useState<Sort>('received');
-  const items = inboxItems(s).sort((a, b) =>
-    sort === 'received' ? b.receivedAt - a.receivedAt : sort === 'due' ? (a.dueAt ?? 1e9) - (b.dueAt ?? 1e9) : PR[a.priority] - PR[b.priority]);
+  const [sort, setSort] = useState<Sort>('due');
+  const [area, setArea] = useState<AreaId | 'all'>('all');
+  const [hideDone, setHideDone] = useState(false);
+  const all = inboxItems(s);
+  const isDone = (st: string) => st === 'done' || st === 'missed' || st === 'skipped';
+  const waiting = (a: AreaId) => all.filter((i) => i.area === a && i.kind === 'task' && !isDone(i.status)).length;
+  const items = all
+    .filter((i) => area === 'all' || i.area === area)
+    .filter((i) => !hideDone || (i.kind === 'task' && !isDone(i.status)))
+    .sort((a, b) => {
+      // Open work first, then by the chosen order.
+      const open = Number(isDone(a.status) || a.kind === 'noise') - Number(isDone(b.status) || b.kind === 'noise');
+      if (sort !== 'received' && open) return open;
+      return sort === 'received' ? b.receivedAt - a.receivedAt : sort === 'due' ? (a.dueAt ?? 1e9) - (b.dueAt ?? 1e9) : PR[a.priority] - PR[b.priority];
+    });
   return (
     <div className="inbox">
       <div className="inbox-sort" role="group" aria-label="Sort inbox">
-        {(['received', 'due', 'priority'] as const).map((k) => (
+        {(['due', 'received', 'priority'] as const).map((k) => (
           <button key={k} className={`chip-btn ${sort === k ? 'is-on' : ''}`} aria-pressed={sort === k} onClick={() => setSort(k)}>{k === 'received' ? 'Newest' : k === 'due' ? 'Due soonest' : 'Priority'}</button>
         ))}
+        <label className="check inbox-hide"><input type="checkbox" checked={hideDone} onChange={(e) => setHideDone(e.target.checked)} />Hide finished</label>
+      </div>
+      <div className="inbox-areas" role="group" aria-label="Show topic">
+        <button className={`chip-btn ${area === 'all' ? 'is-on' : ''}`} aria-pressed={area === 'all'} onClick={() => setArea('all')}>All</button>
+        {areas.map((a) => { const n = waiting(a.id); return (
+          <button key={a.id} className={`chip-btn area-btn ${area === a.id ? 'is-on' : ''}`} aria-pressed={area === a.id} onClick={() => setArea(a.id)}>
+            <AreaGlyph a={a.id} />{a.short}{n > 0 && <span className="badge">{n}<span className="sr-only"> open</span></span>}
+          </button>
+        ); })}
       </div>
       {items.length === 0 && <p className="muted">Nothing yet.</p>}
       <ul className="inbox-list">
@@ -27,11 +49,15 @@ export function InboxList({ compact = false }: { compact?: boolean }) {
           const done = it.status === 'done' || it.status === 'missed' || it.status === 'skipped';
           return (
             <li key={it.id}>
-              <button className={`inbox-item ${it.unread ? 'is-unread' : ''} ${done ? 'is-done' : ''} pr-${it.priority}`} onClick={() => (it.kind === 'task' ? s.openStep(it.id) : s.openNoise(it.id))}>
+              <button className={`inbox-item ${it.unread ? 'is-unread' : ''} ${done ? 'is-done' : ''} pr-${it.priority}`} data-step={it.id} data-kind={it.kind} data-status={it.status} onClick={() => (it.kind === 'task' ? s.openStep(it.id) : s.openNoise(it.id))}>
                 {!compact && <Avatar id={it.from} size={34} />}
                 <span className="ii-main">
                   <span className="ii-subject">{it.unread && <span className="ii-dot" aria-hidden="true" />}{it.subject}{it.unread && <span className="sr-only"> (unread)</span>}</span>
-                  <span className="ii-meta">{p.name} · {weekdayLabel(it.receivedAt)} {clockLabel(it.receivedAt)}{it.dueAt && !done ? ` · due ${weekdayLabel(it.dueAt)} ${clockLabel(it.dueAt)}` : ''}</span>
+                  <span className="ii-meta">
+                    {it.area && <span className="ii-area"><AreaGlyph a={it.area} />{areaById(it.area).short}</span>}
+                    {it.quick && <span className="ii-quick">Quick question</span>}
+                    {p.name} · {weekdayLabel(it.receivedAt)} {clockLabel(it.receivedAt)}{it.dueAt && !done ? ` · due ${weekdayLabel(it.dueAt)} ${clockLabel(it.dueAt)}` : ''}
+                  </span>
                 </span>
                 <span className={`ii-status st-${it.kind === 'noise' ? 'fyi' : it.status}`}>
                   {it.kind === 'noise' ? 'FYI' : it.status === 'done' ? <><Icon.check />Done</> : it.status === 'missed' ? <><Icon.cross />Missed</> : it.status === 'locked' ? <><Icon.clock />Waiting</> : it.status === 'skipped' ? 'Not needed' : <>{it.priority === 'urgent' && <Icon.alert />}{priorityLabel(it.priority)}<span className="sr-only"> priority</span></>}
@@ -58,7 +84,7 @@ export function Inbox() {
 
 export function NoiseReader() {
   const id = useGame((s) => s.openNoiseId);
-  const n = payroll.noise.find((x) => x.id === id);
+  const n = week.noise.find((x) => x.id === id);
   if (!n) return null;
   const p = personById(n.from);
   return (

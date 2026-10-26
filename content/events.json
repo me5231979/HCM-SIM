@@ -4,7 +4,7 @@
       "id": "director_headcount",
       "title": "Director needs a headcount report",
       "status": "live",
-      "mission": "payroll",
+      "mission": "week",
       "window": {
         "from": {
           "date": "2026-10-23",
@@ -17,14 +17,18 @@
       },
       "step": {
         "id": "headcount",
+        "area": "records",
         "type": "choice",
         "title": "Headcount report in one hour",
         "from": "dir_park",
         "location": "office_c",
-        "opener": { "speaker": "dir_park", "line": "I have a budget meeting at eleven, and I need a headcount report for the department. Can you have it to me in an hour?" },
+        "opener": {
+          "speaker": "dir_park",
+          "line": "I have a budget meeting at eleven, and I need a headcount report for the department. Can you have it to me in an hour?"
+        },
         "priority": "high",
         "dueMinutes": 60,
-        "context": "Dr. Park needs a headcount report before her 11:00 budget meeting. Today is also the HCM transaction cutoff, and Jordan's raise has to be in by 5:00 PM.",
+        "context": "Dr. Park needs a headcount report before her 11:00 budget meeting. Today is also the HCM transaction cutoff for the biweekly and weekly payrolls.",
         "policyIds": [
           "calendar",
           "hcm_role"
@@ -39,7 +43,7 @@
             "choices": [
               {
                 "id": "scope",
-                "text": "Reply now: offer a quick count by employee type for the meeting, and the full report Monday after payroll closes.",
+                "text": "Send a quick count by employee type now, and the full report on Monday",
                 "correct": true,
                 "deltas": {
                   "managerSatisfaction": 3
@@ -49,19 +53,19 @@
               },
               {
                 "id": "full",
-                "text": "Drop payroll work and build the full report now. The director asked.",
+                "text": "Drop the cutoff work and build the full report now, since the director asked",
                 "correct": false,
                 "errorCode": "PAY_TRIAGE",
                 "deltas": {
                   "managerSatisfaction": 1,
-                  "payrollAccuracy": -2
+                  "accuracy": -2
                 },
                 "timeCost": 120,
                 "feedback": "The full report took two hours of your cutoff day, and the meeting only needed totals. Next time: confirm what's needed and when, then protect cutoff work."
               },
               {
                 "id": "ignore",
-                "text": "Leave it until after the cutoff. Transactions come first.",
+                "text": "Hold it until after the cutoff, since transactions have to come first today",
                 "correct": false,
                 "errorCode": "PAY_TRIAGE",
                 "deltas": {
@@ -82,6 +86,9 @@
                   }
                 ]
               }
+            ],
+            "courses": [
+              "reporting-101"
             ]
           }
         ]
@@ -91,69 +98,69 @@
       "id": "forgot_termination",
       "title": "Manager forgot to submit a termination from last week",
       "status": "planned",
-      "mission": "offboard"
+      "mission": "week"
     },
     {
       "id": "ot_dispute",
       "title": "Employee disputes overtime on paycheck",
       "status": "planned",
-      "mission": "payroll"
+      "mission": "week"
     },
     {
       "id": "start_moved",
       "title": "New hire moves start date two days before start",
       "status": "planned",
-      "mission": "onboard"
+      "mission": "week"
     },
     {
       "id": "two_managers",
       "title": "Two managers claim the same employee after a transfer",
       "status": "planned",
-      "mission": "changes"
+      "mission": "week"
     },
     {
       "id": "timecard_outage",
       "title": "Timecard system outage for half a day",
       "status": "planned",
-      "mission": "payroll",
+      "mission": "week",
       "sme": true
     },
     {
       "id": "pay_equity",
       "title": "Employee asks about pay equity after overhearing a coworker's pay",
       "status": "planned",
-      "mission": "changes"
+      "mission": "week"
     },
     {
       "id": "leave_at_cutoff",
       "title": "Leave request arrives the morning of cutoff",
       "status": "planned",
-      "mission": "leave"
+      "mission": "week"
     },
     {
       "id": "duplicate_record",
       "title": "Duplicate employee record discovered",
       "status": "planned",
-      "mission": "hire"
+      "mission": "week"
     },
     {
       "id": "text_resignation",
       "title": "Employee resigns by text message to their manager",
       "status": "planned",
-      "mission": "offboard"
+      "mission": "week"
     },
     {
       "id": "holiday_pay",
       "title": "Holiday falls in the period",
       "status": "planned",
-      "mission": "payroll",
+      "mission": "week",
       "sme": true
     },
     {
       "id": "wrong_bank",
       "title": "New hire submits wrong bank information",
       "status": "planned",
-      "mission": "onboard"
+      "mission": "week"
     }
   ]
 }

@@ -16,12 +16,15 @@ export interface DecisionEvent {
 
 export interface HintEvent { stepId: string; meter: keyof DeltasT & string; simTime: SimTime }
 
-type Events = { decision: DecisionEvent; hint: HintEvent };
+/** Pay day: a scheduled consequence lands on someone's check, budget, or record, and its cost counts. */
+export interface ConsequenceEvent { causedBy: string; deltas: DeltasT; simTime: SimTime }
+
+type Events = { decision: DecisionEvent; hint: HintEvent; consequence: ConsequenceEvent };
 type Handler<K extends keyof Events> = (e: Events[K]) => void;
 
 /** Typed pub/sub. Missions emit decisions; scoring and consequences subscribe. Missions never call scoring directly. */
 export function createEventBus() {
-  const handlers: { [K in keyof Events]: Set<Handler<K>> } = { decision: new Set(), hint: new Set() };
+  const handlers: { [K in keyof Events]: Set<Handler<K>> } = { decision: new Set(), hint: new Set(), consequence: new Set() };
   return {
     on<K extends keyof Events>(type: K, fn: Handler<K>) {
       handlers[type].add(fn);

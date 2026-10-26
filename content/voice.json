@@ -39,36 +39,259 @@
     "emp_grant": {
       "voiceId": "cgSgspJ2msm6clMCkdW9",
       "voiceName": "Jessica - Playful, Bright, Warm"
+    },
+    "emp_brennan": {
+      "voiceId": "mBcvUzCDfAZ1sGXGWSep",
+      "voiceName": "Ryan - Calm & Distinct"
+    },
+    "emp_chen": {
+      "voiceId": "puJYvK3avsWRTxWzoVJJ",
+      "voiceName": "Billie Voice"
+    },
+    "new_haddad": {
+      "voiceId": "etmIPb5HGDEg61TyHOPX",
+      "voiceName": "Julia-Casual & Friendly"
+    },
+    "stu_brooks": {
+      "voiceId": "9CJWFnjd4IwAq3ZNBcdc",
+      "voiceName": "Toya J"
+    },
+    "stu_patel": {
+      "voiceId": "9dss9PXMvjrPM8yVW0tW",
+      "voiceName": "Vick - Casual"
+    },
+    "ec_menon": {
+      "voiceId": "cjVigY5qzO86Huf0OWal",
+      "voiceName": "Eric - Smooth, Trustworthy"
+    },
+    "pay_liu": {
+      "voiceId": "kfGEdprt9Oe4pbdP8VTo",
+      "voiceName": "Katie - IVR & Customer Service"
+    },
+    "leave_ruiz": {
+      "voiceId": "PtAEeZ6bHB6UxPL8CyWP",
+      "voiceName": "Sandra - Warm & Soothing"
+    },
+    "rec_nguyen": {
+      "voiceId": "Iw7E78ChW7UcKWq9OUqG",
+      "voiceName": "Josh - Conversational & Friendly"
+    },
+    "fin_weiss": {
+      "voiceId": "MCi1Bk7M6CBxQ8rrMHDy",
+      "voiceName": "Dr. Deb"
+    },
+    "caller": {
+      "voiceId": "t3QWIMpbzg4RdPJvfexr",
+      "voiceName": "Ordinary Sun V2 - Friendly Energy"
     }
   },
   "lines": [
     {
       "id": "brief.0",
       "speaker": "coach",
-      "text": "Morning. It's Thursday, Oct 22. We're in pay period 22, Oct 11 to Oct 24. These dates come straight from the real 2026 payroll calendar.",
-      "say": "Morning. It's Thursday, October twenty-second. We're in pay period twenty-two, October eleventh to October twenty-fourth. These dates come straight from the real 2026 payroll calendar."
+      "text": "Morning. It's Monday, Oct 19, and you're the HCM for the Office of Learning Operations. This week, everything lands at once: hiring, pay, changes, leave, costing, students, and records.",
+      "say": "Morning. It's Monday, October nineteenth, and you're the HCM for the Office of Learning Operations. This week, everything lands at once: hiring, pay, changes, leave, costing, students, and records."
     },
     {
       "id": "brief.1",
       "speaker": "coach",
-      "text": "Two deadlines run your week. Transactions close at the HCM transaction cutoff this Friday, Oct 23. Time cards are due Monday, Oct 26 at noon. Then payroll signs off and runs payroll. We don't run payroll; we make sure what they get is right.",
-      "say": "Two deadlines run your week. Transactions close at the H C M transaction cutoff this Friday, October twenty-third. Time cards are due Monday, October twenty-sixth, at noon. Then payroll signs off and runs payroll. We don't run payroll; we make sure what they get is right."
+      "text": "Three payroll calendars run this week, and the right one depends on the worker. Exempt staff are paid monthly, and October's cutoff passed on the 18th. Hourly staff are paid weekly or biweekly: backdated changes close Wednesday, other changes Friday at 5:00 PM, and time cards are due Monday at noon.",
+      "say": "Three payroll calendars run this week, and the right one depends on the worker. Exempt staff are paid monthly, and October's cutoff passed on the eighteenth. Hourly staff are paid weekly or biweekly: backdated changes close Wednesday, other changes Friday at five P M, and time cards are due Monday at noon."
     },
     {
       "id": "brief.2",
       "speaker": "coach",
-      "text": "Your job: get transactions in before Friday's cutoff, check time cards, get problems to the right manager and help them fix them, and make sure every time card is approved by Monday at noon."
+      "text": "Your job: get every request to the right outcome, through the right person, before its deadline. Managers own their team's time and approvals. Central HR, payroll, and your EC own theirs. You make sure it all lands."
     },
     {
       "id": "brief.3",
       "speaker": "coach",
-      "text": "Requests land in your inbox through the day. Some are urgent; some are noise. On pay day, Friday Oct 30, you'll see what your decisions did.",
-      "say": "Requests land in your inbox through the day. Some are urgent; some are noise. On pay day, Friday, October thirtieth, you'll see what your decisions did."
+      "text": "Requests and quick questions arrive all week. Some are urgent; some are noise. On pay day, Friday Oct 30, you'll see what every decision did.",
+      "say": "Requests and quick questions arrive all week. Some are urgent; some are noise. On pay day, Friday October thirtieth, you'll see what every decision did."
     },
     {
       "id": "open.calendar",
       "speaker": "coach",
-      "text": "These dates come straight from the real payroll calendar. Before you open anything, tell me how this week works."
+      "text": "Three payroll calendars run this week, and the one that applies depends on the worker. Before you open anything, walk me through them."
+    },
+    {
+      "id": "open.q_observer",
+      "speaker": "dir_park",
+      "text": "Our evaluator needs CampusHR access while she's here. How do we set her up?",
+      "say": "Our evaluator needs Campus H R access while she's here. How do we set her up?"
+    },
+    {
+      "id": "open.start_early",
+      "speaker": "mgr_bell",
+      "text": "Noor accepted! Can she start Wednesday? We'll do the paperwork after."
+    },
+    {
+      "id": "open.fmla",
+      "speaker": "emp_nair",
+      "text": "My dad has surgery next week and I'll be caring for him, so I may need days off, on and off, for a few weeks. What do I do?"
+    },
+    {
+      "id": "open.q_resign_dates",
+      "speaker": "mgr_ortiz",
+      "text": "If someone on my team resigns, which dates do you need from me?"
+    },
+    {
+      "id": "open.gift_card",
+      "speaker": "emp_grant",
+      "text": "Maya worked 12 hours at the fall event and she was amazing. Can I just pay her with a $150 gift card from the event budget?",
+      "say": "Maya worked twelve hours at the fall event and she was amazing. Can I just pay her with a one hundred fifty dollar gift card from the event budget?"
+    },
+    {
+      "id": "open.position_new",
+      "speaker": "mgr_ortiz",
+      "text": "I found our old Events Coordinator position from 2019. Can you switch it back on and get it posted this week?",
+      "say": "I found our old Events Coordinator position from twenty nineteen. Can you switch it back on and get it posted this week?"
+    },
+    {
+      "id": "open.q_two_assignments",
+      "speaker": "mgr_ortiz",
+      "text": "Kai's record shows a second job with some other manager. Is that a mistake we should fix?"
+    },
+    {
+      "id": "open.exempt_pto",
+      "speaker": "emp_chen",
+      "text": "I'm taking this Friday off. Can you put it on the time card system for me, like everyone else's?"
+    },
+    {
+      "id": "open.q_expense",
+      "speaker": "emp_grant",
+      "text": "A student we invited to our forum paid $80 for her train ticket. How do we pay her back?",
+      "say": "A student we invited to our forum paid eighty dollars for her train ticket. How do we pay her back?"
+    },
+    {
+      "id": "open.confidential",
+      "speaker": "dir_park",
+      "text": "Did you see my email? I need that spreadsheet for the grant report by noon tomorrow."
+    },
+    {
+      "id": "open.q_business_title",
+      "speaker": "mgr_ortiz",
+      "text": "If we post it as Campus Events Coordinator, is that the title the new hire gets in CampusHR?",
+      "say": "If we post it as Campus Events Coordinator, is that the title the new hire gets in Campus H R?"
+    },
+    {
+      "id": "open.bell",
+      "speaker": "mgr_ortiz",
+      "text": "Sam's new title still isn't showing. Did my change get lost, or should we just enter it again?"
+    },
+    {
+      "id": "open.q_rehire",
+      "speaker": "mgr_bell",
+      "text": "She was great. Can't we just change that to Yes and make the offer?"
+    },
+    {
+      "id": "open.q_manager_leaves",
+      "speaker": "dir_park",
+      "text": "If one of my managers leaves, how do we move their whole team to someone new?"
+    },
+    {
+      "id": "open.hours",
+      "speaker": "mgr_bell",
+      "text": "Aisha's going to 30 hours a week starting next pay period. I told her payroll would take care of it, so can you give them a heads up?",
+      "say": "Aisha's going to thirty hours a week starting next pay period. I told her payroll would take care of it, so can you give them a heads up?"
+    },
+    {
+      "id": "open.q_home_office",
+      "speaker": "mgr_ortiz",
+      "text": "Dr. Park approved a home office payment for Mei. She should take home exactly $500. How will you set it up?",
+      "say": "Dr. Park approved a home office payment for Mei. She should take home exactly five hundred dollars. How will you set it up?"
+    },
+    {
+      "id": "open.intern",
+      "speaker": "dir_park",
+      "text": "Let's have her handle our regular data entry, 15 hours a week from January to May, unpaid. It's great experience for her, and it saves us budget.",
+      "say": "Let's have her handle our regular data entry, fifteen hours a week from January to May, unpaid. It's great experience for her, and it saves us budget."
+    },
+    {
+      "id": "open.q_stipend",
+      "speaker": "fin_weiss",
+      "text": "Our grant pays a graduate fellow a $1,000 stipend this term, with no work attached. How will you set her up?",
+      "say": "Our grant pays a graduate fellow a one thousand dollar stipend this term, with no work attached. How will you set her up?"
+    },
+    {
+      "id": "open.report_date",
+      "speaker": "dir_park",
+      "text": "Can you pull me a roster from CampusHR with names, titles, and managers for Monday's org chart? Make sure Noor is on it.",
+      "say": "Can you pull me a roster from Campus H R with names, titles, and managers for Monday's org chart? Make sure Noor is on it."
+    },
+    {
+      "id": "open.q_search_firm",
+      "speaker": "dir_park",
+      "text": "Can you open a requisition so my search firm can get started?"
+    },
+    {
+      "id": "open.retro_costing",
+      "speaker": "emp_chen",
+      "text": "Lena's September pay charged 100% to our department, and the grant should have paid half. Can we still fix it, or is September a lost cause?",
+      "say": "Lena's September pay charged one hundred percent to our department, and the grant should have paid half. Can we still fix it, or is September a lost cause?"
+    },
+    {
+      "id": "open.q_find_person",
+      "speaker": "coach",
+      "text": "Four Kowalskis came back. How do you make sure you open the right one?"
+    },
+    {
+      "id": "open.retro",
+      "speaker": "mgr_bell",
+      "text": "Jordan's raise finally came through. The approval letter's attached. Can you get it in before Friday's cutoff?"
+    },
+    {
+      "id": "open.q_second_job",
+      "speaker": "mgr_bell",
+      "text": "She already works here. Do I hire her into the program job like anyone else?"
+    },
+    {
+      "id": "open.term_end",
+      "speaker": "ec_menon",
+      "text": "Dev Patel still shows active and payable in your office, but his summer work ended in August. Can you close that out this week?"
+    },
+    {
+      "id": "open.transfer",
+      "speaker": "rec_nguyen",
+      "text": "Sam accepted our Data Assistant II offer in the other school, effective Sun Nov 8. I wanted you to hear it from me first.",
+      "say": "Sam accepted our Data Assistant II offer in the other school, effective Sunday, November eighth. I wanted you to hear it from me first."
+    },
+    {
+      "id": "open.q_union",
+      "speaker": "mgr_bell",
+      "text": "If it is union, can I still offer a couple of dollars over the contract rate to get someone good?"
+    },
+    {
+      "id": "open.q_cutoff_timing",
+      "speaker": "mgr_bell",
+      "text": "Cutoff's Friday at five, right? So if I send you changes Friday afternoon, they still make this payroll?"
+    },
+    {
+      "id": "open.q_faculty_start",
+      "speaker": "dir_park",
+      "text": "Our new lecturer wants to start Nov 2, but her background check isn't back. Faculty don't need one, right?",
+      "say": "Our new lecturer wants to start November second, but her background check isn't back. Faculty don't need one, right?"
+    },
+    {
+      "id": "open.q_ukg_employee",
+      "speaker": "emp_okafor",
+      "text": "My time card is all filled in through today. Should I hit Submit now, so it's in before the weekend?"
+    },
+    {
+      "id": "open.faculty_supplement",
+      "speaker": "dir_park",
+      "text": "Samuel is leading our workshop series through December. Put him on a staff supplement, $500 a month, starting this month.",
+      "say": "Samuel is leading our workshop series through December. Put him on a staff supplement, five hundred dollars a month, starting this month."
+    },
+    {
+      "id": "open.q_reclass",
+      "speaker": "mgr_ortiz",
+      "text": "Do we build Lena a new position for this, or is it a change to the one she's in?"
+    },
+    {
+      "id": "open.q_reorg_move",
+      "speaker": "mgr_ortiz",
+      "text": "Sam's move went through central recruiting. Does my January move go to them too?"
     },
     {
       "id": "open.reminder",
@@ -81,9 +304,95 @@
       "text": "Your weekly check turned up three exceptions. Remember, managers review their own team's time. Spot the problem, get it to the right manager, and help them fix it."
     },
     {
-      "id": "open.retro",
+      "id": "open.q_ny_posting",
+      "speaker": "dir_park",
+      "text": "Does the posting have to show a pay range? We usually leave pay off."
+    },
+    {
+      "id": "open.offcycle",
+      "speaker": "pay_liu",
+      "text": "Marcus Bell's retention increase failed in CampusHR after it was approved. His September pay used his old salary, and October's will too. Get me what I need by Friday at noon, and I can pay him in this week's off-cycle run.",
+      "say": "Marcus Bell's retention increase failed in Campus H R after it was approved. His September pay used his old salary, and October's will too. Get me what I need by Friday at noon, and I can pay him in this week's off-cycle run."
+    },
+    {
+      "id": "open.ferpa",
+      "speaker": "caller",
+      "text": "Hi, I'm Maya Brooks's parent, and she isn't answering her phone. Can you look up her class schedule so I know when to reach her?"
+    },
+    {
+      "id": "open.q_supplement",
+      "speaker": "dir_park",
+      "text": "Marcus will cover extra duties while I chair a campus task force, $800 a month. Nobody knows when it ends. What end date goes in?",
+      "say": "Marcus will cover extra duties while I chair a campus task force, eight hundred dollars a month. Nobody knows when it ends. What end date goes in?"
+    },
+    {
+      "id": "open.newhire_costing",
+      "speaker": "emp_chen",
+      "text": "Noor's position is half Wellness grant, and her costing looks blank to me. Is that a problem before Monday?"
+    },
+    {
+      "id": "open.resign",
+      "speaker": "emp_brennan",
+      "text": "I sent Dana my resignation this morning. My last day here is Friday the 30th, but I'm keeping my teaching job in the School of Education.",
+      "say": "I sent Dana my resignation this morning. My last day here is Friday the thirtieth, but I'm keeping my teaching job in the School of Education."
+    },
+    {
+      "id": "open.q_emeritus",
+      "speaker": "mgr_ortiz",
+      "text": "A professor with a joint appointment here retires in December and becomes emeritus. Can you reuse her faculty position for that?"
+    },
+    {
+      "id": "open.q_contractor",
+      "speaker": "dir_park",
+      "text": "She'd rather invoice us as a contractor. That's simpler for everyone, isn't it?"
+    },
+    {
+      "id": "open.q_misconduct",
       "speaker": "mgr_bell",
-      "text": "Jordan's raise finally came through. The approval letter's attached. Can you get it in before Friday's cutoff?"
+      "text": "If I had to fire someone for misconduct, could you terminate them today and cut their access right away?"
+    },
+    {
+      "id": "open.doc_record",
+      "speaker": "mgr_bell",
+      "text": "Here's Jordan's signed raise letter, plus the unsigned draft. Do these go to payroll for his back pay, or what?"
+    },
+    {
+      "id": "open.q_ferdc",
+      "speaker": "mgr_bell",
+      "text": "I got a form for a FERDC appointment starting in January. Can you set it up like Dr. Osei's record?",
+      "say": "I got a form for an F E R D C appointment starting in January. Can you set it up like Doctor Osei's record?"
+    },
+    {
+      "id": "open.out_of_state",
+      "speaker": "mgr_bell",
+      "text": "Good news: Noor's moving to Illinois in January, and I told her she can work remotely from there. Anything you need from me?"
+    },
+    {
+      "id": "open.q_state_leave",
+      "speaker": "mgr_bell",
+      "text": "Noor wants to know if Illinois sick leave rules will apply to her. What should I tell her?"
+    },
+    {
+      "id": "open.transfer_costing",
+      "speaker": "emp_chen",
+      "text": "Once Sam moves on November 8, our account stops paying for him on its own, right? I just want to be sure.",
+      "say": "Once Sam moves on November eighth, our account stops paying for him on its own, right? I just want to be sure."
+    },
+    {
+      "id": "open.leave_return",
+      "speaker": "emp_rivera",
+      "text": "I'm back at work Monday. Marcus says CampusHR still shows me on leave, so he told me to check with you.",
+      "say": "I'm back at work Monday. Marcus says Campus H R still shows me on leave, so he told me to check with you."
+    },
+    {
+      "id": "open.q_rif_notice",
+      "speaker": "dir_park",
+      "text": "If we eliminate a position, how much notice do we owe, and when is the person's last day?"
+    },
+    {
+      "id": "open.q_costing_report",
+      "speaker": "emp_chen",
+      "text": "Is there one report that shows costing for everyone in our office, or do we open each record?"
     },
     {
       "id": "open.approvals",
@@ -91,9 +400,20 @@
       "text": "It's Monday, and time cards are due at noon. Marcus still has three waiting on him."
     },
     {
+      "id": "open.i9",
+      "speaker": "coach",
+      "text": "Noor's here at nine, and it's time card morning too. What has to happen for her today, and what can wait?"
+    },
+    {
       "id": "open.finalcheck",
       "speaker": "coach",
       "text": "Before payroll signs off at noon, check the totals one more time. Lena updated her time card Thursday night."
+    },
+    {
+      "id": "open.q_withdraw",
+      "speaker": "mgr_ortiz",
+      "text": "My Nov 6 day off is approved, but now I have to work that day. Can you just delete it?",
+      "say": "My November sixth day off is approved, but now I have to work that day. Can you just delete it?"
     },
     {
       "id": "open.escalate",
@@ -101,9 +421,31 @@
       "text": "Marcus just set his out of office. He's out sick today, and his team's time cards are still waiting."
     },
     {
+      "id": "open.q_signon",
+      "speaker": "rec_nguyen",
+      "text": "Noor's offer letter promised a $1,000 sign-on bonus, but I left it off her offer in CampusHR. Can you add it on your side?",
+      "say": "Noor's offer letter promised a one thousand dollar sign-on bonus, but I left it off her offer in Campus H R. Can you add it on your side?"
+    },
+    {
       "id": "open.headcount",
       "speaker": "dir_park",
       "text": "I have a budget meeting at eleven, and I need a headcount report for the department. Can you have it to me in an hour?"
+    },
+    {
+      "id": "spoken.fmla.dana",
+      "speaker": "mgr_ortiz",
+      "text": "Priya says she'll need some time off next week. Is everything okay? What's going on with her?"
+    },
+    {
+      "id": "spoken.bell.fix",
+      "speaker": "mgr_ortiz",
+      "text": "Hold on, it says Asistant, with one s. Can we fix that?"
+    },
+    {
+      "id": "spoken.report_date.noor",
+      "speaker": "dir_park",
+      "text": "If Noor isn't in CampusHR yet, just type her in. The chart can't miss her.",
+      "say": "If Noor isn't in Campus H R yet, just type her in. The chart can't miss her."
     },
     {
       "id": "spoken.timecards.nair_ot",
@@ -112,9 +454,189 @@
       "say": "Priya put down forty-four hours in week one, and I never approved overtime. Can I just change her time to forty?"
     },
     {
+      "id": "spoken.ferpa.pay",
+      "speaker": "caller",
+      "text": "Fine. Then just tell me how many hours she worked for you and what she's being paid."
+    },
+    {
       "id": "hint.calendar",
       "speaker": "coach",
-      "text": "Transactions and time cards don't share a deadline. One of them closes before the pay period even ends."
+      "text": "Which calendar pays this worker? Start there, then find the cutoff on that calendar."
+    },
+    {
+      "id": "hint.q_observer",
+      "speaker": "coach",
+      "text": "Which setup is built for people the office never pays, and what does that setup leave out?"
+    },
+    {
+      "id": "hint.start_early",
+      "speaker": "coach",
+      "text": "What has to arrive before anyone can start work here, and what do you do once it comes?"
+    },
+    {
+      "id": "hint.fmla",
+      "speaker": "coach",
+      "text": "Who decides whether a leave like this is protected, and what clock starts once the office hears about it?"
+    },
+    {
+      "id": "hint.q_resign_dates",
+      "speaker": "coach",
+      "text": "A resignation has two key dates. What does each one mark?"
+    },
+    {
+      "id": "hint.gift_card",
+      "speaker": "coach",
+      "text": "If Maya did work the office directed, what does that make her, and how does anyone in that role get paid?"
+    },
+    {
+      "id": "hint.position_new",
+      "speaker": "coach",
+      "text": "What could an old position carry into a new hire, and what does central HR need to see before it approves a staff position?"
+    },
+    {
+      "id": "hint.q_two_assignments",
+      "speaker": "coach",
+      "text": "Where does a manager live in CampusHR: on the person, or somewhere more specific?",
+      "say": "Where does a manager live in Campus H R: on the person, or somewhere more specific?"
+    },
+    {
+      "id": "hint.exempt_pto",
+      "speaker": "coach",
+      "text": "What does Mei's pay type tell you about where her time off belongs, and who has to act before it counts?"
+    },
+    {
+      "id": "hint.q_expense",
+      "speaker": "coach",
+      "text": "Is this student being paid for work, or only paid back for what she spent?"
+    },
+    {
+      "id": "hint.confidential",
+      "speaker": "coach",
+      "text": "If this spreadsheet landed in the wrong inbox, what would be in it?"
+    },
+    {
+      "id": "hint.q_business_title",
+      "speaker": "coach",
+      "text": "What does a six-digit job code bring with it, besides a pay range?"
+    },
+    {
+      "id": "hint.bell",
+      "speaker": "coach",
+      "text": "Before you redo anything, what would tell you where the first change is right now?"
+    },
+    {
+      "id": "hint.q_rehire",
+      "speaker": "coach",
+      "text": "Where did that No come from, and who has to look at it with you?"
+    },
+    {
+      "id": "hint.q_manager_leaves",
+      "speaker": "coach",
+      "text": "What happens to approvals while a team is still attached to someone who is gone?"
+    },
+    {
+      "id": "hint.hours",
+      "speaker": "coach",
+      "text": "What does payroll pay from, and who changes it? Then look at Aisha's calendar: when does her next pay period start?"
+    },
+    {
+      "id": "hint.q_home_office",
+      "speaker": "coach",
+      "text": "Is $500 what Mei takes home, or what she's paid before taxes? And which payroll month can it still make?",
+      "say": "Is five hundred dollars what Mei takes home, or what she's paid before taxes? And which payroll month can it still make?"
+    },
+    {
+      "id": "hint.intern",
+      "speaker": "coach",
+      "text": "In this setup, who gets the most out of it: the student or the office?"
+    },
+    {
+      "id": "hint.q_stipend",
+      "speaker": "coach",
+      "text": "Does the fellow do any work for the money? Which setup fits a payment with no services?"
+    },
+    {
+      "id": "hint.report_date",
+      "speaker": "coach",
+      "text": "CampusHR keeps every change with a date. Which date is Dr. Park's chart about?",
+      "say": "Campus H R keeps every change with a date. Which date is Dr. Park's chart about?"
+    },
+    {
+      "id": "hint.q_search_firm",
+      "speaker": "coach",
+      "text": "How does an outside firm get paid, and who should hear about an executive search first?"
+    },
+    {
+      "id": "hint.retro_costing",
+      "speaker": "coach",
+      "text": "In the History, which record is wrong, and for how much of its range? Then check the calendar for the cutoff that applies to periods already paid."
+    },
+    {
+      "id": "hint.q_find_person",
+      "speaker": "coach",
+      "text": "Names and titles repeat across campus. What does CampusHR give each person that never repeats?",
+      "say": "Names and titles repeat across campus. What does Campus H R give each person that never repeats?"
+    },
+    {
+      "id": "hint.retro",
+      "speaker": "coach",
+      "text": "The approval letter answers both fields. Copy, don't calculate. Then check: which cutoff applies to a backdated change?"
+    },
+    {
+      "id": "hint.convert",
+      "speaker": "coach",
+      "text": "Payroll can only pay what your hire record says. What does a non-exempt hire need on hers?"
+    },
+    {
+      "id": "hint.q_second_job",
+      "speaker": "coach",
+      "text": "What does her record already have, and what should the new job get of its own?"
+    },
+    {
+      "id": "hint.term_end",
+      "speaker": "coach",
+      "text": "Is Dev leaving every job he has, or only yours? And when did his work with you really stop?"
+    },
+    {
+      "id": "hint.transfer",
+      "speaker": "coach",
+      "text": "How did Sam's move start, and who owns moves that start that way? Then ask what is really happening to his job."
+    },
+    {
+      "id": "hint.q_union",
+      "speaker": "coach",
+      "text": "If a contract covers this job, who set its pay, and who can change it?"
+    },
+    {
+      "id": "hint.q_cutoff_timing",
+      "speaker": "coach",
+      "text": "Picture the change at 4:59 PM Friday. Who still has to touch it?",
+      "say": "Picture the change at four fifty-nine P M Friday. Who still has to touch it?"
+    },
+    {
+      "id": "hint.q_faculty_start",
+      "speaker": "coach",
+      "text": "Which worker types skip the background check, and is faculty one of them?"
+    },
+    {
+      "id": "hint.q_ukg_employee",
+      "speaker": "coach",
+      "text": "Is the pay period over yet? What happens if Sam submits now and then works Thursday and Friday?"
+    },
+    {
+      "id": "hint.faculty_supplement",
+      "speaker": "coach",
+      "text": "What kind of worker is Dr. Osei, and which payments and which calendar fit that kind of worker?"
+    },
+    {
+      "id": "hint.q_reclass",
+      "speaker": "coach",
+      "text": "Is this a new role, or the same role changing? And what does a position push to the person in it?"
+    },
+    {
+      "id": "hint.q_reorg_move",
+      "speaker": "coach",
+      "text": "Compare how this move started with how Sam's started. Then ask which action is built for a change of position."
     },
     {
       "id": "hint.reminder",
@@ -127,14 +649,102 @@
       "text": "For each exception, ask: whose employee is this, and what does that manager need from you to fix it?"
     },
     {
-      "id": "hint.retro",
+      "id": "hint.q_ny_posting",
       "speaker": "coach",
-      "text": "The approval letter answers both fields. Copy, don't calculate. Then make sure it's in before Friday's cutoff."
+      "text": "What does the location on a position decide for its posting?"
+    },
+    {
+      "id": "hint.offcycle",
+      "speaker": "coach",
+      "text": "Payroll can only pay what's on the record. What has to be on Marcus's record before Grace can pay him?"
+    },
+    {
+      "id": "hint.ferpa",
+      "speaker": "coach",
+      "text": "Maya is a college student. Who decides what her school shares about her?"
+    },
+    {
+      "id": "hint.q_supplement",
+      "speaker": "coach",
+      "text": "A recurring payment keeps paying until something stops it. If nobody knows the end date, what stops this one?"
+    },
+    {
+      "id": "hint.newhire_costing",
+      "speaker": "coach",
+      "text": "What does CampusHR charge when an assignment has no costing? And on what date does Noor's record begin?",
+      "say": "What does Campus H R charge when an assignment has no costing? And on what date does Noor's record begin?"
+    },
+    {
+      "id": "hint.resign",
+      "speaker": "coach",
+      "text": "Count Kai's jobs. Which one is he leaving, which one is primary, and what kind of pay calendar is he on?"
+    },
+    {
+      "id": "hint.q_emeritus",
+      "speaker": "coach",
+      "text": "Is Vanderbilt's emeritus setup written down yet? And can a position ever move between worker types?"
+    },
+    {
+      "id": "hint.q_contractor",
+      "speaker": "coach",
+      "text": "Look past the label. Who decides how, when, and where this work gets done?"
+    },
+    {
+      "id": "hint.q_misconduct",
+      "speaker": "coach",
+      "text": "Two settings carry the most risk in this kind of exit. Should you decide them alone?"
+    },
+    {
+      "id": "hint.doc_record",
+      "speaker": "coach",
+      "text": "Read the letter closely. Which date is about the raise, and which is about the letter?"
+    },
+    {
+      "id": "hint.q_ferdc",
+      "speaker": "coach",
+      "text": "Do you know yet what a FERDC appointment is and how it's set up? Who would?",
+      "say": "Do you know yet what an F E R D C appointment is and how it's set up? Who would?"
+    },
+    {
+      "id": "hint.out_of_state",
+      "speaker": "coach",
+      "text": "Which rules follow a person to the state where they actually work, and who needs to hear about it before the move?"
+    },
+    {
+      "id": "hint.q_state_leave",
+      "speaker": "coach",
+      "text": "Whose rules apply to someone who works in another state, and who runs those programs?"
+    },
+    {
+      "id": "hint.transfer_costing",
+      "speaker": "coach",
+      "text": "When someone changes business units, does their costing reset or travel with them? And on which day does a pay period end?"
+    },
+    {
+      "id": "hint.leave_return",
+      "speaker": "coach",
+      "text": "When his absence ended, did anything change his assignment status? Which record tells payroll he's working?"
+    },
+    {
+      "id": "hint.q_rif_notice",
+      "speaker": "coach",
+      "text": "Which date starts the notice clock in a reduction in force, and how long does it run?"
+    },
+    {
+      "id": "hint.q_costing_report",
+      "speaker": "coach",
+      "text": "Is this a question about one person, or about a whole area? Which tools fit each?"
     },
     {
       "id": "hint.approvals",
       "speaker": "coach",
       "text": "You can make it easy for Marcus. You can't do it for him."
+    },
+    {
+      "id": "hint.i9",
+      "speaker": "coach",
+      "text": "Which part of the I-9 is Noor's own, and when does each deadline start counting?",
+      "say": "Which part of the I nine is Noor's own, and when does each deadline start counting?"
     },
     {
       "id": "hint.finalcheck",
@@ -143,9 +753,20 @@
       "say": "A normal two weeks is about eighty hours. Look for anything far from that."
     },
     {
+      "id": "hint.q_withdraw",
+      "speaker": "coach",
+      "text": "How do you make an approved absence stop counting, without leaving a second record behind?"
+    },
+    {
       "id": "hint.escalate",
       "speaker": "coach",
       "text": "Whose job is it when the approver can't approve?"
+    },
+    {
+      "id": "hint.q_signon",
+      "speaker": "coach",
+      "text": "Is a bonus part of base pay? And is $1,000 what she takes home, or what she's paid before taxes?",
+      "say": "Is a bonus part of base pay? And is one thousand dollars what she takes home, or what she's paid before taxes?"
     },
     {
       "id": "hint.headcount",
@@ -163,6 +784,551 @@
       "text": "Quick warm-up before the clock starts. This one isn't scored."
     },
     {
+      "id": "pay.calendar.exempt.oct30",
+      "speaker": "mgr_ortiz",
+      "text": "You said my adjustment would be on this check. It isn't, and I'd already planned around it."
+    },
+    {
+      "id": "pay.calendar.exempt.lost",
+      "speaker": "mgr_ortiz",
+      "text": "Compensation says October isn't lost at all. It comes as retro in November. Why did you tell me it was?"
+    },
+    {
+      "id": "pay.start_early.start.start_wed",
+      "speaker": "new_haddad",
+      "text": "I worked Wednesday through Friday before my official start, and none of it was on a time card. Am I getting paid for those days?"
+    },
+    {
+      "id": "pay.start_early.start.volunteer",
+      "speaker": "new_haddad",
+      "text": "Marcus asked me to come in and shadow before my start date, and I worked three full days. Nobody said that wasn't paid."
+    },
+    {
+      "id": "pay.fmla.route.leave_team",
+      "speaker": "emp_nair",
+      "text": "Carmen called me the same day and walked me through everything before Dad's surgery. That was one less thing to worry about."
+    },
+    {
+      "id": "pay.fmla.route.diagnosis",
+      "speaker": "emp_nair",
+      "text": "I didn't want to explain my dad's surgery at the HR desk. It felt like I had to prove he was sick enough."
+    },
+    {
+      "id": "pay.fmla.route.pto_dana",
+      "speaker": "mgr_ortiz",
+      "text": "Priya's been out twice this week for her dad, and I've been counting it as PTO. Nobody told me it might be FMLA."
+    },
+    {
+      "id": "pay.fmla.route.no_reply",
+      "speaker": "leave_ruiz",
+      "text": "Priya says she asked your office about leave on Oct 19 and never heard back. The notice deadline has passed.",
+      "say": "Priya says she asked your office about leave on October nineteenth and never heard back. The notice deadline has passed."
+    },
+    {
+      "id": "pay.fmla.record.one_block",
+      "speaker": "emp_nair",
+      "text": "My leave record says I'm out for a whole month, but I've only missed two days. Am I using up my leave?"
+    },
+    {
+      "id": "pay.fmla.record.at_end",
+      "speaker": "leave_ruiz",
+      "text": "Priya was out two days this week and none of it is recorded. I can't track her protected time if it only shows up at the end."
+    },
+    {
+      "id": "pay.fmla.dana.surgery",
+      "speaker": "emp_nair",
+      "text": "Dana asked how my dad's surgery went in front of the whole team. I never told her about it."
+    },
+    {
+      "id": "pay.fmla.dana.ask_priya",
+      "speaker": "emp_nair",
+      "text": "Dana asked me what kind of surgery my dad is having before she'd okay my days off. I felt like I had to justify it."
+    },
+    {
+      "id": "pay.gift_card.pay.gift",
+      "speaker": "emp_chen",
+      "text": "There's a $150 gift card on the event budget for Maya. If it paid for her hours, that's wages outside payroll, and I can't book it as a thank you.",
+      "say": "There's a one hundred fifty dollar gift card on the event budget for Maya. If it paid for her hours, that's wages outside payroll, and I can't book it as a thank you."
+    },
+    {
+      "id": "pay.gift_card.pay.expense",
+      "speaker": "ec_menon",
+      "text": "Maya's Student Expense Only record paid her for 12 hours of work. That setup isn't for wages, and she has no I-9.",
+      "say": "Maya's Student Expense Only record paid her for twelve hours of work. That setup isn't for wages, and she has no I nine."
+    },
+    {
+      "id": "pay.gift_card.pay.stipend",
+      "speaker": "ec_menon",
+      "text": "Maya's record says service free stipend, but she worked 12 hours at the event. That's an employee with no I-9.",
+      "say": "Maya's record says service free stipend, but she worked twelve hours at the event. That's an employee with no I nine."
+    },
+    {
+      "id": "pay.gift_card.record.add_assign",
+      "speaker": "pay_liu",
+      "text": "Maya's paid job is sitting under her student record, not an employee relationship. Payroll can't pay her hours like that."
+    },
+    {
+      "id": "pay.gift_card.record.new_person",
+      "speaker": "pay_liu",
+      "text": "Maya has two person records now, one as a student and one as an employee. We have to merge them before her pay is right."
+    },
+    {
+      "id": "pay.gift_card.record.not_set_up",
+      "speaker": "stu_brooks",
+      "text": "Aisha said I'd get paid for the event, but nobody ever set me up."
+    },
+    {
+      "id": "pay.gift_card.checks.i9_bg",
+      "speaker": "emp_grant",
+      "text": "Maya couldn't work this week's event because she was waiting on a background check. I thought student workers didn't need one."
+    },
+    {
+      "id": "pay.gift_card.checks.none",
+      "speaker": "ec_menon",
+      "text": "Maya has worked two events now with no I-9 on file. Every paid employee needs one, students too.",
+      "say": "Maya has worked two events now with no I nine on file. Every paid employee needs one, students too."
+    },
+    {
+      "id": "pay.position_new.build.reactivate",
+      "speaker": "mgr_ortiz",
+      "text": "Central HR sent the old Events Coordinator position back because of its job code. We lost two weeks, and there's still no posting."
+    },
+    {
+      "id": "pay.position_new.build.update_old",
+      "speaker": "mgr_ortiz",
+      "text": "Central HR couldn't approve the update to the old position because of its retired job code. Now we're starting over with a new one."
+    },
+    {
+      "id": "pay.position_new.build.no_action",
+      "speaker": "mgr_ortiz",
+      "text": "I asked about the Events Coordinator role on Monday. A week later, nothing has been requested."
+    },
+    {
+      "id": "pay.position_new.hours.std30",
+      "speaker": "emp_chen",
+      "text": "The Events Coordinator position shows 1.0 FTE. I budgeted 0.75 for it, so my numbers don't match.",
+      "say": "The Events Coordinator position shows one point oh F T E. I budgeted point seven five for it, so my numbers don't match."
+    },
+    {
+      "id": "pay.position_new.hours.full",
+      "speaker": "mgr_ortiz",
+      "text": "The Events Coordinator position says 40 hours a week. If it posts that way, candidates will expect a full-time job.",
+      "say": "The Events Coordinator position says forty hours a week. If it posts that way, candidates will expect a full-time job."
+    },
+    {
+      "id": "pay.position_new.req.three",
+      "speaker": "emp_chen",
+      "text": "There's a recruiting charge for three Events Coordinator openings. We have budget for one."
+    },
+    {
+      "id": "pay.position_new.req.unlimited",
+      "speaker": "rec_nguyen",
+      "text": "The Events Coordinator requisition came in as Unlimited with a United States location. I sent it back, so the posting slipped a week."
+    },
+    {
+      "id": "pay.exempt_pto.system.timecard",
+      "speaker": "pay_liu",
+      "text": "Mei is exempt, but her Friday off showed up on the time card system. It doesn't belong there, and her CampusHR balance never changed.",
+      "say": "Mei is exempt, but her Friday off showed up on the time card system. It doesn't belong there, and her Campus H R balance never changed."
+    },
+    {
+      "id": "pay.exempt_pto.system.email_payroll",
+      "speaker": "pay_liu",
+      "text": "I got an email about Mei's Friday off, but payroll doesn't enter absences. Nothing was ever recorded."
+    },
+    {
+      "id": "pay.exempt_pto.system.no_record",
+      "speaker": "mgr_ortiz",
+      "text": "Mei was out Friday and there's no absence on file. Her balance still shows that day."
+    },
+    {
+      "id": "pay.exempt_pto.approval.chase",
+      "speaker": "emp_chen",
+      "text": "My Friday off was approved before I left, and my balance is right. Easy."
+    },
+    {
+      "id": "pay.exempt_pto.approval.all_set",
+      "speaker": "emp_chen",
+      "text": "My Friday off still says Awaiting approval. Did it ever count, or do I still have that day?"
+    },
+    {
+      "id": "pay.exempt_pto.approval.enter_again",
+      "speaker": "emp_chen",
+      "text": "My balance went down two days for one Friday off."
+    },
+    {
+      "id": "pay.exempt_pto.approval.card_too",
+      "speaker": "pay_liu",
+      "text": "Mei's day off is in CampusHR and on the time card system. She's exempt, so the time card entry has to come off.",
+      "say": "Mei's day off is in Campus H R and on the time card system. She's exempt, so the time card entry has to come off."
+    },
+    {
+      "id": "pay.confidential.send.minimum",
+      "speaker": "dir_park",
+      "text": "The grant report went in on time, and nobody's Social Security number left this office. Good call."
+    },
+    {
+      "id": "pay.confidential.send.password",
+      "speaker": "dir_park",
+      "text": "I forwarded your file to the grant office with the password right below it. Now I'm told that's a data incident."
+    },
+    {
+      "id": "pay.confidential.send.confirm_sender",
+      "speaker": "mgr_ortiz",
+      "text": "Dr. Park forwarded me the grant file to check the budget lines. Why do I have everyone's Social Security numbers?"
+    },
+    {
+      "id": "pay.confidential.send.no_reply",
+      "speaker": "dir_park",
+      "text": "I asked for the grant data Monday and never heard back. I had to ask the funder for more time."
+    },
+    {
+      "id": "pay.confidential.build.hide",
+      "speaker": "emp_chen",
+      "text": "Dr. Park passed me your grant file, and the hidden columns had everyone's home address. I shouldn't be able to see that."
+    },
+    {
+      "id": "pay.confidential.build.export_all",
+      "speaker": "dir_park",
+      "text": "Your grant file still had home addresses in a column way off to the right. I almost sent it to the funder."
+    },
+    {
+      "id": "pay.bell.track.reenter",
+      "speaker": "dir_park",
+      "text": "I had two identical title changes for Sam in my queue. Which one was I supposed to approve?"
+    },
+    {
+      "id": "pay.bell.track.payroll",
+      "speaker": "emp_okafor",
+      "text": "My new title still isn't on anything. Dana told me it was done last week."
+    },
+    {
+      "id": "pay.bell.track.no_check",
+      "speaker": "mgr_ortiz",
+      "text": "Sam's title still says Receptionist. Is anyone looking at this?"
+    },
+    {
+      "id": "pay.bell.fix.withdraw",
+      "speaker": "emp_okafor",
+      "text": "My new title showed up, spelled right. Thanks for catching that."
+    },
+    {
+      "id": "pay.bell.fix.leave",
+      "speaker": "emp_okafor",
+      "text": "The org chart says I'm an Office Asistant 2. Can someone fix that before more people see it?",
+      "say": "The org chart says I'm an Office Asistant two. Can someone fix that before more people see it?"
+    },
+    {
+      "id": "pay.bell.fix.reject",
+      "speaker": "dir_park",
+      "text": "You asked me to reject Sam's title change so you could fix a typo. You can pull those back yourself, can't you?"
+    },
+    {
+      "id": "pay.q_rehire.rehire.ask_ravi",
+      "speaker": "ec_menon",
+      "text": "I was asked to flip a rehire field from No to Yes so an offer could go out. That needs a review, not an edit."
+    },
+    {
+      "id": "pay.hours.how.change_salary",
+      "speaker": "mgr_bell",
+      "text": "Aisha pulled up her record and it still says 40 hours a week. Didn't we change that last week?",
+      "say": "Aisha pulled up her record and it still says forty hours a week. Didn't we change that last week?"
+    },
+    {
+      "id": "pay.hours.how.email_payroll",
+      "speaker": "pay_liu",
+      "text": "I got your email about Aisha, but her record still says 40 hours. I can't change assignments; that has to come from you.",
+      "say": "I got your email about Aisha, but her record still says forty hours. I can't change assignments; that has to come from you."
+    },
+    {
+      "id": "pay.hours.effective.oct25",
+      "speaker": "emp_grant",
+      "text": "My new schedule started Sunday, and my record already shows 30 hours. That was painless.",
+      "say": "My new schedule started Sunday, and my record already shows thirty hours. That was painless."
+    },
+    {
+      "id": "pay.hours.effective.oct26",
+      "speaker": "pay_liu",
+      "text": "Aisha's hours change starts on a Monday, one day into the period. Can you move it to Sunday so her record lines up with the pay period?"
+    },
+    {
+      "id": "pay.hours.effective.nov1",
+      "speaker": "mgr_bell",
+      "text": "Aisha's been on 30 hours since Sunday, but her record says the change starts November 1. Which one is right?",
+      "say": "Aisha's been on thirty hours since Sunday, but her record says the change starts November first. Which one is right?"
+    },
+    {
+      "id": "pay.hours.effective.not_entered",
+      "speaker": "mgr_bell",
+      "text": "Aisha started her new schedule Sunday, and her record still says 40 hours. I sent it to you on the 20th.",
+      "say": "Aisha started her new schedule Sunday, and her record still says forty hours. I sent it to you on the twentieth."
+    },
+    {
+      "id": "pay.hours.standard.set30",
+      "speaker": "emp_chen",
+      "text": "Aisha still shows as 1.0 FTE on my budget report. Isn't she on 30 hours now?",
+      "say": "Aisha still shows as one point oh F T E on my budget report. Isn't she on thirty hours now?"
+    },
+    {
+      "id": "pay.hours.standard.comment",
+      "speaker": "mgr_bell",
+      "text": "Aisha's record still says 40 hours a week. I thought you changed it last week.",
+      "say": "Aisha's record still says forty hours a week. I thought you changed it last week."
+    },
+    {
+      "id": "pay.intern.pay.unpaid_terms",
+      "speaker": "dir_park",
+      "text": "Ravi says my unpaid internship could turn into a wage claim, even with credit and a waiver. I wish I'd known before I talked to the student."
+    },
+    {
+      "id": "pay.intern.pay.stipend",
+      "speaker": "pay_liu",
+      "text": "Dr. Park's office asked how to pay a spring intern a stipend for data entry. That's wages, so she has to be hired and paid through payroll."
+    },
+    {
+      "id": "pay.intern.pay.no_answer",
+      "speaker": "dir_park",
+      "text": "I never heard back about the intern, so I told her it's unpaid. Now Ravi says that's a problem."
+    },
+    {
+      "id": "pay.intern.setup.affiliate",
+      "speaker": "ec_menon",
+      "text": "The spring intern is set up as a non-worker with Active no payroll. She'd work all spring and never see a paycheck."
+    },
+    {
+      "id": "pay.intern.setup.payroll",
+      "speaker": "pay_liu",
+      "text": "I got a request to set up a spring intern. Payroll doesn't create hires, so that one's back with you."
+    },
+    {
+      "id": "pay.report_date.asof.today",
+      "speaker": "new_haddad",
+      "text": "My first day, and I was the only person in the room who wasn't on the org chart."
+    },
+    {
+      "id": "pay.report_date.asof.oct25",
+      "speaker": "dir_park",
+      "text": "Your roster was one day short. Noor started Monday and wasn't on my chart."
+    },
+    {
+      "id": "pay.report_date.asof.not_sent",
+      "speaker": "dir_park",
+      "text": "I built the org chart from last year's list because the roster never came."
+    },
+    {
+      "id": "pay.report_date.noor.rerun",
+      "speaker": "new_haddad",
+      "text": "I was already on the org chart on my first day. It made me feel expected."
+    },
+    {
+      "id": "pay.report_date.noor.type_in",
+      "speaker": "emp_chen",
+      "text": "I used your roster to plan the grant budget, and it doesn't match CampusHR. Which one is right?",
+      "say": "I used your roster to plan the grant budget, and it doesn't match Campus H R. Which one is right?"
+    },
+    {
+      "id": "pay.report_date.noor.direct_hire",
+      "speaker": "new_haddad",
+      "text": "I got two welcome emails with two different employee numbers. Which one is me?"
+    },
+    {
+      "id": "pay.report_date.save.overwrite",
+      "speaker": "coach",
+      "text": "The roster report I run every Monday lost half its columns. Did you save over it?"
+    },
+    {
+      "id": "pay.report_date.save.no_save",
+      "speaker": "dir_park",
+      "text": "Friday's version of the roster had home addresses on it. I only needed names and titles."
+    },
+    {
+      "id": "pay.retro_costing.action.end_date",
+      "speaker": "emp_chen",
+      "text": "Now Lena's October pay charged 100% to us too. The grant split is gone from her record.",
+      "say": "Now Lena's October pay charged one hundred percent to us too. The grant split is gone from her record."
+    },
+    {
+      "id": "pay.retro_costing.action.delete",
+      "speaker": "emp_chen",
+      "text": "Lena's September still shows 100% on our account. The grant never picked up its half.",
+      "say": "Lena's September still shows one hundred percent on our account. The grant never picked up its half."
+    },
+    {
+      "id": "pay.retro_costing.retro.form",
+      "speaker": "emp_chen",
+      "text": "Research Finance moved half of Lena's September pay to the grant. Thank you for beating the cutoff."
+    },
+    {
+      "id": "pay.retro_costing.retro.payroll",
+      "speaker": "pay_liu",
+      "text": "We don't take costing fixes by email. Lena's September needs the retro costing form, and Wednesday's cutoff has passed."
+    },
+    {
+      "id": "pay.retro_costing.retro.nothing",
+      "speaker": "emp_chen",
+      "text": "Your fix shows in CampusHR, but September is still sitting on our budget. Did the retro form ever go in?",
+      "say": "Your fix shows in Campus H R, but September is still sitting on our budget. Did the retro form ever go in?"
+    },
+    {
+      "id": "pay.retro_costing.retro.late",
+      "speaker": "emp_chen",
+      "text": "We missed Wednesday's cutoff, so Lena's September fix waits another cycle. Now I have to explain that to Dana."
+    },
+    {
+      "id": "pay.retro.effective.sep27",
+      "speaker": "emp_reyes",
+      "text": "My raise and the back pay for September came through. Thank you for getting it in before the cutoff."
+    },
+    {
+      "id": "pay.retro.effective.oct11",
+      "speaker": "emp_reyes",
+      "text": "I was told my raise went back to September 27. The back pay isn't here.",
+      "say": "I was told my raise went back to September twenty-seventh. The back pay isn't here."
+    },
+    {
+      "id": "pay.retro.effective.today",
+      "speaker": "emp_reyes",
+      "text": "My raise only shows for the last few days. It was supposed to start September 27.",
+      "say": "My raise only shows for the last few days. It was supposed to start September twenty-seventh."
+    },
+    {
+      "id": "pay.retro.effective.not_entered",
+      "speaker": "mgr_bell",
+      "text": "I sent Jordan's raise Wednesday morning. Why isn't it on this check?"
+    },
+    {
+      "id": "pay.retro.rate.wrong",
+      "speaker": "emp_reyes",
+      "text": "My new rate on the pay stub doesn't match my letter."
+    },
+    {
+      "id": "pay.convert.method.quick",
+      "speaker": "pay_liu",
+      "text": "Noor came through Quick Convert, so nobody set her payroll details or checked her pay. I need that fixed before her first time card is due."
+    },
+    {
+      "id": "pay.convert.method.direct",
+      "speaker": "new_haddad",
+      "text": "HR called to ask which of my two records is the real one. I haven't even had my first paycheck yet."
+    },
+    {
+      "id": "pay.convert.method.not_converted",
+      "speaker": "new_haddad",
+      "text": "My first day, and nobody could find me in the system. I couldn't log in or clock in."
+    },
+    {
+      "id": "pay.convert.status.no_payroll",
+      "speaker": "new_haddad",
+      "text": "Payroll says my record is set to no payroll, and I worked my whole first week. Will I get paid?"
+    },
+    {
+      "id": "pay.convert.status.inactive",
+      "speaker": "new_haddad",
+      "text": "Marcus says my record shows inactive, but I've worked all week. What does that mean for my pay?"
+    },
+    {
+      "id": "pay.convert.payroll.monthly",
+      "speaker": "pay_liu",
+      "text": "Noor is set up on the monthly payroll with a salary, but she's non-exempt. Her hours and overtime can't pay that way, so we need it fixed before her first check."
+    },
+    {
+      "id": "pay.convert.payroll.no_card",
+      "speaker": "new_haddad",
+      "text": "I looked for my time card all week. There isn't one, so how do my hours get paid?"
+    },
+    {
+      "id": "pay.term_end.action.terminate",
+      "speaker": "stu_patel",
+      "text": "My research assistant pay stopped, and HR says your office terminated my employment. I still work in my school!"
+    },
+    {
+      "id": "pay.term_end.action.other_hcm",
+      "speaker": "ec_menon",
+      "text": "The other school's HCM says the summer job is yours, so it's still open. It came up on my audit again.",
+      "say": "The other school's H C M says the summer job is yours, so it's still open. It came up on my audit again."
+    },
+    {
+      "id": "pay.term_end.action.left_open",
+      "speaker": "dir_park",
+      "text": "Why is Dev Patel still on our headcount? He hasn't worked here since August."
+    },
+    {
+      "id": "pay.term_end.end_date.oct21",
+      "speaker": "dir_park",
+      "text": "Our September headcount still counts Dev Patel. His job ended in August, so our numbers are off."
+    },
+    {
+      "id": "pay.term_end.end_date.oct24",
+      "speaker": "dir_park",
+      "text": "Dev Patel shows as active through October on my report. He left in August."
+    },
+    {
+      "id": "pay.term_end.follow_up.resubmit",
+      "speaker": "ec_menon",
+      "text": "Dev's change went back to the start of the approval chain, and it's still waiting. He's still active and payable in your office."
+    },
+    {
+      "id": "pay.term_end.follow_up.wait",
+      "speaker": "ec_menon",
+      "text": "Dev's change sat with an approver all week, so he's still active and payable in your office."
+    },
+    {
+      "id": "pay.transfer.who.ravi",
+      "speaker": "ec_menon",
+      "text": "You asked me to submit Sam's transfer, but requisition moves go through central recruiting. Dana has been asking me where it stands."
+    },
+    {
+      "id": "pay.transfer.who.promote",
+      "speaker": "rec_nguyen",
+      "text": "Someone in your office entered a promotion for Sam. It blocked our transfer, and we had to back it out."
+    },
+    {
+      "id": "pay.transfer.who.no_reply",
+      "speaker": "mgr_ortiz",
+      "text": "I never heard back about Sam's move, so I didn't know what to tell him."
+    },
+    {
+      "id": "pay.transfer.end.terminate",
+      "speaker": "emp_okafor",
+      "text": "Tyler says my record shows a termination on November 7, and I'm transferring, not quitting. Is my insurance going to lapse?",
+      "say": "Tyler says my record shows a termination on November seventh, and I'm transferring, not quitting. Is my insurance going to lapse?"
+    },
+    {
+      "id": "pay.transfer.end.end_assignment",
+      "speaker": "rec_nguyen",
+      "text": "Your office tried to end Sam's assignment, and it held up his transfer while we sorted it out."
+    },
+    {
+      "id": "pay.faculty_supplement.method.staff_sup",
+      "speaker": "pay_liu",
+      "text": "I caught a staff supplement set up for Dr. Osei. Staff supplements aren't for faculty, so his workshop pay is on the wrong element."
+    },
+    {
+      "id": "pay.faculty_supplement.method.invoice",
+      "speaker": "ec_menon",
+      "text": "Dr. Osei is already a university employee. Paying him an invoice for more work treats an employee like a vendor."
+    },
+    {
+      "id": "pay.faculty_supplement.method.no_action",
+      "speaker": "dir_park",
+      "text": "Samuel has led three workshops, and nothing has been set up to pay him. What happened?"
+    },
+    {
+      "id": "pay.faculty_supplement.timing.friday",
+      "speaker": "dir_park",
+      "text": "You told me Friday would make October. Payroll says it can't, and I'd already told Samuel it would."
+    },
+    {
+      "id": "pay.faculty_supplement.timing.off_cycle",
+      "speaker": "pay_liu",
+      "text": "I got an off-cycle request for Dr. Osei's workshop pay. Nothing failed, so it doesn't qualify."
+    },
+    {
+      "id": "pay.faculty_supplement.timing.no_answer",
+      "speaker": "dir_park",
+      "text": "I told Samuel he'd see it in October because nobody said otherwise. Payroll says it can't happen."
+    },
+    {
       "id": "pay.reminder.timing.monday",
       "speaker": "emp_grant",
       "text": "My check is short. I saw the reminder Monday, but I was out and couldn't add Wednesday's hours in time."
@@ -173,10 +1339,25 @@
       "text": "The reminder came half an hour before the deadline. My Wednesday hours aren't on my check."
     },
     {
+      "id": "pay.reminder.audience.employees_only",
+      "speaker": "mgr_bell",
+      "text": "Nobody told me approvals were due Monday at noon. I found out from Renee that morning."
+    },
+    {
+      "id": "pay.reminder.audience.everyone",
+      "speaker": "emp_brennan",
+      "text": "I got another time card reminder, and I don't even have a time card. I've started skipping those emails."
+    },
+    {
       "id": "pay.timecards.reyes_punch.self_fix",
       "speaker": "emp_reyes",
       "text": "Quick thing. I left at 3:30 on the 20th for a doctor visit, but I was paid for a full day. I don't want that coming back on me.",
       "say": "Quick thing. I left at three thirty on the twentieth for a doctor visit, but I was paid for a full day. I don't want that coming back on me."
+    },
+    {
+      "id": "pay.timecards.reyes_punch.ask_employee",
+      "speaker": "mgr_bell",
+      "text": "There's an edit on Jordan's time card that I never saw. If something's off on my team, come to me first."
     },
     {
       "id": "pay.timecards.reyes_punch.leave",
@@ -197,31 +1378,256 @@
       "say": "I worked forty-four hours that week. Why was I paid for forty?"
     },
     {
-      "id": "pay.retro.effective.sep27",
-      "speaker": "emp_reyes",
-      "text": "My raise and the back pay for September came through. Thank you for getting it in before the cutoff."
+      "id": "pay.timecards.okafor_pto.keep",
+      "speaker": "emp_okafor",
+      "text": "My PTO balance looks wrong, and nobody can tell me why Wednesday shows 3 hours.",
+      "say": "My PTO balance looks wrong, and nobody can tell me why Wednesday shows three hours."
     },
     {
-      "id": "pay.retro.effective.oct11",
-      "speaker": "emp_reyes",
-      "text": "I was told my raise went back to September 27. The back pay isn't here.",
-      "say": "I was told my raise went back to September twenty-seventh. The back pay isn't here."
+      "id": "pay.timecards.okafor_pto.self_fix",
+      "speaker": "mgr_ortiz",
+      "text": "Sam says someone changed his Wednesday hours without asking him. Was that you?"
     },
     {
-      "id": "pay.retro.effective.oct22",
-      "speaker": "emp_reyes",
-      "text": "My raise only shows for the last few days. It was supposed to start September 27.",
-      "say": "My raise only shows for the last few days. It was supposed to start September twenty-seventh."
-    },
-    {
-      "id": "pay.retro.effective.not_entered",
+      "id": "pay.offcycle.request.form",
       "speaker": "mgr_bell",
-      "text": "I sent Jordan's raise Thursday morning. Why isn't it on this check?"
+      "text": "Payroll got the form, but there was no approved change to pay from. I'm still short two months."
     },
     {
-      "id": "pay.retro.rate.wrong",
+      "id": "pay.offcycle.request.bonus",
+      "speaker": "mgr_bell",
+      "text": "I got a bonus I never asked for, and my salary still shows the old amount. November will be short again."
+    },
+    {
+      "id": "pay.offcycle.request.missed",
+      "speaker": "mgr_bell",
+      "text": "Payroll ran an off-cycle this week, and I wasn't in it. Now I'm short until November."
+    },
+    {
+      "id": "pay.ferpa.schedule.verify",
+      "speaker": "stu_brooks",
+      "text": "Someone read my class schedule to a caller who said they were my parent. I never said anyone could have that."
+    },
+    {
+      "id": "pay.ferpa.schedule.days",
+      "speaker": "stu_brooks",
+      "text": "My parent knew exactly which days I'm on campus. They said your office told them."
+    },
+    {
+      "id": "pay.ferpa.pay.share_hours",
+      "speaker": "stu_brooks",
+      "text": "My parent knew how many hours I worked and what I'm getting paid before I did. Who told them?"
+    },
+    {
+      "id": "pay.ferpa.pay.via_aisha",
+      "speaker": "emp_grant",
+      "text": "You had me call Maya's parent about her pay, and now Maya is upset with me. I didn't know I couldn't share that."
+    },
+    {
+      "id": "pay.newhire_costing.blank.leave",
+      "speaker": "emp_chen",
+      "text": "Noor still has no costing, so her first paycheck will charge all of it to us. The grant was supposed to pay half."
+    },
+    {
+      "id": "pay.newhire_costing.blank.payroll",
+      "speaker": "pay_liu",
+      "text": "Payroll can't set Noor's costing for you. It's still blank, so her first check will charge the department."
+    },
+    {
+      "id": "pay.newhire_costing.blank.not_entered",
+      "speaker": "emp_chen",
+      "text": "Noor started Monday with no costing. Her first check will charge the department in full unless we fix it this week."
+    },
+    {
+      "id": "pay.newhire_costing.date.oct25",
+      "speaker": "emp_chen",
+      "text": "You told me Noor wasn't in the system yet, but she started Monday. Her costing still isn't in."
+    },
+    {
+      "id": "pay.newhire_costing.date.nov8",
+      "speaker": "emp_chen",
+      "text": "Noor's split doesn't start until November 8, so her first two weeks will charge 100% to us.",
+      "say": "Noor's split doesn't start until November eighth, so her first two weeks will charge one hundred percent to us."
+    },
+    {
+      "id": "pay.newhire_costing.lines.one50",
+      "speaker": "emp_chen",
+      "text": "Noor's costing never saved. It was stuck at 50%, so she has nothing on file.",
+      "say": "Noor's costing never saved. It was stuck at fifty percent, so she has nothing on file."
+    },
+    {
+      "id": "pay.newhire_costing.lines.copy_lena",
+      "speaker": "emp_chen",
+      "text": "Noor's department half is set to charge Lena's team code. Where did that string come from?"
+    },
+    {
+      "id": "pay.resign.action.terminate",
+      "speaker": "emp_brennan",
+      "text": "The School of Education says my teaching job ended with my resignation. I told you I was keeping it."
+    },
+    {
+      "id": "pay.resign.action.wait",
+      "speaker": "mgr_ortiz",
+      "text": "Today is Kai's last day, and his design job still shows active in CampusHR. Who was handling it?",
+      "say": "Today is Kai's last day, and his design job still shows active in Campus H R. Who was handling it?"
+    },
+    {
+      "id": "pay.resign.action.not_entered",
+      "speaker": "mgr_ortiz",
+      "text": "Kai's last day is today, and his design job still shows active. Is he going to get paid for November?"
+    },
+    {
+      "id": "pay.resign.primary.auto",
+      "speaker": "mgr_ortiz",
+      "text": "Your change for Kai got stuck. His design job is still active, and today was his last day."
+    },
+    {
+      "id": "pay.resign.primary.self_switch",
+      "speaker": "emp_brennan",
+      "text": "The School of Education office called me, confused about why my teaching job changed. Nobody had told them."
+    },
+    {
+      "id": "pay.resign.closeout.timecard",
+      "speaker": "mgr_ortiz",
+      "text": "Kai left today and his laptop never came back. Also, why was I chasing a time card for a salaried person?"
+    },
+    {
+      "id": "pay.resign.closeout.payroll",
+      "speaker": "mgr_ortiz",
+      "text": "Kai's gone, and nobody collected his laptop or badge. Wasn't that on the checklist?"
+    },
+    {
+      "id": "pay.doc_record.file.both",
+      "speaker": "ec_menon",
+      "text": "Jordan's file has two versions of his raise letter, and one isn't signed. Which one is real?"
+    },
+    {
+      "id": "pay.doc_record.file.payroll",
+      "speaker": "pay_liu",
+      "text": "I got Jordan's raise letter by email. We pay from the record, and his file still doesn't have the letter."
+    },
+    {
+      "id": "pay.doc_record.file.not_filed",
+      "speaker": "ec_menon",
+      "text": "An audit sample pulled Jordan's raise, and there's no letter on his file."
+    },
+    {
+      "id": "pay.doc_record.type.comp",
+      "speaker": "mgr_bell",
+      "text": "I found Jordan's letter right where I expected it. Thanks for filing it so fast."
+    },
+    {
+      "id": "pay.doc_record.type.review",
+      "speaker": "mgr_bell",
+      "text": "I looked for Jordan's raise letter under compensation letters, and it wasn't there. It turned up under reviews."
+    },
+    {
+      "id": "pay.doc_record.type.discipline",
       "speaker": "emp_reyes",
-      "text": "My new rate on the pay stub doesn't match my letter."
+      "text": "Marcus says my raise letter is filed under discipline. Is something wrong with my work?"
+    },
+    {
+      "id": "pay.doc_record.issued.sep27",
+      "speaker": "ec_menon",
+      "text": "Jordan's letter says it was issued September 27, but he signed it October 22. An audit will flag that.",
+      "say": "Jordan's letter says it was issued September twenty-seventh, but he signed it October twenty-second. An audit will flag that."
+    },
+    {
+      "id": "pay.doc_record.issued.oct23",
+      "speaker": "ec_menon",
+      "text": "Jordan's file says he got his letter the day after he signed it. The record needs the real date."
+    },
+    {
+      "id": "pay.out_of_state.review.wait_jan",
+      "speaker": "ec_menon",
+      "text": "Marcus mentioned Noor's Illinois move in passing. A new state needs review well before the move, and nobody told me."
+    },
+    {
+      "id": "pay.out_of_state.review.keep_nash",
+      "speaker": "pay_liu",
+      "text": "If Noor works from Illinois with a Nashville location, payroll withholds no Illinois tax for her. We need to hear about a new state before her first check there."
+    },
+    {
+      "id": "pay.out_of_state.cadence.same",
+      "speaker": "mgr_bell",
+      "text": "I told Noor nothing changes in Illinois. Now payroll says they have to check the state's pay rules first, and I look like I didn't know."
+    },
+    {
+      "id": "pay.out_of_state.cadence.monthly",
+      "speaker": "new_haddad",
+      "text": "Marcus said I might switch to monthly pay when I move. I can't wait a whole month between paychecks."
+    },
+    {
+      "id": "pay.out_of_state.location.position",
+      "speaker": "ec_menon",
+      "text": "Changing the position won't move Noor to Illinois. Location doesn't sync to her assignment, and payroll reads the assignment."
+    },
+    {
+      "id": "pay.out_of_state.location.address",
+      "speaker": "ec_menon",
+      "text": "A new home address won't tell payroll she works in Illinois. Her assignment's work location has to change when she moves."
+    },
+    {
+      "id": "pay.transfer_costing.action.leave",
+      "speaker": "emp_chen",
+      "text": "I checked Sam's costing for November. It still points at our account after his move."
+    },
+    {
+      "id": "pay.transfer_costing.action.delete",
+      "speaker": "emp_chen",
+      "text": "Sam's costing History is gone. My reports for his past periods no longer match what was charged."
+    },
+    {
+      "id": "pay.transfer_costing.action.tyler",
+      "speaker": "emp_chen",
+      "text": "Tyler says transfers don't touch costing. Sam's string still points at our account after November 8.",
+      "say": "Tyler says transfers don't touch costing. Sam's string still points at our account after November eighth."
+    },
+    {
+      "id": "pay.transfer_costing.date.nov6",
+      "speaker": "emp_chen",
+      "text": "Sam's costing ends November 6, so his whole last period will charge program 000 instead of the front office code.",
+      "say": "Sam's costing ends November sixth, so his whole last period will charge program triple zero instead of the front office code."
+    },
+    {
+      "id": "pay.transfer_costing.date.nov21",
+      "speaker": "emp_chen",
+      "text": "Sam's costing runs to November 21, so we'd pay for his first two weeks at the new school.",
+      "say": "Sam's costing runs to November twenty-first, so we'd pay for his first two weeks at the new school."
+    },
+    {
+      "id": "pay.transfer_costing.date.not_entered",
+      "speaker": "emp_chen",
+      "text": "Sam's costing still points at our account after November 8. Can we fix it before his first check there?",
+      "say": "Sam's costing still points at our account after November eighth. Can we fix it before his first check there?"
+    },
+    {
+      "id": "pay.leave_return.status.change_assignment",
+      "speaker": "emp_rivera",
+      "text": "I came back Monday and everything in CampusHR was right. Thanks for having it ready.",
+      "say": "I came back Monday and everything in Campus H R was right. Thanks for having it ready."
+    },
+    {
+      "id": "pay.leave_return.status.wait",
+      "speaker": "emp_rivera",
+      "text": "I've been back all week, but CampusHR still says I'm on leave. Will this week's hours even pay?",
+      "say": "I've been back all week, but Campus H R still says I'm on leave. Will this week's hours even pay?"
+    },
+    {
+      "id": "pay.leave_return.status.timecard",
+      "speaker": "mgr_bell",
+      "text": "Tomás is still listed as on leave. I thought approving his time card would take care of that."
+    },
+    {
+      "id": "pay.leave_return.effective.oct23",
+      "speaker": "leave_ruiz",
+      "text": "Tomás's record shows him back on Oct 23, but his leave ran through that Friday. Now his leave dates don't match.",
+      "say": "Tomás's record shows him back on October twenty-third, but his leave ran through that Friday. Now his leave dates don't match."
+    },
+    {
+      "id": "pay.leave_return.effective.nov1",
+      "speaker": "emp_rivera",
+      "text": "I worked all week, but my record says I'm on leave until November. Will this week even pay?"
     },
     {
       "id": "pay.approvals.remind.approve",
@@ -229,10 +1635,46 @@
       "text": "Audit flagged approvals on my team that I never made. I need to know why."
     },
     {
+      "id": "pay.i9.section1.today",
+      "speaker": "ec_menon",
+      "text": "Noor's I-9 was complete and on time. That's exactly how it should look.",
+      "say": "Noor's I nine was complete and on time. That's exactly how it should look."
+    },
+    {
+      "id": "pay.i9.section1.prefill",
+      "speaker": "ec_menon",
+      "text": "Noor's I-9 came back flagged. Section 1 was filled in by staff and signed three days late.",
+      "say": "Noor's I nine came back flagged. Section one was filled in by staff and signed three days late."
+    },
+    {
+      "id": "pay.i9.section1.wait",
+      "speaker": "ec_menon",
+      "text": "Noor's I-9 Section 1 is dated Thursday. It was due on her first day.",
+      "say": "Noor's I nine Section one is dated Thursday. It was due on her first day."
+    },
+    {
+      "id": "pay.i9.section2.fri",
+      "speaker": "ec_menon",
+      "text": "Noor's I-9 Section 2 was finished a day late. That's an audit finding now.",
+      "say": "Noor's I nine Section two was finished a day late. That's an audit finding now."
+    },
+    {
+      "id": "pay.i9.section2.nov2",
+      "speaker": "ec_menon",
+      "text": "Noor's I-9 Section 2 still isn't done, and it was due Thursday.",
+      "say": "Noor's I nine Section two still isn't done, and it was due Thursday."
+    },
+    {
       "id": "pay.finalcheck.flag.missed",
       "speaker": "emp_kowalski",
       "text": "My check is huge. I think I typed 80 instead of 8 on Thursday. I don't want to spend money that isn't mine.",
       "say": "My check is huge. I think I typed eighty instead of eight on Thursday. I don't want to spend money that isn't mine."
+    },
+    {
+      "id": "pay.finalcheck.fix.self_fix",
+      "speaker": "mgr_ortiz",
+      "text": "Audit asked why Lena's time card was changed by the HCM after I approved it. I had no idea.",
+      "say": "Audit asked why Lena's time card was changed by the H C M after I approved it. I had no idea."
     },
     {
       "id": "pay.finalcheck.fix.after",
@@ -247,7 +1689,8 @@
     {
       "id": "pay.escalate.escalate.leave",
       "speaker": "emp_rivera",
-      "text": "Half my hours aren't on this check. Jordan and Aisha are saying the same thing."
+      "text": "My check is missing the whole week of Oct 18. Jordan and Aisha are each missing a week too.",
+      "say": "My check is missing the whole week of October eighteenth. Jordan and Aisha are each missing a week too."
     },
     {
       "id": "pay.headcount.triage.ignore",
@@ -313,6 +1756,11 @@
       "id": "greet.emp_grant",
       "speaker": "emp_grant",
       "text": "Hi! It's a busy week at the student services desk."
+    },
+    {
+      "id": "greet.new_haddad",
+      "speaker": "new_haddad",
+      "text": "Hi! It's my first day. Where should I start?"
     }
   ]
 }

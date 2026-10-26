@@ -1,14 +1,16 @@
 import { z } from 'zod';
 
-export const Meter = z.enum(['payrollAccuracy', 'complianceRisk', 'employeeTrust', 'managerSatisfaction']);
+export const Meter = z.enum(['accuracy', 'complianceRisk', 'employeeTrust', 'managerSatisfaction']);
+/** The eight HCM Academy topics. Every request belongs to one; every decision is scored under one. */
+export const Area = z.enum(['start', 'hiring', 'payroll', 'assignments', 'leave', 'costing', 'students', 'records']);
 export const Deltas = z.partialRecord(Meter, z.number());
 const IsoDate = z.string().regex(/^\d{4}-\d{2}-\d{2}$/);
 export const SimAt = z.object({ date: IsoDate, at: z.string().regex(/^\d{2}:\d{2}$/) });
 
-/** How a decision changes the time card totals the HCM reviews later. */
 /** A line a character says out loud. Captions show the line; content/voice.json holds the recording. */
 export const Spoken = z.object({ speaker: z.string(), line: z.string() });
 
+/** How a decision changes the time card totals the HCM reviews later. */
 export const TotalsAdjust = z.object({
   employeeId: z.string(),
   week1: z.number().optional(),
@@ -51,6 +53,10 @@ export const Decision = z.object({
   showIf: z.object({ decision: z.string(), choice: z.string() }).optional(),
   /** What a character says when this decision comes up. */
   spoken: Spoken.optional(),
+  /** HCM Academy course slugs this decision practices (content/academy-courses.json). Drives coverage and the debrief. */
+  courses: z.array(z.string()).min(1),
+  /** Scored under this area instead of the step's. */
+  area: Area.optional(),
   choices: z.array(Choice).min(2).max(4),
 });
 
@@ -81,6 +87,9 @@ export const Location = z.enum(['terminal', 'board', 'office_a', 'office_b', 'of
 
 const stepFields = {
   id: z.string(),
+  area: Area,
+  /** A quick question from a colleague: one decision, a short chat message, due a few hours later. */
+  quick: z.boolean().optional(),
   type: StepType,
   title: z.string(),
   from: z.string(),
@@ -103,16 +112,15 @@ const stepFields = {
 export const Step = z.object({ ...stepFields, receivedAt: SimAt, dueAt: SimAt });
 export const EventStep = z.object({ ...stepFields, dueMinutes: z.number().int().positive() });
 
-const Deadline = SimAt.extend({ label: z.string(), short: z.string(), sme: z.boolean() });
+/** hud: shown as a countdown in the HUD. The latest deadline ends play (time cards due; payroll signs off). */
+const Deadline = SimAt.extend({ key: z.string(), label: z.string(), short: z.string(), sme: z.boolean(), hud: z.boolean() });
 
 export const Mission = z.object({
   id: z.string(),
   title: z.string(),
   tagline: z.string(),
-  learningObjectives: z.array(z.string()).min(1),
   start: SimAt,
-  /** transactions: HCM transaction cutoff. timecards: time cards due; payroll signs off and play ends. */
-  deadlines: z.object({ transactions: Deadline, timecards: Deadline }),
+  deadlines: z.array(Deadline).min(1),
   briefing: z.array(z.string()).min(1),
   /** The mentor's closing line on pay day. */
   payday: z.object({ clean: z.string(), problems: z.string() }),
@@ -135,13 +143,18 @@ export const Person = z.object({
   id: z.string(),
   name: z.string(),
   title: z.string(),
-  role: z.enum(['director', 'manager', 'coach', 'employee']),
+  /** partner: central HR, payroll, and others who reach you by email or phone; they have no desk here. */
+  role: z.enum(['director', 'manager', 'coach', 'employee', 'partner']),
   type: z.enum(['exempt', 'nonexempt']),
   payBasis: z.enum(['hourly', 'salary']),
   payRate: z.number().positive(),
   managerId: z.string().nullable(),
   desk: z.string(),
   outfit: z.enum(['black', 'gold', 'cream']),
+  /** Which payroll calendar pays this person. Exempt staff are monthly; non-exempt staff are weekly or biweekly. */
+  payFrequency: z.enum(['weekly', 'biweekly', 'monthly']).optional(),
+  /** First day in the office (a new hire). Before this, they aren't at their desk. */
+  arrives: SimAt.optional(),
   /** Said when you click someone with nothing waiting. */
   greeting: z.string().optional(),
 });
@@ -152,18 +165,33 @@ export const Department = z.object({
   name: z.string(),
   note: z.string(),
   director: z.string(),
-  /** One real biweekly row from the published payroll calendar. */
-  payPeriod: z.object({
-    number: z.number().int().positive(),
-    frequency: z.enum(['biweekly', 'monthly']),
+  /** The three payroll calendars this week, from the published 2026 payroll calendar. Which one applies depends on the worker. */
+  calendars: z.array(z.object({
+    id: z.enum(['weekly', 'biweekly', 'monthly']),
+    label: z.string(),
+    who: z.string(),
+    period: z.string(),
     begin: IsoDate,
     end: IsoDate,
-    hcmCutoff: IsoDate,
-    timecardsDue: SimAt,
-    paycheck: IsoDate,
+    hcmCutoff: SimAt,
+    retroCutoff: SimAt.optional(),
+    timecardsDue: SimAt.optional(),
+    paycheck: IsoDate.optional(),
+    note: z.string(),
     source: z.string(),
-    frequencyNote: z.string(),
-  }),
+    sme: z.boolean(),
+  })).length(3),
+});
+
+/** The eight topics, in HCM Academy order, with what the week practices in each. */
+export const Areas = z.object({
+  areas: z.array(z.object({ id: Area, number: z.string(), label: z.string(), short: z.string(), tab: z.string(), practice: z.string() })).length(8),
+});
+
+/** Every HCM Academy course. parked: a draft with no published page yet (links go to the topic instead). */
+export const AcademyCourses = z.object({
+  home: z.string().url(),
+  courses: z.array(z.object({ slug: z.string(), title: z.string(), area: Area, parked: z.boolean() })).min(1),
 });
 
 export const Policies = z.object({
@@ -232,6 +260,7 @@ export const Live = z.object({
 });
 
 export type MeterKey = z.infer<typeof Meter>;
+export type AreaId = z.infer<typeof Area>;
 export type Meters = Record<MeterKey, number>;
 export type DeltasT = z.infer<typeof Deltas>;
 export type SimAtT = z.infer<typeof SimAt>;

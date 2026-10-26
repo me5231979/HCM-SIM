@@ -1,4 +1,4 @@
-import type { ApprovalStateT, ChoiceT, DecisionT, DeltasT, EventStepT, MissionT, Meters, PersonT, StepT } from '../../content/schemas';
+import type { ApprovalStateT, AreaId, ChoiceT, DecisionT, DeltasT, EventStepT, MissionT, Meters, PersonT, StepT } from '../../content/schemas';
 import { advance, at, type SimTime } from './clock';
 import { createConsequenceQueue, type ScheduledConsequence } from './consequences';
 import { createEventBus, type DecisionEvent } from './eventBus';
@@ -11,7 +11,7 @@ export interface Resolution { choiceId: string; value?: string; at: SimTime; mis
 export type StepStatus = 'upcoming' | 'locked' | 'open' | 'done' | 'missed' | 'skipped';
 /** finished: the player wrapped up early. deadline: time cards came due and payroll signed off. */
 export type EndReason = 'finished' | 'deadline';
-export interface DeadlineInfo { key: 'transactions' | 'timecards'; label: string; short: string; time: SimTime; sme: boolean }
+export interface DeadlineInfo { key: string; label: string; short: string; time: SimTime; sme: boolean; hud: boolean }
 
 export interface Snapshot {
   seed: string;
@@ -27,6 +27,8 @@ export interface Snapshot {
   meters: Meters;
   hints: string[];
   consequences: ScheduledConsequence[];
+  /** Pay day has been applied: consequence costs are in the meters. */
+  settled: boolean;
   ended?: { reason: EndReason; at: SimTime };
 }
 
@@ -46,10 +48,7 @@ export function createGame({ mission, eventSteps, seed, mode }: GameInput) {
   const rng = createRng(seed);
   const bus = createEventBus();
   const queue = createConsequenceQueue();
-  const deadlines: DeadlineInfo[] = (['transactions', 'timecards'] as const).map((key) => {
-    const d = mission.deadlines[key];
-    return { key, label: d.label, short: d.short, time: at(d), sme: d.sme };
-  });
+  const deadlines: DeadlineInfo[] = mission.deadlines.map((d) => ({ key: d.key, label: d.label, short: d.short, time: at(d), sme: d.sme, hud: d.hud }));
   const deadline = Math.max(...deadlines.map((d) => d.time));
   const start = at(mission.start);
   let meters = initialMeters();
@@ -57,6 +56,7 @@ export function createGame({ mission, eventSteps, seed, mode }: GameInput) {
   let log: DecisionEvent[] = [];
   let hints: string[] = [];
   let ended: Snapshot['ended'];
+  let settled = false;
   const resolutions: Snapshot['resolutions'] = {};
 
   const steps: ActiveStep[] = [
@@ -77,6 +77,7 @@ export function createGame({ mission, eventSteps, seed, mode }: GameInput) {
     choice.consequences?.forEach((c) => queue.schedule({ ...c, causedBy: e.id, stepId: e.stepId, decisionId: e.decisionId, choiceId: e.choiceId }));
   });
   bus.on('hint', (e) => { meters = applyDeltas(meters, hintDelta(e.meter)); });
+  bus.on('consequence', (e) => { meters = applyDeltas(meters, e.deltas); });
 
   function choiceOf(step: ActiveStep, decisionId: string, choiceId: string): ChoiceT {
     const d = step.decisions.find((x) => x.id === decisionId);
@@ -182,8 +183,14 @@ export function createGame({ mission, eventSteps, seed, mode }: GameInput) {
       time = deadline;
       end('finished', wrapped);
     },
+    /** Pay day: every scheduled consequence lands, and its cost counts toward the final meters. Runs once, after play ends. */
+    settle(at: SimTime) {
+      if (!ended || settled) return;
+      settled = true;
+      for (const c of queue.all()) bus.emit('consequence', { causedBy: c.causedBy, deltas: c.deltas, simTime: at });
+    },
     snapshot(): Snapshot {
-      return { seed, mode, time, start, deadline, deadlines, steps, resolutions: structuredClone(resolutions), log, meters, hints, consequences: queue.all(), ended };
+      return { seed, mode, time, start, deadline, deadlines, steps, resolutions: structuredClone(resolutions), log, meters, hints, consequences: queue.all(), settled, ended };
     },
   };
 }
@@ -197,6 +204,36 @@ export function workload(game: Game, snap: Snapshot) {
     locked: live.filter((s) => game.status(s) === 'locked'),
     upcoming: live.filter((s) => game.status(s) === 'upcoming'),
   };
+}
+
+/** The area a decision is scored under. */
+export const decisionArea = (step: Pick<ActiveStep, 'area'>, d: Pick<DecisionT, 'area'>): AreaId => d.area ?? step.area;
+
+export interface AreaScore { area: AreaId; right: number; total: number; missed: number; courses: string[] }
+/**
+ * Mastery by area: decisions right out of decisions made, and which Academy courses the wrong ones point to.
+ * Decisions hidden behind a choice the player never made don't count.
+ */
+export function areaScores(snap: Snapshot, order: readonly AreaId[]): AreaScore[] {
+  const by = new Map<AreaId, AreaScore>(order.map((a) => [a, { area: a, right: 0, total: 0, missed: 0, courses: [] }]));
+  for (const e of snap.log) {
+    const step = snap.steps.find((s) => s.id === e.stepId)!;
+    const d = step.decisions.find((x) => x.id === e.decisionId)!;
+    const row = by.get(decisionArea(step, d))!;
+    row.total++;
+    if (e.correct) row.right++;
+    else {
+      if (e.missed) row.missed++;
+      for (const c of d.courses) if (!row.courses.includes(c)) row.courses.push(c);
+    }
+  }
+  return order.map((a) => by.get(a)!);
+}
+
+/** Requests finished before their deadline, out of requests that came due or were finished. */
+export function onTime(game: Game, snap: Snapshot) {
+  const due = snap.steps.filter((s) => { const st = game.status(s); return st === 'done' || st === 'missed'; });
+  return { done: due.filter((s) => game.status(s) === 'done').length, total: due.length };
 }
 
 /** Time card totals for the final check, reflecting the decisions made so far. */

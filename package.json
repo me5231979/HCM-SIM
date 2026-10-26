@@ -1,9 +1,9 @@
 {
-  "name": "pay-period",
+  "name": "role-of-the-hcm",
   "private": true,
   "version": "0.1.0",
   "type": "module",
-  "description": "Pay Period: an HCM simulation for HCM Academy.",
+  "description": "Role of the HCM: an HCM simulation for HCM Academy.",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",

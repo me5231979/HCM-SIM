@@ -1,19 +1,19 @@
 {
   "steps": [
-    { "id": "welcome", "target": null, "title": "Welcome to your office", "body": "You're the HCM for the Office of Learning Operations. Requests come to you through the day, and on pay day you'll see what every decision did to someone's check. This tour takes about a minute." },
-    { "id": "clock", "target": ".hud-clock", "title": "Game time", "body": "It's Thursday morning in pay period 22. Time moves while you work. In Training mode, the clock pauses while you have a request open, so take your time reading. When you're caught up, time speeds up until the next request arrives." },
-    { "id": "deadlines", "target": ".hud-deadlines", "title": "Your two deadlines", "body": "Straight from the 2026 payroll calendar. Transactions close at Friday's HCM transaction cutoff. Time cards are due Monday at noon, and then payroll signs off. Each countdown turns amber inside the last workday and red inside the last 4 hours." },
+    { "id": "welcome", "target": null, "title": "Welcome to your office", "body": "You're the HCM for the Office of Learning Operations, for one full week. Requests come to you through the day, and on pay day you'll see what every decision did to someone's check. This tour takes about a minute." },
+    { "id": "clock", "target": ".hud-clock", "title": "Game time", "body": "It's Monday morning, Oct 19. Time moves while you work, 8:00 AM to 6:00 PM on weekdays. In Training mode, the clock pauses while you have a request open, so take your time reading. When you're caught up, time speeds up until the next request arrives." },
+    { "id": "deadlines", "target": ".hud-deadlines", "title": "Your deadlines", "body": "Straight from the 2026 payroll calendars. Backdated changes close at Wednesday's Retro Change Cutoff, other changes at Friday's HCM transaction cutoff, and time cards are due Monday at noon. The two on screen count down, turning amber inside the last workday and red inside the last 4 hours." },
     { "id": "meters", "target": ".hud-meters", "title": "Four meters", "body": "Your decisions move these. Each shows an icon, a number, and a label.", "legend": "meters" },
-    { "id": "inbox", "target": "[data-testid=inbox]", "title": "Your inbox", "body": "New requests land here, with a count of unread items. Sort by newest, due soonest, or priority. Some messages are just FYI." },
+    { "id": "inbox", "target": "[data-testid=inbox]", "title": "Your inbox", "body": "New requests land here, with a count of unread items. Filter by topic, and sort by due time, newest, or priority. Quick questions are short chats from colleagues. Some messages are just FYI." },
     { "id": "places", "target": ".places", "title": "Places in the office", "body": "Jump to a spot in the office. A pin and a number mean something is waiting there. You can also click people and places in the 3D office.", "only3d": true },
     { "id": "symbols", "target": null, "title": "What the symbols mean", "body": "Icons above people's heads show who needs you. Hover over a person to see the label.", "legend": "symbols" },
     { "id": "controls", "target": ".hud-tools", "title": "Your controls", "body": "Every button is labeled. Here's what each one does.", "legend": "controls" },
-    { "id": "practice", "target": null, "title": "Try one", "body": "Here's a practice request. It isn't scored. Pick an answer, press Decide, and read the feedback.", "practice": true },
+    { "id": "practice", "target": null, "title": "Try one", "body": "Here's a practice request. It isn't scored. Pick an answer, press Decide, and read the feedback. In the real week, asking Renee for a hint costs 2 points.", "practice": true },
     { "id": "ready", "target": null, "title": "You're ready", "body": "The clock starts when you close this. Open your inbox to begin. Press Help any time to see the symbols and controls again." }
   ],
   "legends": {
     "meters": [
-      { "key": "payrollAccuracy", "label": "Accuracy", "text": "Are people paid the right amount? Higher is better." },
+      { "key": "accuracy", "label": "Accuracy", "text": "Are people paid the right amount? Higher is better." },
       { "key": "complianceRisk", "label": "Risk", "text": "Policy and wage law exposure. Lower is better." },
       { "key": "employeeTrust", "label": "Trust", "text": "How employees feel about their pay, and about you. Higher is better." },
       { "key": "managerSatisfaction", "label": "Managers", "text": "How managers feel about working with you. Higher is better." }
@@ -43,6 +43,7 @@
     "hint": "Dates move with weekends, holidays, and year end. Where would you check every time?",
     "decision": {
       "id": "practice",
+      "courses": ["shared-calendar"],
       "prompt": "Where do you check the deadlines for a pay period?",
       "missedChoiceId": "memory",
       "choices": [

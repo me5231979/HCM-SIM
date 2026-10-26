@@ -39,7 +39,7 @@ test('character voices: the briefing speaks, captions stay, and Voices turns it 
   await page.goto('/');
   await page.getByTestId('start').click();
   const brief = page.locator('.briefing');
-  await expect(brief.locator('.brief-line')).toContainText("It's Thursday, Oct 22");
+  await expect(brief.locator('.brief-line')).toContainText("It's Monday, Oct 19");
   await expect(brief.getByRole('button', { name: 'Stop' })).toBeVisible();
   await expect(brief.locator('.speaker.is-speaking')).toHaveCount(1);
   await brief.getByRole('button', { name: 'Stop' }).click();
@@ -52,8 +52,8 @@ test('character voices: the briefing speaks, captions stay, and Voices turns it 
   await expect(page.locator('.bubble')).toContainText('Let me know if you need anything copied or filed.');
 
   // A request opens with a voice note; turning voices off keeps the caption and hides playback.
-  await openTask(page, 'Read the payroll calendar');
-  await expect(page.locator('.quote--note blockquote')).toContainText('These dates come straight from the real payroll calendar.');
+  await openTask(page, 'calendar');
+  await expect(page.locator('.quote--note blockquote')).toContainText('Three payroll calendars run this week');
   const withVoices = await new AxeBuilder(page).analyze();
   expect(withVoices.violations.filter((v) => v.impact === 'serious' || v.impact === 'critical')).toEqual([]);
   await page.getByTestId('voices').click();
@@ -65,7 +65,7 @@ test('character voices: the briefing speaks, captions stay, and Voices turns it 
 test('live conversation: consent, typed talk with Dana, outcome recorded with coaching', async ({ page }) => {
   const sent = await fakeAgent(page);
   await start(page, { view: '2d' });
-  await openTask(page, 'Weekly time card check');
+  await openTask(page, 'timecards');
   const offer = page.locator('.live-offer');
   await expect(offer).toContainText('Talk it through with Dana');
   await offer.getByTestId('live-text').click();
@@ -88,7 +88,7 @@ test('live conversation: consent, typed talk with Dana, outcome recorded with co
   await expect(talk.locator('.msg--agent').nth(1)).toHaveText(/Okay, I'll leave it as worked/);
   const result = talk.getByTestId('live-result');
   await expect(result).toContainText(OUTCOME.summary);
-  await expect(result).toContainText('The 4 hours must be paid as overtime');
+  await expect(result).toContainText('Keep the 44 hours as worked, and pay 4 of them as overtime');
   await expect(result.locator('.live-notes li.is-good')).toHaveCount(3);
   await result.getByTestId('live-record').click();
 
@@ -108,13 +108,13 @@ test('live conversation: a refused connection falls back to the options', async 
   await page.getByTestId('start').click();
   for (let i = 0; i < 3; i++) await page.getByRole('button', { name: 'Next' }).click();
   await page.getByTestId('begin').click();
-  await openTask(page, 'Weekly time card check');
+  await openTask(page, 'timecards');
   await page.getByTestId('live-text').click();
   const alert = page.getByRole('alert');
   await expect(alert).toContainText("Live practice isn't available right now");
   await expect(alert).toContainText("today's limit");
   await alert.getByRole('button', { name: 'Back to the options' }).click();
-  await expect(page.locator('.task').getByLabel('The 4 hours must be paid as overtime', { exact: false })).toBeVisible();
+  await expect(page.locator('.task').getByLabel('Keep the 44 hours as worked, and pay 4 of them as overtime', { exact: true })).toBeVisible();
 });
 
 test('live conversations can be switched off in Settings', async ({ page }) => {
@@ -124,7 +124,7 @@ test('live conversations can be switched off in Settings', async ({ page }) => {
   expect(settingsA11y.violations.filter((v) => v.impact === 'serious' || v.impact === 'critical')).toEqual([]);
   await page.getByLabel('Offer live conversations').uncheck();
   await page.getByRole('button', { name: 'Done' }).click();
-  await openTask(page, 'Weekly time card check');
+  await openTask(page, 'timecards');
   await expect(page.locator('.quote--decision')).toContainText('Can I just change her time to 40?');
   await expect(page.locator('.live-offer')).toHaveCount(0);
 });
@@ -150,13 +150,13 @@ test('answer out loud: a spoken option number selects it, and Decide still confi
   await page.getByTestId('start').click();
   for (let i = 0; i < 3; i++) await page.getByRole('button', { name: 'Next' }).click();
   await page.getByTestId('begin').click();
-  await openTask(page, 'Read the payroll calendar');
+  await openTask(page, 'calendar');
   const panel = page.locator('.task');
   await expect(panel.locator('.opt-num').first()).toHaveText('1');
-  await panel.getByTestId('say-answer').click();
-  await expect(panel.locator('.say-status')).toContainText('Option 2 is selected. Press Decide to confirm.');
+  await panel.getByTestId('say-answer').first().click();
+  await expect(panel.locator('.say-status').first()).toContainText('Option 2 is selected. Press Decide to confirm.');
   await expect(panel.locator('.option').nth(1).locator('input')).toBeChecked();
   await expect(panel.locator('.decision.is-done')).toHaveCount(0);
-  await panel.getByRole('button', { name: 'Decide' }).click();
+  await panel.getByRole('button', { name: 'Decide' }).first().click();
   await expect(panel.locator('.decision.is-done')).toHaveCount(1);
 });

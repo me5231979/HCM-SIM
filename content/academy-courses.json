@@ -1,0 +1,479 @@
+{
+ "home": "https://me5231979.github.io/HCM_Academy/",
+ "courses": [
+  {
+   "slug": "create-position",
+   "title": "Create a position",
+   "area": "hiring",
+   "parked": false
+  },
+  {
+   "slug": "update-position",
+   "title": "Update a position",
+   "area": "hiring",
+   "parked": false
+  },
+  {
+   "slug": "position-best-practices",
+   "title": "Position management best practices",
+   "area": "hiring",
+   "parked": false
+  },
+  {
+   "slug": "create-requisition",
+   "title": "Create a requisition",
+   "area": "hiring",
+   "parked": false
+  },
+  {
+   "slug": "convert-pending-worker",
+   "title": "Convert a pending worker",
+   "area": "hiring",
+   "parked": false
+  },
+  {
+   "slug": "new-vs-update-position",
+   "title": "When to create a new position vs. update an existing position",
+   "area": "hiring",
+   "parked": false
+  },
+  {
+   "slug": "job-architecture",
+   "title": "Job Architecture overview and how it impacts recruiting decisions",
+   "area": "hiring",
+   "parked": false
+  },
+  {
+   "slug": "compensation-memo",
+   "title": "Compensation Management: Getting the Compensation Memo",
+   "area": "hiring",
+   "parked": false
+  },
+  {
+   "slug": "background-checks",
+   "title": "Background checks",
+   "area": "hiring",
+   "parked": false
+  },
+  {
+   "slug": "hire-non-worker",
+   "title": "Non-Workers",
+   "area": "hiring",
+   "parked": false
+  },
+  {
+   "slug": "executive-search",
+   "title": "Executive or External Search",
+   "area": "hiring",
+   "parked": false
+  },
+  {
+   "slug": "change-assignment",
+   "title": "Change Assignment",
+   "area": "assignments",
+   "parked": false
+  },
+  {
+   "slug": "change-working-hours",
+   "title": "Change Working Hours",
+   "area": "assignments",
+   "parked": false
+  },
+  {
+   "slug": "transfer-with-requisition",
+   "title": "Transfer or promotion from a requisition",
+   "area": "assignments",
+   "parked": false
+  },
+  {
+   "slug": "transfer-without-requisition",
+   "title": "Transfer or promotion without a requisition",
+   "area": "assignments",
+   "parked": false
+  },
+  {
+   "slug": "hcm-role-in-payroll",
+   "title": "The HCM's role in payroll",
+   "area": "payroll",
+   "parked": false
+  },
+  {
+   "slug": "weekly-time-card-check",
+   "title": "Weekly time card check",
+   "area": "payroll",
+   "parked": false
+  },
+  {
+   "slug": "review-approve-time-cards",
+   "title": "Review and approve time cards",
+   "area": "payroll",
+   "parked": false
+  },
+  {
+   "slug": "enter-pto",
+   "title": "Enter PTO for an employee",
+   "area": "payroll",
+   "parked": false
+  },
+  {
+   "slug": "off-cycle-payment",
+   "title": "Request an off-cycle payment",
+   "area": "payroll",
+   "parked": false
+  },
+  {
+   "slug": "change-salary",
+   "title": "Change salary",
+   "area": "payroll",
+   "parked": false
+  },
+  {
+   "slug": "net-one-time-stipend",
+   "title": "Process grossed-up additional compensation",
+   "area": "payroll",
+   "parked": false
+  },
+  {
+   "slug": "sign-on-bonus",
+   "title": "Add a one-time payment (such as a sign-on bonus)",
+   "area": "payroll",
+   "parked": false
+  },
+  {
+   "slug": "staff-supplement",
+   "title": "Add a staff supplement",
+   "area": "payroll",
+   "parked": false
+  },
+  {
+   "slug": "voluntary-termination",
+   "title": "Voluntary termination",
+   "area": "assignments",
+   "parked": false
+  },
+  {
+   "slug": "reduction-in-force",
+   "title": "Reduction in force (RIF)",
+   "area": "assignments",
+   "parked": false
+  },
+  {
+   "slug": "involuntary-termination",
+   "title": "Involuntary termination (misconduct)",
+   "area": "assignments",
+   "parked": false
+  },
+  {
+   "slug": "costing-fundamentals",
+   "title": "Costing fundamentals",
+   "area": "costing",
+   "parked": false
+  },
+  {
+   "slug": "when-to-update-costing",
+   "title": "When costing must be updated",
+   "area": "costing",
+   "parked": false
+  },
+  {
+   "slug": "enter-edit-costing",
+   "title": "Enter costing for a person",
+   "area": "costing",
+   "parked": false
+  },
+  {
+   "slug": "change-existing-costing",
+   "title": "Change existing costing",
+   "area": "costing",
+   "parked": false
+  },
+  {
+   "slug": "add-document-record",
+   "title": "Add a document record",
+   "area": "records",
+   "parked": false
+  },
+  {
+   "slug": "hcm-structure",
+   "title": "HCM Structure and Key Concepts",
+   "area": "start",
+   "parked": false
+  },
+  {
+   "slug": "workflow-worklists",
+   "title": "HCM Workflow and Worklists",
+   "area": "start",
+   "parked": false
+  },
+  {
+   "slug": "quick-actions-person-info",
+   "title": "Quick Actions and Viewing Person and Employment Information",
+   "area": "start",
+   "parked": false
+  },
+  {
+   "slug": "ferpa-for-staff",
+   "title": "FERPA Tutorial for Staff",
+   "area": "start",
+   "parked": false
+  },
+  {
+   "slug": "i9-background-by-worker-type",
+   "title": "I-9 and background check requirements by worker type",
+   "area": "start",
+   "parked": false
+  },
+  {
+   "slug": "employee-vs-contractor",
+   "title": "Employee or independent contractor?",
+   "area": "start",
+   "parked": false
+  },
+  {
+   "slug": "data-integrity",
+   "title": "Data integrity: bad data in, bad data out",
+   "area": "start",
+   "parked": false
+  },
+  {
+   "slug": "rehire-eligibility",
+   "title": "Rehires and eligibility for rehire",
+   "area": "hiring",
+   "parked": false
+  },
+  {
+   "slug": "hire-staff",
+   "title": "Staff",
+   "area": "hiring",
+   "parked": false
+  },
+  {
+   "slug": "hire-interns",
+   "title": "Interns (Paid and Unpaid)",
+   "area": "hiring",
+   "parked": false
+  },
+  {
+   "slug": "ukg-for-managers",
+   "title": "UKG: Timecards, Time Off, and Schedules for Managers",
+   "area": "payroll",
+   "parked": false
+  },
+  {
+   "slug": "ukg-for-employees",
+   "title": "UKG: Employee Timecards and Time Off",
+   "area": "payroll",
+   "parked": false
+  },
+  {
+   "slug": "comp-impacts-payroll",
+   "title": "Compensation impacts on payroll processing",
+   "area": "payroll",
+   "parked": false
+  },
+  {
+   "slug": "costing-impacts",
+   "title": "How employee costing impacts payroll and financial reporting",
+   "area": "costing",
+   "parked": false
+  },
+  {
+   "slug": "bi-intro-playbook",
+   "title": "Introduction to BI Reporting and the Departmental Playbook",
+   "area": "records",
+   "parked": false
+  },
+  {
+   "slug": "reporting-101",
+   "title": "Reporting 101",
+   "area": "records",
+   "parked": false
+  },
+  {
+   "slug": "reporting-201",
+   "title": "Reporting 201",
+   "area": "records",
+   "parked": false
+  },
+  {
+   "slug": "reporting-301",
+   "title": "Reporting 301",
+   "area": "records",
+   "parked": false
+  },
+  {
+   "slug": "add-assignment",
+   "title": "Add Assignment",
+   "area": "assignments",
+   "parked": false
+  },
+  {
+   "slug": "direct-reports",
+   "title": "Direct Reports",
+   "area": "assignments",
+   "parked": false
+  },
+  {
+   "slug": "promote",
+   "title": "Promote",
+   "area": "assignments",
+   "parked": false
+  },
+  {
+   "slug": "end-assignment-vs-terminate",
+   "title": "Ending assignments vs. terminating employment",
+   "area": "assignments",
+   "parked": false
+  },
+  {
+   "slug": "terminate-multiple-assignments",
+   "title": "How to handle a termination when an employee has multiple assignments",
+   "area": "assignments",
+   "parked": false
+  },
+  {
+   "slug": "offboarding-requirements",
+   "title": "Offboarding process requirements",
+   "area": "assignments",
+   "parked": false
+  },
+  {
+   "slug": "fmla-tmla-transactions",
+   "title": "Entering and managing FMLA/TMLA transactions (continuous vs. intermittent)",
+   "area": "leave",
+   "parked": false
+  },
+  {
+   "slug": "leave-workflows",
+   "title": "Leave administration workflows within Oracle",
+   "area": "leave",
+   "parked": false
+  },
+  {
+   "slug": "exempt-time-off",
+   "title": "Managing Exempt Time Off in Oracle",
+   "area": "leave",
+   "parked": false
+  },
+  {
+   "slug": "student-hiring-process",
+   "title": "Student hiring process and requirements",
+   "area": "students",
+   "parked": false
+  },
+  {
+   "slug": "student-workers",
+   "title": "Student Workers",
+   "area": "students",
+   "parked": false
+  },
+  {
+   "slug": "work-relationship-vs-assignment",
+   "title": "Add a Work Relationship or add an Assignment?",
+   "area": "students",
+   "parked": false
+  },
+  {
+   "slug": "student-faculty-changes",
+   "title": "Student and faculty assignment changes",
+   "area": "students",
+   "parked": false
+  },
+  {
+   "slug": "shared-calendar",
+   "title": "The Shared Administrative Calendar",
+   "area": "start",
+   "parked": true
+  },
+  {
+   "slug": "confidentiality-agreement",
+   "title": "Confidentiality and Secure Access Agreement (annual)",
+   "area": "start",
+   "parked": true
+  },
+  {
+   "slug": "hire-union",
+   "title": "Union Employees",
+   "area": "hiring",
+   "parked": true
+  },
+  {
+   "slug": "out-of-state-risk",
+   "title": "Out of State Risk Assessment",
+   "area": "hiring",
+   "parked": true
+  },
+  {
+   "slug": "pay-transparency",
+   "title": "Pay transparency",
+   "area": "hiring",
+   "parked": true
+  },
+  {
+   "slug": "payroll-cadence-by-state",
+   "title": "Payroll cadence",
+   "area": "hiring",
+   "parked": true
+  },
+  {
+   "slug": "regional-benefits-leave",
+   "title": "Regional benefits and leave",
+   "area": "hiring",
+   "parked": true
+  },
+  {
+   "slug": "leave-status-updates",
+   "title": "Leave status updates",
+   "area": "leave",
+   "parked": true
+  },
+  {
+   "slug": "leave-monthly-vs-biweekly",
+   "title": "Differences in processing leaves for monthly vs. biweekly employees",
+   "area": "leave",
+   "parked": true
+  },
+  {
+   "slug": "student-expense-only",
+   "title": "Student Expense Only",
+   "area": "students",
+   "parked": true
+  },
+  {
+   "slug": "service-free-stipend",
+   "title": "Service Free Stipend",
+   "area": "students",
+   "parked": true
+  },
+  {
+   "slug": "faculty-hiring-process",
+   "title": "Faculty hiring process and requirements",
+   "area": "students",
+   "parked": true
+  },
+  {
+   "slug": "hire-faculty",
+   "title": "Faculty",
+   "area": "students",
+   "parked": true
+  },
+  {
+   "slug": "emeritus",
+   "title": "Emeritus",
+   "area": "students",
+   "parked": true
+  },
+  {
+   "slug": "ferdc",
+   "title": "FERDC",
+   "area": "students",
+   "parked": true
+  },
+  {
+   "slug": "student-faculty-approvals",
+   "title": "Oracle transactions and approvals for these populations",
+   "area": "students",
+   "parked": true
+  }
+ ]
+}

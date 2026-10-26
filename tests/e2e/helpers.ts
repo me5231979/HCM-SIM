@@ -1,5 +1,14 @@
+import { readFileSync } from 'node:fs';
 import { expect, type Page } from '@playwright/test';
 import AxeBuilder from './axe';
+import type { MissionT, GameEventT, StepT, EventStepT, PersonT } from '../../content/schemas';
+
+const read = <T,>(p: string) => JSON.parse(readFileSync(new URL(`../../content/${p}`, import.meta.url), 'utf8')) as T;
+const week = read<MissionT>('week.json');
+const events = read<{ events: GameEventT[] }>('events.json').events;
+const people = read<{ people: PersonT[] }>('employees.json').people;
+/** Every request in the week, so a run can answer whatever opens, in any order. */
+const steps = new Map<string, StepT | EventStepT>([...week.steps, ...events.filter((e) => e.status === 'live' && e.step).map((e) => e.step!)].map((s) => [s.id, s]));
 
 export async function start(page: Page, opts: { view?: '3d' | '2d'; mode?: 'training' | 'certification'; code?: string; tour?: boolean; voices?: boolean } = {}) {
   await page.addInitScript(([view, voices]) => {
@@ -12,82 +21,96 @@ export async function start(page: Page, opts: { view?: '3d' | '2d'; mode?: 'trai
     await page.getByTestId('run-code').fill(opts.code);
   }
   await page.getByTestId('start').click();
-  for (let i = 0; i < 3; i++) await page.getByRole('button', { name: 'Next' }).click();
+  for (let i = 0; i < week.briefing.length - 1; i++) await page.getByRole('button', { name: 'Next', exact: false }).click();
   await page.getByTestId(opts.tour ? 'tour' : 'begin').click();
 }
 
-/** Open a task from the inbox, skipping the clock ahead until it has arrived. */
-export async function openTask(page: Page, subject: string) {
-  for (let i = 0; i < 16; i++) {
-    const inList = page.locator('.inbox-item', { hasText: subject });
-    if (await page.locator('.listview').count()) {
-      if (await inList.count()) { await inList.first().click(); return; }
-    } else {
-      if (!(await page.locator('.drawer--left').count())) await page.getByTestId('inbox').click();
-      if (await inList.count()) { await inList.first().click(); return; }
-      await page.getByRole('button', { name: 'Close' }).click();
-    }
+/** Open a request from the inbox, skipping the clock ahead until it has arrived. */
+export async function openTask(page: Page, stepId: string) {
+  for (let i = 0; i < 150; i++) {
+    await dismissDay(page);
+    if (!(await page.locator('.listview').count()) && !(await page.locator('.drawer--left').count())) await page.getByTestId('inbox').click();
+    const item = page.locator(`.inbox-item[data-step="${stepId}"]`);
+    if (await item.count()) { await item.first().click(); return; }
+    if (await page.locator('.drawer--left').count()) await page.locator('.drawer--left').getByRole('button', { name: 'Close' }).click();
     await page.getByTestId('skip').click();
   }
-  throw new Error(`Task never arrived: ${subject}`);
+  throw new Error(`Request never arrived: ${stepId}`);
 }
 
-export async function choose(page: Page, label: string) {
+/** A new workday's recap waits for Start the day. */
+async function dismissDay(page: Page) {
+  const b = page.getByTestId('start-day');
+  if (await b.count()) await b.click();
+}
+
+/** Answer every decision on the open request with its right choice (or the first wrong one). */
+export async function answerOpen(page: Page, pick: 'correct' | 'wrong' = 'correct') {
   const panel = page.locator('.task');
-  await panel.getByLabel(label, { exact: false }).check();
-  await panel.getByRole('button', { name: 'Decide' }).first().click();
+  const id = await panel.locator('[data-step]').first().getAttribute('data-step');
+  const step = steps.get(id!)!;
+  const choiceFor = (d: StepT['decisions'][number]) => (pick === 'correct' ? d.choices.find((c) => c.correct)! : d.choices.find((c) => !c.correct && !c.hidden)!);
+  if (step.type === 'form') {
+    const form = panel.locator('form.sim-form');
+    for (const d of step.decisions) {
+      const field = form.getByLabel(d.prompt, { exact: true });
+      if (!(await field.count())) continue;
+      if (d.kind === 'number') await field.fill(pick === 'correct' ? String(d.expected) : '1');
+      else await field.selectOption({ label: choiceFor(d).text });
+    }
+    await form.locator('button[type=submit]').click();
+    return;
+  }
+  if (step.type === 'review') {
+    const anomalies = step.review!.rows.filter((r) => r.anomaly).map((r) => r.employeeId);
+    if (pick === 'correct') {
+      for (const r of anomalies) await panel.getByLabel(`Flag ${people.find((p) => p.id === r)!.name}`).check();
+      await panel.getByRole('button', { name: /Submit \d flagged row/ }).click();
+    } else {
+      await panel.getByRole('button', { name: 'Everything looks right' }).click();
+    }
+  }
+  // Choice decisions, including ones that appear after an earlier answer.
+  for (let pass = 0; pass < 3; pass++) {
+    for (const d of step.decisions) {
+      if (step.type === 'review' && d.id === 'flag') continue;
+      const c = choiceFor(d);
+      const option = panel.getByLabel(c.text, { exact: true });
+      if (!(await option.count())) continue;
+      await option.check();
+      await option.locator('xpath=ancestor::form[1]').getByRole('button', { name: 'Decide' }).click();
+    }
+  }
 }
 
-export async function back(page: Page) {
-  await page.getByRole('button', { name: 'Back to the office' }).click();
-}
-
-export async function perfectRun(page: Page) {
-  await openTask(page, 'Read the payroll calendar');
-  await choose(page, "Transactions, like a raise, must be entered and approved by Friday's HCM transaction cutoff");
-  await back(page);
-
-  await openTask(page, 'Send the time card reminder');
-  await page.getByLabel('When should the reminder go out?').selectOption({ label: 'Today, Thursday, so people can fix gaps before the weekend' });
-  await page.getByLabel('Who should get it?').selectOption({ label: 'Non-exempt employees and their managers' });
-  await page.getByRole('button', { name: 'Send reminder' }).click();
-  await back(page);
-
-  await openTask(page, 'Weekly time card check');
-  await choose(page, 'Send Marcus the details');
-  await choose(page, 'The 4 hours must be paid as overtime');
-  await choose(page, 'Let Dana know non-exempt PTO goes in 4-hour increments');
-  await back(page);
-
-  await openTask(page, 'Enter a retro pay increase');
-  await page.getByLabel('Effective date').selectOption({ label: 'Sun Sep 27' });
-  await page.getByLabel('New hourly rate').fill('24.50');
-  await page.getByRole('button', { name: 'Save and submit' }).click();
-  await back(page);
-
-  await openTask(page, 'Headcount report in one hour');
-  await choose(page, 'Reply now: offer a quick count');
-  await back(page);
-
-  await openTask(page, 'Chase late approvals');
-  await choose(page, 'Email Marcus the three names');
-  await back(page);
-
-  await openTask(page, 'Final time card check');
-  await page.getByLabel('Flag Lena Kowalski').check();
-  await page.getByRole('button', { name: /Submit 1 flagged row/ }).click();
-  await choose(page, 'Tell Dana. She removes her approval');
-  await back(page);
-
-  await openTask(page, 'Marcus is out today');
-  await choose(page, "Send the three names, the pay period, and the noon deadline to Marcus's backup approver");
-  await back(page);
-
-  await expect(page.getByText("That's everything for pay period 22.")).toBeVisible();
-  await page.getByTestId('finish').click();
+/** Play the whole week from the inbox: open each request as it arrives, answer it, move on. */
+export async function playWeek(page: Page, pick: 'correct' | 'wrong' = 'correct') {
+  for (let guard = 0; guard < 600; guard++) {
+    if (await page.locator('.payday').count()) return;
+    await dismissDay(page);
+    if (await page.locator('.task').count()) {
+      await answerOpen(page, pick);
+      const next = page.getByTestId('next-request');
+      if (await next.count()) await next.click();
+      else await page.getByRole('button', { name: 'Back to the office' }).click();
+      continue;
+    }
+    const fyi = page.getByRole('button', { name: 'Got it' });
+    if (await fyi.count()) { await fyi.click(); continue; }
+    if (!(await page.locator('.listview').count()) && !(await page.locator('.drawer--left').count())) await page.getByTestId('inbox').click();
+    const open = page.locator('.inbox-item[data-kind="task"][data-status="open"]');
+    if (await open.count()) { await open.first().click(); continue; }
+    if (await page.locator('.drawer--left').count()) await page.locator('.drawer--left').getByRole('button', { name: 'Close' }).click();
+    const finish = page.getByTestId('finish');
+    if (await finish.count()) { await finish.click(); continue; }
+    await page.getByTestId('skip').click();
+  }
+  throw new Error('The week never reached pay day');
 }
 
 export async function axe(page: Page) {
   const r = await new AxeBuilder(page).analyze();
   return r.violations.filter((v) => v.impact === 'serious' || v.impact === 'critical');
 }
+
+export { expect };

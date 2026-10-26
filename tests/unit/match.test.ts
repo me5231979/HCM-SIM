@@ -1,9 +1,9 @@
 import { describe, expect, it } from 'vitest';
 import { matchAny, matchChoice } from '../../src/audio/match';
-import { payroll } from '../../src/content';
+import { week } from '../../src/content';
 
-const ot = payroll.steps.find((s) => s.id === 'timecards')!.decisions.find((d) => d.id === 'nair_ot')!.choices.map((c) => c.text);
-// ot[0] pay overtime, ot[1] move 4 hours to week 2, ot[2] change it to 40
+const ot = week.steps.find((s) => s.id === 'timecards')!.decisions.find((d) => d.id === 'nair_ot')!.choices.map((c) => c.text);
+// ot[0] keep 44 and pay overtime, ot[1] move 4 hours to week 2, ot[2] change week 1 to 40
 
 describe('speak-back matcher', () => {
   it('reads positions said many ways', () => {
@@ -21,9 +21,9 @@ describe('speak-back matcher', () => {
     expect(matchChoice('one or two', ot)).toBeNull();
   });
   it('matches an answer said in the player’s own words', () => {
-    expect(matchChoice('the four hours must be paid as overtime approved or not', ot)?.index).toBe(0);
+    expect(matchChoice('keep the hours as worked and pay the overtime', ot)?.index).toBe(0);
     expect(matchChoice('she can move the hours into week two', ot)?.index).toBe(1);
-    expect(matchChoice('since overtime was not approved she can change it to forty', ot)?.index).toBe(2);
+    expect(matchChoice('change week one to forty since the overtime was not approved', ot)?.index).toBe(2);
   });
   it('asks again rather than guessing when nothing fits', () => {
     expect(matchChoice('what is for lunch today', ot)).toBeNull();
