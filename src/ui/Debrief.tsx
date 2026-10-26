@@ -13,7 +13,7 @@ import { Icon, MeterGlyph } from './icons';
 const deltaText = (d: DeltasT) => (Object.entries(d) as [MeterKey, number][]).filter(([, v]) => v).map(([k, v]) => `${METERS.find((m) => m.key === k)!.short} ${v > 0 ? '+' : ''}${v}`).join(', ');
 
 export function Debrief() {
-  const { snap, game, startRun, restart, settings } = useGame();
+  const { snap, game, startRun, restart, settings, pauses } = useGame();
   const [sel, setSel] = useState<string | null>(null);
   if (!snap || !game) return null;
   const r = rating(snap.meters);
@@ -37,7 +37,7 @@ export function Debrief() {
       <header className="db-head">
         <p className="eyebrow">Debrief · Payroll · seed {snap.seed} · {snap.mode === 'training' ? 'Training' : 'Certification'}</p>
         <BlurText as="h1" text={`${r}.`} italic={r.split(' ').pop()} className="display display--sm" />
-        <p className="lede">{snap.ended?.reason === 'approved' ? `You approved payroll ${dayLabel(snap.ended.at)} at ${clockLabel(snap.ended.at)}.` : 'Cutoff passed before you approved payroll.'} {errors.length === 0 ? 'Every decision was the right call.' : `${snap.log.length - errors.length} of ${snap.log.length} decisions were the right call.`}{snap.hints.length > 0 && ` Hints used: ${snap.hints.length}.`}</p>
+        <p className="lede">{snap.ended?.reason === 'approved' ? `You approved payroll ${dayLabel(snap.ended.at)} at ${clockLabel(snap.ended.at)}.` : 'Cutoff passed before you approved payroll.'} {errors.length === 0 ? 'Every decision was the right call.' : `${snap.log.length - errors.length} of ${snap.log.length} decisions were the right call.`}{snap.hints.length > 0 && ` Hints used: ${snap.hints.length}.`}{snap.mode === 'certification' && pauses > 0 && ` Pauses: ${pauses} (logged, not penalized).`}</p>
       </header>
 
       <section aria-labelledby="m-h" className="db-section">

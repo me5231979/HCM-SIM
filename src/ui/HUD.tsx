@@ -60,7 +60,7 @@ export function HUD({ zoomStep, setZoom }: { zoomStep: number; setZoom: (n: numb
         <div className="hud-clock liquid-glass" aria-label={`${dayLabel(snap.time)}, ${clockLabel(snap.time)}. Day ${dayOf(snap.time)} of 10.`}>
           <span className="hud-day">{dayLabel(snap.time)}</span>
           <span className="hud-time">{clockLabel(snap.time)}</span>
-          <span className="hud-sub">Day {dayOf(snap.time)} of 10{!timed && ' · clock paused while you read'}{s.paused && ' · paused'}</span>
+          <span className="hud-sub">Day {dayOf(snap.time)} of 10{settings.speed === 'manual' ? ' · manual clock: Skip moves ahead' : !timed ? ' · clock paused while you read' : ''}{s.paused && ' · paused'}</span>
         </div>
         <div className={`hud-cutoff liquid-glass u-${u}`} aria-label={`Payroll cutoff Friday 5:00 PM. ${countdownLabel(left)} of work time left. ${uText}.`}>
           <span className="hud-cut-label">Payroll cutoff · Fri 5:00 PM</span>

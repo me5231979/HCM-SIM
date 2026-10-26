@@ -65,6 +65,6 @@ export function urgency(now: SimTime, cutoff: SimTime): Urgency {
   return 'normal';
 }
 
-/** Real seconds per sim hour for each speed setting. */
+/** Real seconds per sim hour for each timed speed. Manual: the clock moves only on decisions and Skip (WCAG 2.2.1). */
 export const SPEEDS = { relaxed: 40, standard: 24, brisk: 12 } as const;
-export type Speed = keyof typeof SPEEDS;
+export type Speed = keyof typeof SPEEDS | 'manual';

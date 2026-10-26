@@ -3,7 +3,7 @@ import AxeBuilder from './axe';
 
 export async function start(page: Page, opts: { view?: '3d' | '2d'; mode?: 'training' | 'certification'; seed?: string } = {}) {
   await page.addInitScript(([view]) => {
-    localStorage.setItem('pp_settings', JSON.stringify({ view, reducedMotion: true, speed: 'relaxed' }));
+    localStorage.setItem('pp_settings', JSON.stringify({ view, reducedMotion: true, speed: 'manual' }));
   }, [opts.view ?? '3d']);
   await page.goto('/');
   if (opts.mode === 'certification') await page.getByText('Certification', { exact: true }).click();

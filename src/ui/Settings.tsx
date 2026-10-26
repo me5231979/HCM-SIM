@@ -12,7 +12,8 @@ export function Settings() {
         {(['3d', '2d'] as const).map((v) => <label key={v} className="radio"><input type="radio" name="view" checked={settings.view === v} onChange={() => setSettings({ view: v })} />{v === '3d' ? '3D office' : 'List view (no 3D, same game)'}</label>)}
       </fieldset>
       <fieldset className="set-row"><legend>Clock speed</legend>
-        {(Object.keys(SPEEDS) as Speed[]).map((k) => <label key={k} className="radio"><input type="radio" name="speed" checked={settings.speed === k} onChange={() => setSettings({ speed: k })} />{k[0].toUpperCase() + k.slice(1)} <span className="muted">({SPEEDS[k]} sec per sim hour)</span></label>)}
+        {(Object.keys(SPEEDS) as (keyof typeof SPEEDS)[]).map((k) => <label key={k} className="radio"><input type="radio" name="speed" checked={settings.speed === k} onChange={() => setSettings({ speed: k })} />{k[0].toUpperCase() + k.slice(1)} <span className="muted">({SPEEDS[k]} sec per sim hour)</span></label>)}
+        <label className="radio"><input type="radio" name="speed" checked={settings.speed === 'manual'} onChange={() => setSettings({ speed: 'manual' as Speed })} />Manual <span className="muted">(time moves only when you act or press Skip)</span></label>
       </fieldset>
       <fieldset className="set-row"><legend>Text size</legend>
         {[1, 1.25, 1.5, 2].map((n) => <label key={n} className="radio"><input type="radio" name="text" checked={settings.textScale === n} onChange={() => setSettings({ textScale: n })} />{n * 100}%</label>)}

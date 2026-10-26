@@ -10,6 +10,7 @@ test('title screen loads with no serious accessibility violations', async ({ pag
 test('perfect run in 3D ends Ready with all meters A and no pay day problems', async ({ page }) => {
   test.setTimeout(300_000);
   await start(page, { seed: 'e2e-perfect' });
+  await expect(page.locator('.scene canvas')).toBeVisible();
   await perfectRun(page);
   await expect(page.getByRole('heading', { name: /Checks are out/ })).toBeVisible();
   await page.getByRole('button', { name: 'Skip to debrief' }).click().catch(() => {});

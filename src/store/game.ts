@@ -153,6 +153,8 @@ export const useGame = create<State>((set, get) => {
     hasSavedRun: !!load<SavedRun | null>(KEYS.run, null as unknown as SavedRun)?.seed,
 
     setSettings(p) {
+      // Switching to the manual clock mid-run is logged like a pause: allowed in every mode, never penalized.
+      if (p.speed === 'manual' && get().settings.speed !== 'manual' && get().phase === 'playing') set((s) => ({ pauses: s.pauses + 1 }));
       const settings = { ...get().settings, ...p };
       save(KEYS.settings, settings);
       set({ settings });
@@ -213,6 +215,7 @@ export const useGame = create<State>((set, get) => {
     tick(realMs) {
       const s = get();
       if (s.phase !== 'playing' || !s.game || s.paused) return;
+      if (s.settings.speed === 'manual') return;
       if (s.settings.mode === 'training' && (s.openStepId || s.binderOpen || s.settingsOpen || s.openNoiseId)) return;
       const total = s.carry + (realMs / 1000) * (60 / SPEEDS[s.settings.speed]);
       const minutes = Math.floor(total);

@@ -2,7 +2,7 @@ name: CI and Pages
 on:
   push: { branches: [main] }
   pull_request:
-permissions: { contents: read, pages: write, id-token: write }
+permissions: { contents: read }
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -15,17 +15,23 @@ jobs:
       - run: npm test
       - run: npm run test:e2e
   deploy:
-    if: github.ref == 'refs/heads/main'
+    # Publishes the built site to the gh-pages branch. Pages source: Deploy from a branch, gh-pages, root.
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     needs: test
     runs-on: ubuntu-latest
-    environment: { name: github-pages, url: '${{ steps.d.outputs.page_url }}' }
+    permissions: { contents: write }
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with: { node-version: 22, cache: npm }
       - run: npm ci
-      - run: BASE_PATH=/${{ github.event.repository.name }}/ npm run build
-      - uses: actions/upload-pages-artifact@v3
-        with: { path: dist }
-      - id: d
-        uses: actions/deploy-pages@v4
+      - run: npm run build
+        env: { BASE_PATH: '/${{ github.event.repository.name }}/' }
+      - name: Publish dist to gh-pages
+        run: |
+          cd dist
+          touch .nojekyll
+          git init -q -b gh-pages
+          git add -A
+          git -c user.name="github-actions[bot]" -c user.email="41898282+github-actions[bot]@users.noreply.github.com" commit -qm "Deploy ${GITHUB_SHA::7}"
+          git push -f "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" gh-pages
