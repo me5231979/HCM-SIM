@@ -5,7 +5,16 @@
       "title": "Director needs a headcount report",
       "status": "live",
       "mission": "payroll",
-      "window": { "from": { "day": 10, "at": "09:30" }, "to": { "day": 10, "at": "10:30" } },
+      "window": {
+        "from": {
+          "date": "2026-10-23",
+          "at": "09:30"
+        },
+        "to": {
+          "date": "2026-10-23",
+          "at": "10:30"
+        }
+      },
       "step": {
         "id": "headcount",
         "type": "choice",
@@ -14,8 +23,11 @@
         "location": "office_c",
         "priority": "high",
         "dueMinutes": 60,
-        "context": "Dr. Park: \"Budget meeting at 11. I need a headcount report for the department. Can you have it to me in an hour?\" Payroll cutoff is at 5:00 PM today.",
-        "policyIds": ["cutoff"],
+        "context": "Dr. Park: \"Budget meeting at 11. I need a headcount report for the department. Can you have it to me in an hour?\" Today is the HCM transaction cutoff, and Jordan's raise has to be in by 5:00 PM.",
+        "policyIds": [
+          "calendar",
+          "hcm_role"
+        ],
         "hint": "Ask what the director actually needs for the meeting. It's often smaller than the request.",
         "hintMeter": "managerSatisfaction",
         "decisions": [
@@ -24,24 +36,123 @@
             "prompt": "What do you do?",
             "missedChoiceId": "ignore",
             "choices": [
-              { "id": "scope", "text": "Reply now: offer a quick count by employee type for the meeting, and the full report Monday after payroll closes.", "correct": true, "deltas": { "managerSatisfaction": 3 }, "timeCost": 20, "feedback": "Dr. Park only needed totals for the meeting. Five minutes of scoping kept payroll on track. Next time: confirm the real need and offer a time you can keep." },
-              { "id": "full", "text": "Drop payroll work and build the full report now. The director asked.", "correct": false, "errorCode": "PAY_TRIAGE", "deltas": { "managerSatisfaction": 1, "payrollAccuracy": -2 }, "timeCost": 120, "feedback": "The full report took two hours of your cutoff day, and the meeting only needed totals. Next time: confirm what's needed and when, then protect cutoff work." },
-              { "id": "ignore", "text": "Leave it until after cutoff. Payroll comes first.", "correct": false, "errorCode": "PAY_TRIAGE", "deltas": { "managerSatisfaction": -8 }, "timeCost": 0, "feedback": "Payroll does come first, but silence left the director walking into a meeting with nothing. Next time: a two-line reply with what you can send and when.", "consequences": [{ "at": "payday", "speaker": "dir_park", "tone": "negative", "line": "I went into the budget meeting Friday with no numbers. A quick reply would have been enough.", "summary": "The director was left without a reply.", "deltas": { "managerSatisfaction": -4 } }] }
+              {
+                "id": "scope",
+                "text": "Reply now: offer a quick count by employee type for the meeting, and the full report Monday after payroll closes.",
+                "correct": true,
+                "deltas": {
+                  "managerSatisfaction": 3
+                },
+                "timeCost": 20,
+                "feedback": "Dr. Park only needed totals for the meeting. Five minutes of scoping kept your cutoff work on track. Next time: confirm the real need and offer a time you can keep."
+              },
+              {
+                "id": "full",
+                "text": "Drop payroll work and build the full report now. The director asked.",
+                "correct": false,
+                "errorCode": "PAY_TRIAGE",
+                "deltas": {
+                  "managerSatisfaction": 1,
+                  "payrollAccuracy": -2
+                },
+                "timeCost": 120,
+                "feedback": "The full report took two hours of your cutoff day, and the meeting only needed totals. Next time: confirm what's needed and when, then protect cutoff work."
+              },
+              {
+                "id": "ignore",
+                "text": "Leave it until after the cutoff. Transactions come first.",
+                "correct": false,
+                "errorCode": "PAY_TRIAGE",
+                "deltas": {
+                  "managerSatisfaction": -8
+                },
+                "timeCost": 0,
+                "feedback": "Cutoff work does come first, but silence left the director walking into a meeting with nothing. Next time: a two-line reply with what you can send and when.",
+                "consequences": [
+                  {
+                    "at": "payday",
+                    "speaker": "dir_park",
+                    "tone": "negative",
+                    "line": "I went into the budget meeting Friday with no numbers. A quick reply would have been enough.",
+                    "summary": "The director was left without a reply.",
+                    "deltas": {
+                      "managerSatisfaction": -4
+                    }
+                  }
+                ]
+              }
             ]
           }
         ]
       }
     },
-    { "id": "forgot_termination", "title": "Manager forgot to submit a termination from last week", "status": "planned", "mission": "offboard" },
-    { "id": "ot_dispute", "title": "Employee disputes overtime on paycheck", "status": "planned", "mission": "payroll" },
-    { "id": "start_moved", "title": "New hire moves start date two days before start", "status": "planned", "mission": "onboard" },
-    { "id": "two_managers", "title": "Two managers claim the same employee after a transfer", "status": "planned", "mission": "changes" },
-    { "id": "timecard_outage", "title": "Timecard system outage for half a day", "status": "planned", "mission": "payroll", "sme": true },
-    { "id": "pay_equity", "title": "Employee asks about pay equity after overhearing a coworker's pay", "status": "planned", "mission": "changes" },
-    { "id": "leave_at_cutoff", "title": "Leave request arrives the morning of cutoff", "status": "planned", "mission": "leave" },
-    { "id": "duplicate_record", "title": "Duplicate employee record discovered", "status": "planned", "mission": "hire" },
-    { "id": "text_resignation", "title": "Employee resigns by text message to their manager", "status": "planned", "mission": "offboard" },
-    { "id": "holiday_pay", "title": "Holiday falls in the period", "status": "planned", "mission": "payroll", "sme": true },
-    { "id": "wrong_bank", "title": "New hire submits wrong bank information", "status": "planned", "mission": "onboard" }
+    {
+      "id": "forgot_termination",
+      "title": "Manager forgot to submit a termination from last week",
+      "status": "planned",
+      "mission": "offboard"
+    },
+    {
+      "id": "ot_dispute",
+      "title": "Employee disputes overtime on paycheck",
+      "status": "planned",
+      "mission": "payroll"
+    },
+    {
+      "id": "start_moved",
+      "title": "New hire moves start date two days before start",
+      "status": "planned",
+      "mission": "onboard"
+    },
+    {
+      "id": "two_managers",
+      "title": "Two managers claim the same employee after a transfer",
+      "status": "planned",
+      "mission": "changes"
+    },
+    {
+      "id": "timecard_outage",
+      "title": "Timecard system outage for half a day",
+      "status": "planned",
+      "mission": "payroll",
+      "sme": true
+    },
+    {
+      "id": "pay_equity",
+      "title": "Employee asks about pay equity after overhearing a coworker's pay",
+      "status": "planned",
+      "mission": "changes"
+    },
+    {
+      "id": "leave_at_cutoff",
+      "title": "Leave request arrives the morning of cutoff",
+      "status": "planned",
+      "mission": "leave"
+    },
+    {
+      "id": "duplicate_record",
+      "title": "Duplicate employee record discovered",
+      "status": "planned",
+      "mission": "hire"
+    },
+    {
+      "id": "text_resignation",
+      "title": "Employee resigns by text message to their manager",
+      "status": "planned",
+      "mission": "offboard"
+    },
+    {
+      "id": "holiday_pay",
+      "title": "Holiday falls in the period",
+      "status": "planned",
+      "mission": "payroll",
+      "sme": true
+    },
+    {
+      "id": "wrong_bank",
+      "title": "New hire submits wrong bank information",
+      "status": "planned",
+      "mission": "onboard"
+    }
   ]
 }

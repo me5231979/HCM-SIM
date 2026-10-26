@@ -1,5 +1,5 @@
 import { motion } from 'motion/react';
-import { useEffect, useRef, type ReactNode } from 'react';
+import { useEffect, useRef, type CSSProperties, type ReactNode } from 'react';
 import { personById } from '../content';
 import { useGame } from '../store/game';
 import { Icon } from './icons';
@@ -34,9 +34,12 @@ export function BlurText({ text, italic, className, as: Tag = 'h1', delay = 0.08
   );
 }
 
-/** Accessible dialog shell: focus moves in, Escape closes, focus returns to the opener. */
-export function Dialog({ label, onClose, children, className = '', modal = true, labelId }: { label?: string; labelId?: string; onClose?: () => void; children: ReactNode; className?: string; modal?: boolean }) {
+/** Accessible dialog shell: focus moves in once on open, Escape closes, focus returns to the opener. */
+export function Dialog({ label, onClose, children, className = '', modal = true, labelId, style }: { label?: string; labelId?: string; onClose?: () => void; children: ReactNode; className?: string; modal?: boolean; style?: CSSProperties }) {
   const ref = useRef<HTMLDivElement>(null);
+  // Keep the latest onClose without re-running the focus effect on every render (the clock re-renders often).
+  const close = useRef(onClose);
+  close.current = onClose;
   useEffect(() => {
     const opener = document.activeElement as HTMLElement | null;
     const el = ref.current;
@@ -44,7 +47,7 @@ export function Dialog({ label, onClose, children, className = '', modal = true,
     if (first && first.tagName === 'H2') first.setAttribute('tabindex', '-1');
     first?.focus({ preventScroll: true });
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape' && onClose) { e.stopPropagation(); onClose(); }
+      if (e.key === 'Escape' && close.current) { e.stopPropagation(); close.current(); }
       if (e.key === 'Tab' && modal && el) {
         const f = [...el.querySelectorAll<HTMLElement>('button:not([disabled]), [href], input:not([disabled]), select, textarea, [tabindex]:not([tabindex="-1"])')];
         if (!f.length) return;
@@ -54,9 +57,9 @@ export function Dialog({ label, onClose, children, className = '', modal = true,
     };
     el?.addEventListener('keydown', onKey);
     return () => { el?.removeEventListener('keydown', onKey); if (opener && document.contains(opener)) opener.focus({ preventScroll: true }); };
-  }, [onClose, modal]);
+  }, [modal]);
   return (
-    <div ref={ref} role="dialog" aria-modal={modal || undefined} aria-label={labelId ? undefined : label} aria-labelledby={labelId} className={`panel ${className}`}>
+    <div ref={ref} role="dialog" aria-modal={modal || undefined} aria-label={labelId ? undefined : label} aria-labelledby={labelId} className={`panel ${className}`} style={style}>
       {onClose && <button className="icon-btn close" onClick={onClose} aria-label="Close"><Icon.close /></button>}
       {children}
     </div>

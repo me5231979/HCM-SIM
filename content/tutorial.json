@@ -1,0 +1,53 @@
+{
+  "steps": [
+    { "id": "welcome", "target": null, "title": "Welcome to your office", "body": "You're the HCM for the Office of Learning Operations. Requests come to you through the day, and on pay day you'll see what every decision did to someone's check. This tour takes about a minute." },
+    { "id": "clock", "target": ".hud-clock", "title": "Game time", "body": "It's Thursday morning in pay period 22. Time moves while you work. In Training mode, the clock pauses while you have a request open, so take your time reading. When you're caught up, time speeds up until the next request arrives." },
+    { "id": "deadlines", "target": ".hud-deadlines", "title": "Your two deadlines", "body": "Straight from the 2026 payroll calendar. Transactions close at Friday's HCM transaction cutoff. Time cards are due Monday at noon, and then payroll signs off. Each countdown turns amber inside the last workday and red inside the last 4 hours." },
+    { "id": "meters", "target": ".hud-meters", "title": "Four meters", "body": "Your decisions move these. Each shows an icon, a number, and a label.", "legend": "meters" },
+    { "id": "inbox", "target": "[data-testid=inbox]", "title": "Your inbox", "body": "New requests land here, with a count of unread items. Sort by newest, due soonest, or priority. Some messages are just FYI." },
+    { "id": "places", "target": ".places", "title": "Places in the office", "body": "Jump to a spot in the office. A pin and a number mean something is waiting there. You can also click people and places in the 3D office.", "only3d": true },
+    { "id": "symbols", "target": null, "title": "What the symbols mean", "body": "Icons above people's heads show who needs you. Hover over a person to see the label.", "legend": "symbols" },
+    { "id": "controls", "target": ".hud-tools", "title": "Your controls", "body": "Every button is labeled. Here's what each one does.", "legend": "controls" },
+    { "id": "practice", "target": null, "title": "Try one", "body": "Here's a practice request. It isn't scored. Pick an answer, press Decide, and read the feedback.", "practice": true },
+    { "id": "ready", "target": null, "title": "You're ready", "body": "The clock starts when you close this. Open your inbox to begin. Press Help any time to see the symbols and controls again." }
+  ],
+  "legends": {
+    "meters": [
+      { "key": "payrollAccuracy", "label": "Accuracy", "text": "Are people paid the right amount? Higher is better." },
+      { "key": "complianceRisk", "label": "Risk", "text": "Policy and wage law exposure. Lower is better." },
+      { "key": "employeeTrust", "label": "Trust", "text": "How employees feel about their pay, and about you. Higher is better." },
+      { "key": "managerSatisfaction", "label": "Managers", "text": "How managers feel about working with you. Higher is better." }
+    ],
+    "symbols": [
+      { "key": "talk", "label": "Wants to talk", "text": "This person has a request for you. Click them, or open it from your inbox." },
+      { "key": "issue", "label": "Time card issue", "text": "This person's time card has an exception you haven't handled yet." },
+      { "key": "done", "label": "Resolved", "text": "You handled this person's time card issue the right way." },
+      { "key": "ring", "label": "Something is waiting here", "text": "A gold ring pulses on the floor where a request is waiting." }
+    ],
+    "controls": [
+      { "key": "skip", "label": "Skip", "text": "Jump ahead to the next request. Handy when you're caught up." },
+      { "key": "pause", "label": "Pause", "text": "Stop the clock. Press again to resume." },
+      { "key": "zoom", "label": "Zoom", "text": "Zoom the 3D office out or in." },
+      { "key": "view", "label": "View", "text": "Switch between the 3D office and List view. Same game, no 3D needed." },
+      { "key": "binder", "label": "Binder", "text": "The Policy Binder: the policies behind every decision, searchable." },
+      { "key": "settings", "label": "Settings", "text": "Clock speed (including Manual), text size, reduced motion, and view." },
+      { "key": "help", "label": "Help", "text": "This guide: the symbols, the controls, and the tour." }
+    ]
+  },
+  "practice": {
+    "title": "Practice: where deadlines live",
+    "from": "coach",
+    "context": "Renee: \"Quick warm-up before the clock starts. This one isn't scored.\"",
+    "hint": "Dates move with weekends, holidays, and year end. Where would you check every time?",
+    "decision": {
+      "id": "practice",
+      "prompt": "Where do you check the deadlines for a pay period?",
+      "missedChoiceId": "memory",
+      "choices": [
+        { "id": "calendar", "text": "The payroll calendar, every period", "correct": true, "deltas": {}, "timeCost": 0, "feedback": "Right. The payroll calendar is the source of truth, because dates move with weekends, holidays, and year end. That's how every decision works here: pick one, press Decide, and read the feedback." },
+        { "id": "memory", "text": "Whatever the dates were last period", "correct": false, "deltas": {}, "timeCost": 0, "feedback": "Dates move with weekends, holidays, and year end, so last period's dates can be wrong. Check the payroll calendar every period. In the real game, a wrong answer like this costs points and can show up on pay day." },
+        { "id": "coworker", "text": "Ask a coworker when things are due", "correct": false, "deltas": {}, "timeCost": 0, "feedback": "A coworker might remember wrong. The payroll calendar is the source of truth. In the real game, a wrong answer like this costs points and can show up on pay day." }
+      ]
+    }
+  }
+}

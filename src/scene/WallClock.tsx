@@ -16,7 +16,7 @@ export function WallClock({ position }: { position: [number, number, number] }) 
     const m = s ? minuteOfDay(s.time) : 600;
     if (hour.current) hour.current.rotation.z = -((m / 60) % 12) / 12 * Math.PI * 2;
     if (minute.current) minute.current.rotation.z = -(m % 60) / 60 * Math.PI * 2;
-    if (face.current && s) face.current.color.set(s.cutoff - s.time <= 240 ? '#F3D9CF' : C.cream);
+    if (face.current && s) face.current.color.set(s.deadline - s.time <= 240 ? '#F3D9CF' : C.cream);
   });
   return (
     <group position={position}>

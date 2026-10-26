@@ -1,9 +1,8 @@
 import { useState } from 'react';
 import { payroll, personById } from '../content';
-import { clockLabel } from '../engine/clock';
+import { clockLabel, weekdayLabel } from '../engine/clock';
 import { inboxItems, useGame } from '../store/game';
 import { Avatar, Dialog, priorityLabel } from './common';
-import { dayLabel } from './HUD';
 import { Icon } from './icons';
 
 type Sort = 'received' | 'due' | 'priority';
@@ -32,7 +31,7 @@ export function InboxList({ compact = false }: { compact?: boolean }) {
                 {!compact && <Avatar id={it.from} size={34} />}
                 <span className="ii-main">
                   <span className="ii-subject">{it.unread && <span className="ii-dot" aria-hidden="true" />}{it.subject}{it.unread && <span className="sr-only"> (unread)</span>}</span>
-                  <span className="ii-meta">{p.name} · {dayLabel(it.receivedAt).split(' ')[0]} {clockLabel(it.receivedAt)}{it.dueAt && !done ? ` · due ${dayLabel(it.dueAt).split(' ')[0]} ${clockLabel(it.dueAt)}` : ''}</span>
+                  <span className="ii-meta">{p.name} · {weekdayLabel(it.receivedAt)} {clockLabel(it.receivedAt)}{it.dueAt && !done ? ` · due ${weekdayLabel(it.dueAt)} ${clockLabel(it.dueAt)}` : ''}</span>
                 </span>
                 <span className={`ii-status st-${it.kind === 'noise' ? 'fyi' : it.status}`}>
                   {it.kind === 'noise' ? 'FYI' : it.status === 'done' ? <><Icon.check />Done</> : it.status === 'missed' ? <><Icon.cross />Missed</> : it.status === 'locked' ? <><Icon.clock />Waiting</> : it.status === 'skipped' ? 'Not needed' : <>{it.priority === 'urgent' && <Icon.alert />}{priorityLabel(it.priority)}<span className="sr-only"> priority</span></>}

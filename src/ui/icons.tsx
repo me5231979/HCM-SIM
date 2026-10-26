@@ -1,4 +1,5 @@
 import type { PersonStatusKind } from '../status';
+import type { JSX } from 'react';
 import type { MeterKey } from '../../content/schemas';
 
 /** Inline SVG icons. Status always pairs a distinct shape with a text label; color is never the only cue. */
@@ -25,7 +26,18 @@ export const Icon = {
   external: () => <svg {...S}><path d="M14 4h6v6M20 4l-9 9" /><path d="M18 14v5a1 1 0 01-1 1H5a1 1 0 01-1-1V7a1 1 0 011-1h5" /></svg>,
   pin: () => <svg {...S}><path d="M12 21s-7-6.2-7-11a7 7 0 1114 0c0 4.8-7 11-7 11z" /><circle cx="12" cy="10" r="2.5" /></svg>,
   flag: () => <svg {...S}><path d="M5 21V4M5 4h11l-2 4 2 4H5" /></svg>,
+  help: () => <svg {...S}><circle cx="12" cy="12" r="9" /><path d="M9.5 9.5a2.5 2.5 0 114 2c-.9.6-1.5 1.1-1.5 2.2" /><path d="M12 17v.01" /></svg>,
+  ring: () => <svg {...S}><ellipse cx="12" cy="14" rx="9" ry="4.5" /><ellipse cx="12" cy="14" rx="5" ry="2.2" /></svg>,
 };
+
+/** Icon for a legend entry in the tour and Help: symbols, controls, and meters share one lookup. */
+export function LegendIcon({ k }: { k: string }) {
+  if (k === 'talk' || k === 'issue' || k === 'done') return <StatusGlyph kind={k} />;
+  if (k === 'payrollAccuracy' || k === 'complianceRisk' || k === 'employeeTrust' || k === 'managerSatisfaction') return <MeterGlyph k={k} />;
+  const map: Record<string, () => JSX.Element> = { ring: Icon.ring, skip: Icon.skip, pause: Icon.pause, zoom: Icon.plus, view: Icon.list, binder: Icon.book, settings: Icon.gear, help: Icon.help };
+  const C = map[k];
+  return C ? <C /> : null;
+}
 
 export function MeterGlyph({ k }: { k: MeterKey }) {
   if (k === 'payrollAccuracy') return <svg {...S}><circle cx="12" cy="12" r="8.5" /><circle cx="12" cy="12" r="4.5" /><circle cx="12" cy="12" r="1" fill="currentColor" /></svg>;

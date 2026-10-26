@@ -1,57 +1,19 @@
 {
   "base": "https://me5231979.github.io/HCM_Academy/courses/",
   "codes": {
-    "PAY_CALENDAR": {
-      "course": "hcm-role-in-payroll",
-      "title": "The HCM's role in payroll"
-    },
-    "PAY_REMINDER_LATE": {
-      "course": "weekly-time-card-check",
-      "title": "Weekly time card check"
-    },
-    "PAY_UNDOC_EDIT": {
-      "course": "review-approve-time-cards",
-      "title": "Review and approve time cards"
-    },
-    "PAY_OT_DENIED": {
-      "course": "review-approve-time-cards",
-      "title": "Review and approve time cards"
-    },
-    "PAY_PTO_INCREMENT": {
-      "course": "enter-pto",
-      "title": "Enter PTO for an employee"
-    },
-    "PAY_APPROVE_FOR_MGR": {
-      "course": "review-approve-time-cards",
-      "title": "Review and approve time cards"
-    },
-    "PAY_LATE_APPROVAL": {
-      "course": "weekly-time-card-check",
-      "title": "Weekly time card check"
-    },
-    "PAY_RETRO_WRONG_DATE": {
-      "course": "comp-impacts-payroll",
-      "title": "Compensation impacts on payroll processing"
-    },
-    "PAY_RETRO_WRONG_RATE": {
-      "course": "change-salary",
-      "title": "Change salary"
-    },
-    "PAY_MISSED_ANOMALY": {
-      "course": "weekly-time-card-check",
-      "title": "Weekly time card check"
-    },
-    "PAY_TRIAGE": {
-      "course": "hcm-role-in-payroll",
-      "title": "The HCM's role in payroll"
-    },
-    "PAY_MISSED_CUTOFF": {
-      "course": "off-cycle-payment",
-      "title": "Request an off-cycle payment"
-    },
-    "PAY_EXCEPTION_IGNORED": {
-      "course": "weekly-time-card-check",
-      "title": "Weekly time card check"
-    }
+    "PAY_CALENDAR": { "course": "comp-impacts-payroll", "title": "Compensation impacts on payroll processing" },
+    "PAY_TRANSACTION_LATE": { "course": "comp-impacts-payroll", "title": "Compensation impacts on payroll processing" },
+    "PAY_REMINDER_LATE": { "course": "weekly-time-card-check", "title": "Weekly time card check" },
+    "PAY_LATE_APPROVAL": { "course": "weekly-time-card-check", "title": "Weekly time card check" },
+    "PAY_EXCEPTION_IGNORED": { "course": "weekly-time-card-check", "title": "Weekly time card check" },
+    "PAY_MISSED_ANOMALY": { "course": "weekly-time-card-check", "title": "Weekly time card check" },
+    "PAY_BYPASS_MANAGER": { "course": "ukg-for-managers", "title": "UKG: Timecards, Time Off, and Schedules for Managers" },
+    "PAY_UNDOC_EDIT": { "course": "review-approve-time-cards", "title": "Review and approve time cards" },
+    "PAY_APPROVE_FOR_MGR": { "course": "review-approve-time-cards", "title": "Review and approve time cards" },
+    "PAY_OT_DENIED": { "course": "review-approve-time-cards", "title": "Review and approve time cards" },
+    "PAY_PTO_INCREMENT": { "course": "enter-pto", "title": "Enter PTO for an employee" },
+    "PAY_RETRO_WRONG_DATE": { "course": "comp-impacts-payroll", "title": "Compensation impacts on payroll processing" },
+    "PAY_RETRO_WRONG_RATE": { "course": "change-salary", "title": "Change salary" },
+    "PAY_TRIAGE": { "course": "hcm-role-in-payroll", "title": "The HCM's role in payroll" }
   }
 }

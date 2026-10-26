@@ -1,6 +1,6 @@
 # Pay Period
 
-An HCM simulation for HCM Academy. Two days to payroll cutoff, eight decisions, and a pay day where every one of them shows up on someone's check.
+An HCM simulation for HCM Academy. Real deadlines from the 2026 payroll calendar, eight requests, and a pay day where every decision shows up on someone's check.
 
 - `npm run dev`: play locally
 - `npm test`: unit tests (content schemas, clock, scoring, consequences, perfect and worst runs, mission machine)

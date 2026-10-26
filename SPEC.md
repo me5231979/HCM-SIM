@@ -472,6 +472,14 @@ Each mission lists: objective, steps, key decisions, common errors, consequences
 
 ### 11.1 PAYROLL (Phase 1)
 
+> **Revised after SME review (October 2026). This revision overrides the steps below where they differ.**
+> - HCMs don't run Payroll Preview or approve payroll. Payroll runs payroll and signs off time cards. Step 7 is now a **Final time card check** (period totals and Approval State); step 8 is removed. Play ends when time cards are due and payroll signs off.
+> - Managers review their team's time and ask employees for clarification. Exceptions go to the manager; the HCM supports the fix. Fixing it yourself is scored as an error even when the hours are right.
+> - Dates come from the real Vanderbilt 2026 Payroll Calendar (biweekly period 22): HCM transaction cutoff Fri Oct 23, time cards due Mon Oct 26 at noon, paycheck Fri Oct 30. Transactions (the retro raise) must beat the transaction cutoff; time cards must beat the time card deadline.
+> - Onboarding: optional guided tour with symbol and control legends and an unscored practice request; labeled controls; a "caught up" state that speeds time to the next request.
+> - See CONTENT_TODO.md, "SME review log", for the feedback-to-change mapping.
+
+
 **Objective:** Get accurate pay to every employee by cutoff.
 
 **Steps:**

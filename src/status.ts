@@ -13,8 +13,8 @@ export function personStatus(id: string, game: Game | null, snap: Snapshot | nul
     const res = snap.resolutions[s.id] ?? {};
     const row = s.grid?.rows.find((r) => r.employeeId === id && r.exceptionDecision && !res[r.exceptionDecision]);
     if (row) return { kind: 'issue', label: row.exceptionLabel ?? 'Timecard issue', stepId: s.id };
-    const prev = s.preview?.rows.find((r) => r.employeeId === id && r.anomaly);
-    if (prev && !res.flag) return { kind: 'issue', label: 'Check the preview', stepId: s.id };
+    const odd = s.review?.rows.find((r) => r.employeeId === id && r.anomaly);
+    if (odd && !res.flag) return { kind: 'issue', label: 'Time card total looks wrong', stepId: s.id };
   }
   const touched = snap.steps.some((s) => {
     const res = snap.resolutions[s.id] ?? {};

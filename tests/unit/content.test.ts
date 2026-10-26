@@ -16,4 +16,10 @@ describe('content', () => {
     const todo = fs.readFileSync('CONTENT_TODO.md', 'utf8');
     policies.filter((p) => p.sme).forEach((p) => expect(todo).toContain(p.id));
   });
+  it('the tutorial has a practice request and legends for symbols and controls', async () => {
+    const { tutorial } = await import('../../src/content');
+    expect(tutorial.steps.some((s) => s.practice)).toBe(true);
+    expect(tutorial.legends.symbols.map((l) => l.key)).toEqual(['talk', 'issue', 'done', 'ring']);
+    expect(tutorial.legends.controls.length).toBeGreaterThanOrEqual(7);
+  });
 });

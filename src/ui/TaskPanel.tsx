@@ -1,16 +1,15 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { courseFor, people, personById, policyById } from '../content';
-import { clockLabel } from '../engine/clock';
-import { computePreview, isDecisionActive, type ActiveStep, type Resolution } from '../engine/game';
+import { clockLabel, dateLabel } from '../engine/clock';
+import { computeTotals, isDecisionActive, type ActiveStep, type Resolution } from '../engine/game';
 import { createRng } from '../engine/rng';
 import { METERS } from '../engine/scoring';
-import { inboxItems, useGame } from '../store/game';
+import { useGame } from '../store/game';
 import type { ChoiceT, DecisionT } from '../../content/schemas';
 import { Avatar, Dialog, priorityLabel } from './common';
-import { dayLabel } from './HUD';
 import { Icon } from './icons';
 
-const money = (n: number) => n.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
+const hrs = (n: number) => n.toFixed(1);
 
 /** Seeded shuffle so the right answer isn't always in the same spot, but a shared seed shows the same order. */
 function shuffled(seed: string, d: DecisionT): ChoiceT[] {
@@ -99,9 +98,9 @@ function GridStep({ step, seed, disabled }: { step: ActiveStep; seed: string; di
   const g = step.grid!;
   return (
     <>
-      <div className="table-wrap" tabIndex={0} role="region" aria-label="Timecard Review, week of Oct 12">
+      <div className="table-wrap" tabIndex={0} role="region" aria-label={g.caption}>
         <table className="grid">
-          <caption><span className="sim-brand">CampusHR <span>(Sim)</span></span> Timecard Review · week of Oct 12</caption>
+          <caption><span className="sim-brand">CampusHR <span>(Sim)</span></span> {g.caption}</caption>
           <thead><tr><th scope="col">Employee</th>{g.days.map((d) => <th key={d} scope="col">{d}</th>)}<th scope="col">Total</th><th scope="col" className="ex-col">Exception</th></tr></thead>
           <tbody>
             {g.rows.map((r) => {
@@ -128,42 +127,42 @@ function GridStep({ step, seed, disabled }: { step: ActiveStep; seed: string; di
   );
 }
 
-function PreviewStep({ step, seed, disabled }: { step: ActiveStep; seed: string; disabled: boolean }) {
+/** Final time card check: totals per employee with Approval State, reflecting earlier decisions. */
+function ReviewStep({ step, seed, disabled }: { step: ActiveStep; seed: string; disabled: boolean }) {
   const snap = useGame((s) => s.snap)!;
-  const flagPreview = useGame((s) => s.flagPreview);
+  const flagRows = useGame((s) => s.flagRows);
   const [flags, setFlags] = useState<string[]>([]);
-  const lines = computePreview(snap, people);
+  const lines = computeTotals(snap, people);
   const res = snap.resolutions[step.id];
   const flagDecision = step.decisions.find((d) => d.id === 'flag')!;
-  const total = lines.reduce((a, l) => a + l.gross, 0);
+  const caption = step.review!.caption;
   return (
     <>
-      <div className="table-wrap" tabIndex={0} role="region" aria-label="Payroll Preview">
-        <table className="grid preview">
-          <caption><span className="sim-brand">CampusHR <span>(Sim)</span></span> Payroll Preview · Oct 5 to Oct 16</caption>
-          <thead><tr><th scope="col">Employee</th><th scope="col">Regular hrs</th><th scope="col">OT hrs</th><th scope="col">PTO hrs</th><th scope="col">Rate</th><th scope="col">Gross</th><th scope="col">Notes</th>{!res?.flag && <th scope="col">Flag</th>}</tr></thead>
+      <div className="table-wrap" tabIndex={0} role="region" aria-label={caption}>
+        <table className="grid review">
+          <caption><span className="sim-brand">CampusHR <span>(Sim)</span></span> {caption}</caption>
+          <thead><tr>{!res?.flag && <th scope="col" className="flag-col">Flag</th>}<th scope="col">Employee</th><th scope="col">Week 1 hrs</th><th scope="col">Week 2 hrs</th><th scope="col">Total hrs</th><th scope="col">Approval state</th><th scope="col">Notes</th></tr></thead>
           <tbody>
             {lines.map((l) => (
               <tr key={l.employeeId} className={flags.includes(l.employeeId) ? 'is-flagged' : ''}>
-                <th scope="row">{l.name}</th>
-                <td>{l.regHours.toFixed(1)}</td><td>{l.otHours.toFixed(1)}</td><td>{l.ptoHours.toFixed(1)}</td>
-                <td>{money(l.rate)}</td><td>{money(l.gross)}{l.retro > 0 && <span className="muted"> incl. retro</span>}</td>
-                <td className="notes">{l.notes.join('; ') || <span className="muted">None</span>}</td>
                 {!res?.flag && (
-                  <td><label className="flag"><input type="checkbox" checked={flags.includes(l.employeeId)} disabled={disabled}
+                  <td className="flag-col"><label className="flag"><input type="checkbox" checked={flags.includes(l.employeeId)} disabled={disabled}
                     onChange={(e) => setFlags(e.target.checked ? [...flags, l.employeeId] : flags.filter((x) => x !== l.employeeId))} /><Icon.flag /><span className="sr-only">Flag {l.name}</span></label></td>
                 )}
+                <th scope="row">{l.name}</th>
+                <td>{hrs(l.week1)}</td><td>{hrs(l.week2)}</td><td>{hrs(l.total)}</td>
+                <td className={`approval ap-${l.approval.startsWith('Approved') ? 'ok' : 'wait'}`}>{l.approval.startsWith('Approved') ? <Icon.check /> : <Icon.clock />}{l.approval}</td>
+                <td className="notes">{l.notes.join('; ') || <span className="muted">None</span>}</td>
               </tr>
             ))}
           </tbody>
-          <tfoot><tr><th scope="row">Total</th><td colSpan={4} /><td>{money(total)}</td><td colSpan={res?.flag ? 1 : 2} /></tr></tfoot>
         </table>
       </div>
       <div className="decisions">
         {res?.flag ? <div className="decision is-done"><p className="legend">{flagDecision.prompt}</p><Feedback d={flagDecision} res={res.flag} /></div> : (
           <div className="decision">
             <p className="legend">{flagDecision.prompt}</p>
-            <button className="btn btn--gold" disabled={disabled} onClick={() => flagPreview(step.id, flags)}>{flags.length ? `Submit ${flags.length} flagged ${flags.length === 1 ? 'row' : 'rows'}` : 'Everything looks right'}</button>
+            <button className="btn btn--gold" disabled={disabled} onClick={() => flagRows(step.id, flags)}>{flags.length ? `Submit ${flags.length} flagged ${flags.length === 1 ? 'row' : 'rows'}` : 'Everything looks right'}</button>
           </div>
         )}
         {step.decisions.filter((d) => d.id !== 'flag' && isDecisionActive(d, res)).map((d) => <ChoiceDecision key={d.id} step={step} d={d} seed={seed} disabled={disabled} />)}
@@ -172,24 +171,11 @@ function PreviewStep({ step, seed, disabled }: { step: ActiveStep; seed: string;
   );
 }
 
-function ApproveStep({ step, disabled }: { step: ActiveStep; disabled: boolean }) {
-  const s = useGame();
-  const [confirm, setConfirm] = useState(false);
-  const open = inboxItems(s).filter((i) => i.kind === 'task' && i.id !== step.id && (i.status === 'open' || i.status === 'locked'));
-  return (
-    <div className="decision">
-      {open.length > 0 ? (
-        <div className="warn"><p className="fb-head"><Icon.alert /> {open.length} {open.length === 1 ? 'item is' : 'items are'} still open</p>
-          <ul>{open.map((o) => <li key={o.id}><button className="link-btn" onClick={() => s.openStep(o.id)}>{o.subject}</button></li>)}</ul>
-          <p>If you approve now, they're processed as they stand.</p></div>
-      ) : <p className="feedback is-good"><Icon.check /> No open items. You're clear to approve.</p>}
-      {!confirm ? <button className="btn btn--gold" disabled={disabled} onClick={() => setConfirm(true)} data-testid="approve">Approve payroll</button> : (
-        <div className="confirm"><p>Approve payroll for the Office of Learning Operations?</p>
-          <button className="btn btn--gold" onClick={() => s.decide(step.id, 'final', 'approved')} data-autofocus data-testid="approve-confirm">Yes, approve</button>
-          <button className="btn btn--ghost" onClick={() => setConfirm(false)}>Not yet</button></div>
-      )}
-    </div>
-  );
+/** Appears when a request is finished; takes focus so keyboard users land on the way out. */
+function BackButton({ onClick }: { onClick: () => void }) {
+  const ref = useRef<HTMLButtonElement>(null);
+  useEffect(() => { ref.current?.focus({ preventScroll: true }); }, []);
+  return <button ref={ref} className="btn btn--gold" onClick={onClick}>Back to the office</button>;
 }
 
 export function TaskPanel() {
@@ -213,7 +199,7 @@ export function TaskPanel() {
           <h2 id="task-h">{step.title}</h2>
           <p className="task-meta">
             <span className={`prio pr-${step.priority}`}>{step.priority === 'urgent' && <Icon.alert />}{priorityLabel(step.priority)}</span>
-            <span><Icon.clock /> Due {dayLabel(step.dueAt)} {clockLabel(step.dueAt)}</span>
+            <span><Icon.clock /> Due {dateLabel(step.dueAt)} {clockLabel(step.dueAt)}</span>
             {status === 'locked' && <span><Icon.clock /> Waiting on another task</span>}
           </p>
         </div>
@@ -229,8 +215,7 @@ export function TaskPanel() {
       {step.type === 'choice' && <div className="decisions">{step.decisions.map((d) => <ChoiceDecision key={d.id} step={step} d={d} seed={s.snap!.seed} disabled={disabled} />)}</div>}
       {step.type === 'form' && <FormStep step={step} seed={s.snap.seed} disabled={disabled} />}
       {step.type === 'grid' && <GridStep step={step} seed={s.snap.seed} disabled={disabled} />}
-      {step.type === 'preview' && <PreviewStep step={step} seed={s.snap.seed} disabled={disabled} />}
-      {step.type === 'approve' && <ApproveStep step={step} disabled={disabled} />}
+      {step.type === 'review' && <ReviewStep step={step} seed={s.snap.seed} disabled={disabled} />}
 
       <div className="task-foot">
         {s.settings.mode === 'training' && !allDone && (
@@ -242,7 +227,7 @@ export function TaskPanel() {
             {step.policyIds.map((p) => { const pol = policyById(p)!; return <div key={p} className="policy"><h3>{pol.title}{pol.sme && <span className="tag tag--sme">[SME]</span>}</h3><p>{pol.body.replace(/\s*\[SME\][^.]*\./g, '')}</p><p className="fine">Source: {pol.source}</p></div>; })}
           </details>
         )}
-        {allDone && <button className="btn btn--gold" onClick={close} data-autofocus>Back to the office</button>}
+        {allDone && <BackButton onClick={close} />}
       </div>
     </Dialog>
   );

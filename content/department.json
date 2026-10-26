@@ -1,14 +1,17 @@
 {
   "id": "olo",
   "name": "Office of Learning Operations",
-  "note": "A fictional department. No real people, departments, or system screens.",
+  "note": "A fictional department. No real people, departments, or system screens. The pay period dates are real, from the published payroll calendar.",
   "director": "dir_park",
   "payPeriod": {
-    "label": "Biweekly pay period, Oct 5 to Oct 16",
+    "number": 22,
     "frequency": "biweekly",
-    "frequencyNote": "[SME] Confirm which employee types are biweekly vs monthly. Vanderbilt: non-exempt time comes from approved UKG timecards; exempt (monthly) cutoff is around the 18th.",
-    "days": ["Mon Oct 5", "Tue Oct 6", "Wed Oct 7", "Thu Oct 8", "Fri Oct 9", "Mon Oct 12", "Tue Oct 13", "Wed Oct 14", "Thu Oct 15", "Fri Oct 16"],
-    "payDate": "Fri Oct 23",
-    "payDateNote": "[SME] Confirm the real biweekly pay date offset."
+    "begin": "2026-10-11",
+    "end": "2026-10-24",
+    "hcmCutoff": "2026-10-23",
+    "timecardsDue": { "date": "2026-10-26", "at": "12:00" },
+    "paycheck": "2026-10-30",
+    "source": "Vanderbilt 2026 Payroll Calendar, biweekly period 22",
+    "frequencyNote": "Biweekly covers hourly (non-exempt) staff paid from approved UKG time cards. Exempt staff are paid monthly."
   }
 }

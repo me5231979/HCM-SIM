@@ -1,5 +1,6 @@
 import { motion } from 'motion/react';
-import { department, personById } from '../content';
+import { period, personById } from '../content';
+import { dateLabel } from '../engine/clock';
 import { paydayBeats, useGame } from '../store/game';
 import { Avatar } from './common';
 import { Icon } from './icons';
@@ -14,8 +15,9 @@ export function Payday() {
   return (
     <section className="payday" aria-labelledby="payday-h">
       <div className="payday-banner liquid-glass">
-        <p className="eyebrow">Pay day · {department.payPeriod.payDate}</p>
-        <h2 id="payday-h">{snap.ended?.reason === 'cutoff' ? 'Cutoff passed. Checks went out anyway.' : 'Checks are out.'}</h2>
+        <p className="eyebrow">Pay day · {dateLabel(period.paycheck)}</p>
+        <h2 id="payday-h">Checks are out.</h2>
+        <p className="muted">Payroll signed off when time cards came due, Monday at noon.</p>
         <p className="muted">{beat + 1} of {beats.length}</p>
       </div>
       <motion.div key={beat} className={`dialogue liquid-glass-strong tone-${b.tone}`} initial={settings.reducedMotion ? false : { opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} role="group" aria-label={`${p.name} says`}>

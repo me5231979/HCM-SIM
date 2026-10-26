@@ -1,13 +1,12 @@
 import { motion } from 'motion/react';
 import { useState } from 'react';
 import { courseFor, department, personById } from '../content';
-import { clockLabel, workMinutesBetween } from '../engine/clock';
+import { clockLabel, DAY_START, dateLabel, dayStart, isWorkday, weekdayLabel, workMinutesBetween } from '../engine/clock';
 import { grade, METERS, rating } from '../engine/scoring';
 import type { DecisionEvent } from '../engine/eventBus';
 import { useGame } from '../store/game';
 import type { DeltasT, MeterKey } from '../../content/schemas';
 import { BlurText } from './common';
-import { dayLabel } from './HUD';
 import { Icon, MeterGlyph } from './icons';
 
 const deltaText = (d: DeltasT) => (Object.entries(d) as [MeterKey, number][]).filter(([, v]) => v).map(([k, v]) => `${METERS.find((m) => m.key === k)!.short} ${v > 0 ? '+' : ''}${v}`).join(', ');
@@ -17,8 +16,12 @@ export function Debrief() {
   const [sel, setSel] = useState<string | null>(null);
   if (!snap || !game) return null;
   const r = rating(snap.meters);
-  const start = snap.steps.length ? Math.min(...snap.steps.map((s) => s.receivedAt)) : 0;
-  const span = workMinutesBetween(start, snap.cutoff);
+  const start = snap.start;
+  const span = workMinutesBetween(start, snap.deadline);
+  const pos = (t: number) => Math.min(100, (workMinutesBetween(start, t) / span) * 100);
+  // Workday starts between the first request and the deadline, for the timeline's day labels.
+  const days: number[] = [];
+  for (let d = dayStart(start); d < snap.deadline; d += 1440) if (isWorkday(d)) days.push(Math.max(start, d + DAY_START));
   const info = (e: DecisionEvent) => {
     const step = game.stepById(e.stepId)!;
     const d = step.decisions.find((x) => x.id === e.decisionId)!;
@@ -35,9 +38,9 @@ export function Debrief() {
   return (
     <main className="debrief" id="main">
       <header className="db-head">
-        <p className="eyebrow">Debrief · Payroll · seed {snap.seed} · {snap.mode === 'training' ? 'Training' : 'Certification'}</p>
+        <p className="eyebrow">Debrief · Payroll · run code {snap.seed} · {snap.mode === 'training' ? 'Training' : 'Certification'}</p>
         <BlurText as="h1" text={`${r}.`} italic={r.split(' ').pop()} className="display display--sm" />
-        <p className="lede">{snap.ended?.reason === 'approved' ? `You approved payroll ${dayLabel(snap.ended.at)} at ${clockLabel(snap.ended.at)}.` : 'Cutoff passed before you approved payroll.'} {errors.length === 0 ? 'Every decision was the right call.' : `${snap.log.length - errors.length} of ${snap.log.length} decisions were the right call.`}{snap.hints.length > 0 && ` Hints used: ${snap.hints.length}.`}{snap.mode === 'certification' && pauses > 0 && ` Pauses: ${pauses} (logged, not penalized).`}</p>
+        <p className="lede">{snap.ended?.reason === 'finished' ? `You wrapped up ${dateLabel(snap.ended.at)} at ${clockLabel(snap.ended.at)}, and payroll signed off when time cards came due.` : 'Time cards came due Monday at noon, and payroll signed off on whatever was in.'} {errors.length === 0 ? 'Every decision was the right call.' : `${snap.log.length - errors.length} of ${snap.log.length} decisions were the right call.`}{snap.hints.length > 0 && ` Hints used: ${snap.hints.length}.`}{snap.mode === 'certification' && pauses > 0 && ` Pauses: ${pauses} (logged, not penalized).`}</p>
       </header>
 
       <section aria-labelledby="m-h" className="db-section">
@@ -56,20 +59,19 @@ export function Debrief() {
 
       <section aria-labelledby="t-h" className="db-section">
         <h2 id="t-h">Timeline</h2>
-        <p className="muted">Thursday 8:00 AM to Friday 5:00 PM cutoff. Select a marker to see the decision, what it caused, and the better choice.</p>
+        <p className="muted">{dateLabel(start)}, {clockLabel(start)} to {dateLabel(snap.deadline)}, {clockLabel(snap.deadline)}, in work hours. Select a marker to see the decision, what it caused, and the better choice.</p>
         <div className="timeline">
-          <span className="tl-day" style={{ left: '0%' }}>Thu</span>
-          <span className="tl-day" style={{ left: `${(600 / span) * 100}%` }}>Fri</span>
-          <span className="tl-cut" style={{ left: '100%' }}>Cutoff</span>
+          {days.map((d) => <span key={d} className="tl-day" style={{ left: `${pos(d)}%` }}>{weekdayLabel(d)}</span>)}
+          {snap.deadlines.map((d) => <span key={d.key} className={`tl-cut tl-${d.key}`} style={{ left: `${pos(d.time)}%` }} title={d.label}>{d.short}</span>)}
           <ol className="tl-track">
             {snap.log.map((e, i) => {
-              const x = Math.min(100, (workMinutesBetween(start, e.simTime) / span) * 100);
+              const x = pos(e.simTime);
               const kind = e.missed ? 'missed' : e.correct ? 'good' : 'bad';
               const { step, d } = info(e);
               return (
                 <li key={e.id} style={{ left: `${x}%`, top: `${(i % 3) * 30}px` }}>
                   <button className={`tl-mark m-${kind} ${sel === e.id ? 'is-on' : ''}`} onClick={() => setSel(sel === e.id ? null : e.id)} aria-pressed={sel === e.id}
-                    aria-label={`${dayLabel(e.simTime)} ${clockLabel(e.simTime)}: ${step.title}, ${d.label ?? d.prompt}. ${kind === 'good' ? 'Right call' : kind === 'missed' ? 'Missed' : 'Error'}.`}>
+                    aria-label={`${dateLabel(e.simTime)} ${clockLabel(e.simTime)}: ${step.title}, ${d.label ?? d.prompt}. ${kind === 'good' ? 'Right call' : kind === 'missed' ? 'Missed' : 'Error'}.`}>
                     {kind === 'good' ? <Icon.check /> : kind === 'missed' ? <Icon.clock /> : <Icon.cross />}
                   </button>
                 </li>
@@ -80,7 +82,7 @@ export function Debrief() {
         <ul className="tl-legend" aria-label="Legend"><li><span className="tl-mark m-good"><Icon.check /></span>Right call</li><li><span className="tl-mark m-bad"><Icon.cross /></span>Error</li><li><span className="tl-mark m-missed"><Icon.clock /></span>Missed deadline</li></ul>
         {selected && (() => { const { step, d, c, best, causes } = info(selected); return (
           <div className="tl-detail liquid-glass" role="region" aria-label="Decision detail">
-            <p className="eyebrow">{dayLabel(selected.simTime)} · {clockLabel(selected.simTime)} · {step.title}</p>
+            <p className="eyebrow">{dateLabel(selected.simTime)} · {clockLabel(selected.simTime)} · {step.title}</p>
             <h3>{d.prompt}</h3>
             <p><strong>{selected.missed ? 'Outcome:' : 'You chose:'}</strong> {selected.value ? `$${selected.value}` : c.text}</p>
             <p>{c.feedback}</p>
@@ -99,7 +101,7 @@ export function Debrief() {
               const { step, c } = info(e);
               return (
                 <li key={i} className="chain">
-                  <span className="link-node"><span className="ln-k">{dayLabel(e.simTime).split(' ')[0]} {clockLabel(e.simTime)}</span>{step.title}: {e.missed ? 'missed' : e.value ? `$${e.value}` : c.text}</span>
+                  <span className="link-node"><span className="ln-k">{weekdayLabel(e.simTime)} {clockLabel(e.simTime)}</span>{step.title}: {e.missed ? 'missed' : e.value ? `$${e.value}` : c.text}</span>
                   <span className="link-arrow" aria-label="led to"><Icon.arrow /></span>
                   <span className="link-node"><span className="ln-k">Pay day · {personById(q.speaker).name}</span>{q.summary}</span>
                   <span className="link-arrow" aria-label="cost"><Icon.arrow /></span>
@@ -121,8 +123,8 @@ export function Debrief() {
       </section>
 
       <div className="db-actions">
-        <button className="btn btn--gold" onClick={() => startRun({ seed: snap.seed, mode: snap.mode })}>Replay seed {snap.seed}</button>
-        <button className="btn btn--ghost" onClick={() => startRun({ mode: snap.mode })}>New seed</button>
+        <button className="btn btn--gold" onClick={() => startRun({ seed: snap.seed, mode: snap.mode })}>Replay run {snap.seed}</button>
+        <button className="btn btn--ghost" onClick={() => startRun({ mode: snap.mode })}>New run</button>
         <button className="btn btn--ghost" onClick={() => window.print()}>Print or save as PDF</button>
         <button className="btn btn--ghost" onClick={restart}>Back to title</button>
       </div>

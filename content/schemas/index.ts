@@ -2,15 +2,14 @@ import { z } from 'zod';
 
 export const Meter = z.enum(['payrollAccuracy', 'complianceRisk', 'employeeTrust', 'managerSatisfaction']);
 export const Deltas = z.partialRecord(Meter, z.number());
-export const SimAt = z.object({ day: z.number().int().min(1).max(10), at: z.string().regex(/^\d{2}:\d{2}$/) });
+const IsoDate = z.string().regex(/^\d{4}-\d{2}-\d{2}$/);
+export const SimAt = z.object({ date: IsoDate, at: z.string().regex(/^\d{2}:\d{2}$/) });
 
-export const PreviewAdjust = z.object({
+/** How a decision changes the time card totals the HCM reviews later. */
+export const TotalsAdjust = z.object({
   employeeId: z.string(),
-  regHours: z.number().optional(),
-  otHours: z.number().optional(),
-  ptoHours: z.number().optional(),
-  rate: z.number().optional(),
-  retro: z.number().optional(),
+  week1: z.number().optional(),
+  week2: z.number().optional(),
   clearsAnomaly: z.boolean().optional(),
   note: z.string(),
 });
@@ -34,7 +33,7 @@ export const Choice = z.object({
   deltas: Deltas,
   timeCost: z.number().int().min(0),
   feedback: z.string().min(20),
-  previewAdjust: PreviewAdjust.optional(),
+  totalsAdjust: TotalsAdjust.optional(),
   consequences: z.array(Consequence).optional(),
 });
 
@@ -62,16 +61,17 @@ export const GridRow = z.object({
   note: z.string().optional(),
 });
 
-export const PreviewRow = z.object({
+export const ApprovalState = z.enum(['Open', 'Submitted', 'Approved (PayPrep Ready)']);
+export const ReviewRow = z.object({
   employeeId: z.string(),
-  regHours: z.number(),
-  otHours: z.number(),
-  ptoHours: z.number(),
+  week1: z.number(),
+  week2: z.number(),
+  approval: ApprovalState,
   anomaly: z.boolean().optional(),
   note: z.string().optional(),
 });
 
-export const StepType = z.enum(['choice', 'form', 'grid', 'preview', 'approve']);
+export const StepType = z.enum(['choice', 'form', 'grid', 'review']);
 export const Location = z.enum(['terminal', 'board', 'office_a', 'office_b', 'office_c', 'reception', 'break']);
 
 const stepFields = {
@@ -88,13 +88,15 @@ const stepFields = {
   policyIds: z.array(z.string()),
   hint: z.string(),
   hintMeter: Meter,
-  grid: z.object({ days: z.array(z.string()), rows: z.array(GridRow) }).optional(),
-  preview: z.object({ rows: z.array(PreviewRow) }).optional(),
+  grid: z.object({ caption: z.string(), days: z.array(z.string()), rows: z.array(GridRow) }).optional(),
+  review: z.object({ caption: z.string(), rows: z.array(ReviewRow) }).optional(),
   decisions: z.array(Decision).min(1),
 };
 
 export const Step = z.object({ ...stepFields, receivedAt: SimAt, dueAt: SimAt });
 export const EventStep = z.object({ ...stepFields, dueMinutes: z.number().int().positive() });
+
+const Deadline = SimAt.extend({ label: z.string(), short: z.string(), sme: z.boolean() });
 
 export const Mission = z.object({
   id: z.string(),
@@ -102,7 +104,8 @@ export const Mission = z.object({
   tagline: z.string(),
   learningObjectives: z.array(z.string()).min(1),
   start: SimAt,
-  deadlines: z.object({ managerApproval: SimAt.extend({ sme: z.boolean() }), cutoff: SimAt.extend({ sme: z.boolean() }) }),
+  /** transactions: HCM transaction cutoff. timecards: time cards due; payroll signs off and play ends. */
+  deadlines: z.object({ transactions: Deadline, timecards: Deadline }),
   briefing: z.array(z.string()).min(1),
   noise: z.array(z.object({ id: z.string(), from: z.string(), subject: z.string(), body: z.string(), at: SimAt })),
   steps: z.array(Step).min(1),
@@ -138,13 +141,17 @@ export const Department = z.object({
   name: z.string(),
   note: z.string(),
   director: z.string(),
+  /** One real biweekly row from the published payroll calendar. */
   payPeriod: z.object({
-    label: z.string(),
+    number: z.number().int().positive(),
     frequency: z.enum(['biweekly', 'monthly']),
+    begin: IsoDate,
+    end: IsoDate,
+    hcmCutoff: IsoDate,
+    timecardsDue: SimAt,
+    paycheck: IsoDate,
+    source: z.string(),
     frequencyNote: z.string(),
-    days: z.array(z.string()).length(10),
-    payDate: z.string(),
-    payDateNote: z.string(),
   }),
 });
 
@@ -155,6 +162,22 @@ export const Policies = z.object({
 export const AcademyMap = z.object({
   base: z.string().url(),
   codes: z.record(z.string(), z.object({ course: z.string(), title: z.string() })),
+});
+
+/** Guided tour, symbol and control legends, and the unscored practice request. */
+const LegendItem = z.object({ key: z.string(), label: z.string(), text: z.string() });
+export const Tutorial = z.object({
+  steps: z.array(z.object({
+    id: z.string(),
+    target: z.string().nullable(),
+    title: z.string(),
+    body: z.string(),
+    legend: z.enum(['meters', 'symbols', 'controls']).optional(),
+    practice: z.boolean().optional(),
+    only3d: z.boolean().optional(),
+  })).min(1),
+  legends: z.object({ meters: z.array(LegendItem), symbols: z.array(LegendItem), controls: z.array(LegendItem) }),
+  practice: z.object({ title: z.string(), from: z.string(), context: z.string(), hint: z.string(), decision: Decision }),
 });
 
 export type MeterKey = z.infer<typeof Meter>;
@@ -170,5 +193,7 @@ export type GameEventT = z.infer<typeof GameEvent>;
 export type PersonT = z.infer<typeof Person>;
 export type PolicyT = z.infer<typeof Policies>['entries'][number];
 export type ConsequenceT = z.infer<typeof Consequence>;
-export type PreviewAdjustT = z.infer<typeof PreviewAdjust>;
+export type TotalsAdjustT = z.infer<typeof TotalsAdjust>;
 export type LocationT = z.infer<typeof Location>;
+export type ApprovalStateT = z.infer<typeof ApprovalState>;
+export type TutorialT = z.infer<typeof Tutorial>;

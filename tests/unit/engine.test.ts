@@ -1,24 +1,39 @@
 import { describe, expect, it } from 'vitest';
-import { advance, at, clockLabel, urgency, workMinutesBetween } from '../../src/engine/clock';
+import { advance, at, clockLabel, dateLabel, urgency, workMinutesBetween } from '../../src/engine/clock';
 import { applyDeltas, grade, initialMeters, rating } from '../../src/engine/scoring';
 import { createConsequenceQueue } from '../../src/engine/consequences';
 import { createRng } from '../../src/engine/rng';
 
-describe('clock', () => {
-  const thu8 = at({ day: 9, at: '08:00' });
-  const cutoff = at({ day: 10, at: '17:00' });
-  it('skips nights when advancing', () => {
-    expect(clockLabel(advance(at({ day: 9, at: '17:30' }), 60))).toBe('8:30 AM');
-    expect(advance(at({ day: 9, at: '17:30' }), 60)).toBe(at({ day: 10, at: '08:30' }));
+describe('clock on the real calendar', () => {
+  const thu8 = at({ date: '2026-10-22', at: '08:00' });
+  const txCutoff = at({ date: '2026-10-23', at: '17:00' });
+  const cardsDue = at({ date: '2026-10-26', at: '12:00' });
+  it('labels real dates', () => {
+    expect(dateLabel(thu8)).toBe('Thu Oct 22');
+    expect(dateLabel(cardsDue)).toBe('Mon Oct 26');
+    expect(clockLabel(cardsDue)).toBe('12:00 PM');
   });
-  it('counts only work minutes to cutoff', () => {
-    expect(workMinutesBetween(thu8, cutoff)).toBe(19 * 60);
+  it('skips nights and the weekend when advancing', () => {
+    const t = advance(at({ date: '2026-10-23', at: '17:30' }), 60);
+    expect(dateLabel(t)).toBe('Mon Oct 26');
+    expect(clockLabel(t)).toBe('8:30 AM');
+    expect(advance(at({ date: '2026-10-22', at: '17:30' }), 60)).toBe(at({ date: '2026-10-23', at: '08:30' }));
   });
-  it('urgency: warning inside 24 clock hours, critical inside 4 work hours', () => {
-    expect(urgency(thu8, cutoff)).toBe('normal');
-    expect(urgency(at({ day: 9, at: '17:30' }), cutoff)).toBe('warning');
-    expect(urgency(at({ day: 10, at: '13:30' }), cutoff)).toBe('critical');
-    expect(urgency(cutoff, cutoff)).toBe('closed');
+  it('never stops on a Friday evening: ending exactly at 18:00 rolls to Monday 8:00', () => {
+    const t = advance(at({ date: '2026-10-23', at: '17:00' }), 60);
+    expect(t).toBe(at({ date: '2026-10-26', at: '08:00' }));
+    expect(workMinutesBetween(t, at({ date: '2026-10-26', at: '08:00' }))).toBe(0);
+  });
+  it('counts only work minutes: Thursday, Friday, and Monday morning', () => {
+    expect(workMinutesBetween(thu8, cardsDue)).toBe((10 + 10 + 4) * 60);
+    expect(workMinutesBetween(thu8, txCutoff)).toBe((10 + 9) * 60);
+  });
+  it('urgency: warning inside the last workday, critical inside 4 work hours', () => {
+    expect(urgency(thu8, txCutoff)).toBe('normal');
+    expect(urgency(at({ date: '2026-10-23', at: '08:00' }), txCutoff)).toBe('warning');
+    expect(urgency(at({ date: '2026-10-23', at: '13:30' }), txCutoff)).toBe('critical');
+    expect(urgency(at({ date: '2026-10-26', at: '08:00' }), cardsDue)).toBe('critical');
+    expect(urgency(cardsDue, cardsDue)).toBe('closed');
   });
 });
 

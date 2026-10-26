@@ -1,4 +1,4 @@
-import type { ChoiceT, DecisionT, DeltasT, EventStepT, MissionT, Meters, PersonT, StepT } from '../../content/schemas';
+import type { ApprovalStateT, ChoiceT, DecisionT, DeltasT, EventStepT, MissionT, Meters, PersonT, StepT } from '../../content/schemas';
 import { advance, at, type SimTime } from './clock';
 import { createConsequenceQueue, type ScheduledConsequence } from './consequences';
 import { createEventBus, type DecisionEvent } from './eventBus';
@@ -9,13 +9,18 @@ export type Mode = 'training' | 'certification';
 export interface ActiveStep extends Omit<StepT, 'receivedAt' | 'dueAt'> { receivedAt: SimTime; dueAt: SimTime; source: 'mission' | 'event' }
 export interface Resolution { choiceId: string; value?: string; at: SimTime; missed: boolean; eventId: string }
 export type StepStatus = 'upcoming' | 'locked' | 'open' | 'done' | 'missed' | 'skipped';
-export type EndReason = 'approved' | 'cutoff';
+/** finished: the player wrapped up early. deadline: time cards came due and payroll signed off. */
+export type EndReason = 'finished' | 'deadline';
+export interface DeadlineInfo { key: 'transactions' | 'timecards'; label: string; short: string; time: SimTime; sme: boolean }
 
 export interface Snapshot {
   seed: string;
   mode: Mode;
   time: SimTime;
-  cutoff: SimTime;
+  start: SimTime;
+  /** When play ends: time cards due, then payroll signs off. */
+  deadline: SimTime;
+  deadlines: DeadlineInfo[];
   steps: ActiveStep[];
   resolutions: Record<string, Record<string, Resolution>>;
   log: DecisionEvent[];
@@ -41,9 +46,14 @@ export function createGame({ mission, eventSteps, seed, mode }: GameInput) {
   const rng = createRng(seed);
   const bus = createEventBus();
   const queue = createConsequenceQueue();
-  const cutoff = at(mission.deadlines.cutoff);
+  const deadlines: DeadlineInfo[] = (['transactions', 'timecards'] as const).map((key) => {
+    const d = mission.deadlines[key];
+    return { key, label: d.label, short: d.short, time: at(d), sme: d.sme };
+  });
+  const deadline = Math.max(...deadlines.map((d) => d.time));
+  const start = at(mission.start);
   let meters = initialMeters();
-  let time = at(mission.start);
+  let time = start;
   let log: DecisionEvent[] = [];
   let hints: string[] = [];
   let ended: Snapshot['ended'];
@@ -52,10 +62,10 @@ export function createGame({ mission, eventSteps, seed, mode }: GameInput) {
   const steps: ActiveStep[] = [
     ...mission.steps.map((s) => ({ ...s, receivedAt: at(s.receivedAt), dueAt: at(s.dueAt), source: 'mission' as const })),
     ...eventSteps.map(({ step, from, to }) => {
-      // Seeded spawn time inside the event window, on a 10-minute grid.
+      // Seeded arrival inside the event window, on a 10-minute grid.
       const slots = Math.max(1, Math.floor((to - from) / 10) + 1);
       const receivedAt = from + Math.floor(rng() * slots) * 10;
-      return { ...step, receivedAt, dueAt: receivedAt + step.dueMinutes, source: 'event' as const };
+      return { ...step, receivedAt, dueAt: advance(receivedAt, step.dueMinutes), source: 'event' as const };
     }),
   ].sort((a, b) => a.receivedAt - b.receivedAt);
 
@@ -97,44 +107,39 @@ export function createGame({ mission, eventSteps, seed, mode }: GameInput) {
     return blocked ? 'locked' : 'open';
   }
 
-  function record(step: ActiveStep, d: DecisionT, choiceId: string, missed: boolean, value?: string, extra?: DeltasT) {
+  function record(step: ActiveStep, d: DecisionT, choiceId: string, missed: boolean, value?: string, extra?: DeltasT, when: SimTime = time) {
     if (resolutions[step.id]?.[d.id] || ended) return;
     const c = choiceOf(step, d.id, choiceId);
     const deltas: DeltasT = { ...c.deltas };
     for (const [k, v] of Object.entries(extra ?? {}) as [keyof DeltasT, number][]) deltas[k] = (deltas[k] ?? 0) + v;
     const e: DecisionEvent = {
       id: `${step.id}.${d.id}`, stepId: step.id, decisionId: d.id, choiceId, correct: c.correct && !missed,
-      errorCode: c.errorCode, deltas, simTime: time, missed, value,
+      errorCode: c.errorCode, deltas, simTime: when, missed, value,
     };
-    resolutions[step.id] = { ...resolutions[step.id], [d.id]: { choiceId, value, at: time, missed, eventId: e.id } };
+    resolutions[step.id] = { ...resolutions[step.id], [d.id]: { choiceId, value, at: when, missed, eventId: e.id } };
     log = [...log, e];
     bus.emit('decision', e);
   }
 
-  /** Resolve every open decision on a step with its missed outcome. */
+  /** Resolve every open decision on a step with its missed outcome, stamped when its deadline passed (not when the clock caught up). */
   function missStep(step: ActiveStep) {
+    const when = Math.min(time, step.dueAt);
     for (const d of step.decisions) {
-      if (isDecisionActive(d, resolutions[step.id]) && !resolutions[step.id]?.[d.id]) record(step, d, d.missedChoiceId, true);
+      if (isDecisionActive(d, resolutions[step.id]) && !resolutions[step.id]?.[d.id]) record(step, d, d.missedChoiceId, true, undefined, undefined, when);
     }
   }
 
+  /** Anything past due is processed as it stands; at the final deadline, payroll signs off and play ends. */
   function checkDeadlines() {
     for (const s of steps) {
-      if (s.id === 'approve') continue;
       if (s.receivedAt <= time && s.dueAt <= time && !isComplete(s) && !isSkipped(s)) missStep(s);
     }
-    if (time >= cutoff && !ended) end('cutoff');
+    if (time >= deadline && !ended) end('deadline', deadline);
   }
 
-  function end(reason: EndReason) {
-    const approveStep = steps.find((s) => s.type === 'approve');
-    if (approveStep) {
-      const d = approveStep.decisions[0];
-      record(approveStep, d, reason === 'approved' ? d.choices.find((c) => c.correct)!.id : d.missedChoiceId, reason === 'cutoff');
-    }
-    // Anything still open is processed as it stands.
+  function end(reason: EndReason, when: SimTime) {
     for (const s of steps) if (s.receivedAt <= time && !isSkipped(s) && !isComplete(s)) missStep(s);
-    ended = { reason, at: Math.min(time, cutoff) };
+    ended = { reason, at: when };
   }
 
   return {
@@ -155,8 +160,7 @@ export function createGame({ mission, eventSteps, seed, mode }: GameInput) {
       }
       record(step, d, choiceId, false, value, opts.extra);
       const cost = choiceOf(step, d.id, choiceId).timeCost;
-      if (step.type === 'approve') { end('approved'); return; }
-      if (cost > 0) { time = advance(time, cost); checkDeadlines(); }
+      if (cost > 0) { time = Math.min(advance(time, cost), deadline); checkDeadlines(); }
     },
     hint(stepId: string) {
       const step = steps.find((s) => s.id === stepId);
@@ -166,48 +170,58 @@ export function createGame({ mission, eventSteps, seed, mode }: GameInput) {
     },
     tick(minutes: number) {
       if (ended) return;
-      time = Math.min(advance(time, minutes), cutoff);
+      time = Math.min(advance(time, minutes), deadline);
       checkDeadlines();
     },
+    /** Wrap up early: only once nothing is open or still to arrive. Payroll signs off at the deadline as usual. */
+    finish() {
+      if (ended) return;
+      const remaining = steps.some((s) => ['open', 'locked', 'upcoming'].includes(status(s)));
+      if (remaining) return;
+      const wrapped = time;
+      time = deadline;
+      end('finished', wrapped);
+    },
     snapshot(): Snapshot {
-      return { seed, mode, time, cutoff, steps, resolutions: structuredClone(resolutions), log, meters, hints, consequences: queue.all(), ended };
+      return { seed, mode, time, start, deadline, deadlines, steps, resolutions: structuredClone(resolutions), log, meters, hints, consequences: queue.all(), ended };
     },
   };
 }
 export type Game = ReturnType<typeof createGame>;
 
-/** Gross pay preview, reflecting the decisions made so far. */
-export interface PreviewLine { employeeId: string; name: string; regHours: number; otHours: number; ptoHours: number; rate: number; retro: number; gross: number; notes: string[]; anomaly: boolean }
+/** Requests still to handle (open or blocked) and requests still to arrive. */
+export function workload(game: Game, snap: Snapshot) {
+  const live = snap.steps.filter((s) => game.status(s) !== 'skipped');
+  return {
+    open: live.filter((s) => game.status(s) === 'open'),
+    locked: live.filter((s) => game.status(s) === 'locked'),
+    upcoming: live.filter((s) => game.status(s) === 'upcoming'),
+  };
+}
 
-export function computePreview(snap: Snapshot, people: PersonT[]): PreviewLine[] {
-  const step = snap.steps.find((s) => s.type === 'preview');
-  if (!step?.preview) return [];
-  const lines = step.preview.rows.map((r) => {
-    const p = people.find((x) => x.id === r.employeeId)!;
-    return { employeeId: r.employeeId, name: p.name, regHours: r.regHours, otHours: r.otHours, ptoHours: r.ptoHours, rate: p.payRate, retro: 0, gross: 0, notes: r.note ? [r.note] : [], anomaly: !!r.anomaly };
-  });
+/** Time card totals for the final check, reflecting the decisions made so far. */
+export interface TotalsLine { employeeId: string; name: string; week1: number; week2: number; total: number; approval: ApprovalStateT; notes: string[]; anomaly: boolean }
+
+export function computeTotals(snap: Snapshot, people: PersonT[]): TotalsLine[] {
+  const step = snap.steps.find((s) => s.type === 'review');
+  if (!step?.review) return [];
+  const lines = step.review.rows.map((r) => ({
+    employeeId: r.employeeId, name: people.find((x) => x.id === r.employeeId)!.name, week1: r.week1, week2: r.week2, total: 0,
+    approval: r.approval, notes: r.note ? [r.note] : [], anomaly: !!r.anomaly,
+  }));
   for (const s of snap.steps) {
     const res = snap.resolutions[s.id] ?? {};
     for (const d of s.decisions) {
       const r = res[d.id];
-      if (!r) continue;
-      const adj = d.choices.find((c) => c.id === r.choiceId)?.previewAdjust;
-      if (!adj) continue;
-      const line = lines.find((l) => l.employeeId === adj.employeeId);
-      if (!line) continue;
-      line.regHours += adj.regHours ?? 0;
-      line.otHours += adj.otHours ?? 0;
-      line.ptoHours += adj.ptoHours ?? 0;
-      if (adj.rate !== undefined) {
-        const rateDecision = s.decisions.find((x) => x.kind === 'number');
-        const typed = rateDecision ? Number(String(res[rateDecision.id]?.value ?? '').replace(/[$,\s]/g, '')) : NaN;
-        line.rate = Number.isFinite(typed) && typed > 0 ? typed : adj.rate;
-      }
-      line.retro += adj.retro ?? 0;
+      const adj = r ? d.choices.find((c) => c.id === r.choiceId)?.totalsAdjust : undefined;
+      const line = adj && lines.find((l) => l.employeeId === adj.employeeId);
+      if (!adj || !line) continue;
+      line.week1 += adj.week1 ?? 0;
+      line.week2 += adj.week2 ?? 0;
+      if (adj.clearsAnomaly) { line.anomaly = false; line.notes = line.notes.filter((n) => n !== step.review!.rows.find((x) => x.employeeId === line.employeeId)?.note); }
       line.notes.push(adj.note);
-      if (adj.clearsAnomaly) line.anomaly = false;
     }
   }
-  for (const l of lines) l.gross = Math.round(((l.regHours + l.ptoHours) * l.rate + l.otHours * l.rate * 1.5 + l.retro) * 100) / 100;
+  for (const l of lines) l.total = l.week1 + l.week2;
   return lines;
 }

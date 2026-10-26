@@ -6,12 +6,13 @@ import { ListView } from './a11y/ListView';
 import { Binder } from './ui/Binder';
 import { Briefing } from './ui/Briefing';
 import { Debrief } from './ui/Debrief';
-import { HUD } from './ui/HUD';
+import { CaughtUp, DayNotice, HUD } from './ui/HUD';
 import { Inbox, NoiseReader } from './ui/Inbox';
 import { Payday } from './ui/Payday';
 import { Settings } from './ui/Settings';
 import { TaskPanel } from './ui/TaskPanel';
 import { Title } from './ui/Title';
+import { Help, Tutorial } from './ui/Tutorial';
 
 const Scene = lazy(() => import('./scene/Scene'));
 
@@ -30,7 +31,7 @@ export default function App() {
   const [webgl] = useState(hasWebGL);
   const [zoomStep, setZoom] = useState(0);
   const last = useRef(performance.now());
-  const lastUrgency = useRef('normal');
+  const lastUrgency = useRef<Record<string, string>>({});
 
   useEffect(() => {
     if (!webgl && settings.view === '3d') { s.setSettings({ view: '2d' }); s.announce('3D isn\'t available in this browser, so the game opened in List view.'); }
@@ -46,13 +47,16 @@ export default function App() {
     return () => window.clearInterval(id);
   }, []);
 
+  // Announce each deadline as it enters its last workday and its last 4 hours.
   useEffect(() => {
     if (!snap || phase !== 'playing') return;
-    const u = urgency(snap.time, snap.cutoff);
-    if (u !== lastUrgency.current) {
-      if (u === 'warning') s.announce('Payroll cutoff is less than 24 hours away.');
-      if (u === 'critical') s.announce('Final 4 hours before payroll cutoff.');
-      lastUrgency.current = u;
+    for (const d of snap.deadlines) {
+      const u = urgency(snap.time, d.time);
+      if (u !== lastUrgency.current[d.key]) {
+        if (u === 'warning') s.announce(`${d.label}: less than one workday left.`);
+        if (u === 'critical') s.announce(`${d.label}: final 4 hours.`);
+        lastUrgency.current[d.key] = u;
+      }
     }
   }, [snap?.time, phase]); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -71,7 +75,7 @@ export default function App() {
   }, [settings.textScale, settings.reducedMotion]);
 
   const show3d = settings.view === '3d' && webgl;
-  const playingUi = phase === 'playing';
+  const playingUi = phase === 'playing' || phase === 'tour';
 
   return (
     <div className={`app phase-${phase} view-${show3d ? '3d' : '2d'}`}>
@@ -87,11 +91,17 @@ export default function App() {
       {playingUi && (
         <>
           <HUD zoomStep={zoomStep} setZoom={setZoom} />
-          {s.inboxOpen && <Inbox />}
-          <TaskPanel />
-          <NoiseReader />
+          {phase === 'playing' && <>
+            <CaughtUp />
+            <DayNotice />
+            {s.inboxOpen && <Inbox />}
+            <TaskPanel />
+            <NoiseReader />
+          </>}
         </>
       )}
+      {phase === 'tour' && <Tutorial />}
+      {s.helpOpen && phase === 'playing' && <Help />}
       {phase === 'payday' && <Payday />}
       {phase === 'debrief' && <Debrief />}
       {s.binderOpen && <Binder />}

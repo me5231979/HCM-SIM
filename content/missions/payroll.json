@@ -1,68 +1,30 @@
 {
   "id": "payroll",
   "title": "Payroll",
-  "tagline": "Get accurate pay to every employee by cutoff.",
+  "tagline": "Get every transaction and time card in before payroll signs off.",
   "learningObjectives": [
-    "Work back from payroll cutoff, not pay date.",
-    "Resolve timecard exceptions with documented employee and manager confirmation.",
-    "Pay non-exempt overtime that was worked, even when it wasn't approved in advance.",
-    "Chase late manager approvals, then escalate. Never approve as the manager.",
-    "Enter retroactive changes with the effective date on the approved document.",
-    "Read Payroll Preview for anomalies before final approval."
+    "Know your two deadlines from the payroll calendar: the HCM transaction cutoff and when time cards are due.",
+    "Get time card problems to the right manager, and help them fix them.",
+    "Make sure non-exempt overtime is paid, even when it wasn't approved in advance.",
+    "Chase late approvals, then escalate. Never approve for the manager.",
+    "Enter retro changes with the approved effective date, before the HCM transaction cutoff.",
+    "Catch errors in your final time card check, before payroll signs off."
   ],
-  "start": {
-    "day": 9,
-    "at": "08:00"
-  },
+  "start": { "date": "2026-10-22", "at": "08:00" },
   "deadlines": {
-    "managerApproval": {
-      "day": 10,
-      "at": "12:00",
-      "sme": true
-    },
-    "cutoff": {
-      "day": 10,
-      "at": "17:00",
-      "sme": true
-    }
+    "transactions": { "date": "2026-10-23", "at": "17:00", "label": "HCM transaction cutoff", "short": "Transactions", "sme": true },
+    "timecards": { "date": "2026-10-26", "at": "12:00", "label": "Time cards due", "short": "Time cards", "sme": false }
   },
   "briefing": [
-    "Morning. It's Thursday, Oct 15, day 9 of the pay period. Payroll cutoff is tomorrow at 5:00 PM.",
-    "Your job between now and then: every non-exempt timecard reviewed, every exception resolved, every manager approval in, and payroll approved before cutoff.",
-    "Requests will land in your inbox through the day. Some are urgent. Some are noise. You decide the order.",
-    "On pay day you'll see what your decisions did. I'll be at the next desk if you want a hint."
+    "Morning. It's Thursday, Oct 22. We're in pay period 22, Oct 11 to Oct 24. These dates come straight from the real 2026 payroll calendar.",
+    "Two deadlines run your week. Transactions close at the HCM transaction cutoff this Friday, Oct 23. Time cards are due Monday, Oct 26 at noon. Then payroll signs off and runs payroll. We don't run payroll; we make sure what they get is right.",
+    "Your job: get transactions in before Friday's cutoff, check time cards, get problems to the right manager and help them fix them, and make sure every time card is approved by Monday at noon.",
+    "Requests land in your inbox through the day. Some are urgent; some are noise. On pay day, Friday Oct 30, you'll see what your decisions did."
   ],
   "noise": [
-    {
-      "id": "n_lunch",
-      "from": "dir_park",
-      "subject": "Lunch and learn moved to next Wednesday",
-      "body": "The October lunch and learn moved to next Wednesday at noon. No action needed.",
-      "at": {
-        "day": 9,
-        "at": "08:20"
-      }
-    },
-    {
-      "id": "n_parking",
-      "from": "mgr_ortiz",
-      "subject": "Garage resurfacing on Monday",
-      "body": "The staff garage closes Monday morning for resurfacing. Plan for the overflow lot.",
-      "at": {
-        "day": 9,
-        "at": "11:40"
-      }
-    },
-    {
-      "id": "n_printer",
-      "from": "emp_kowalski",
-      "subject": "Printer is jammed again",
-      "body": "The second floor printer is jammed. I put a sign on it.",
-      "at": {
-        "day": 10,
-        "at": "08:30"
-      }
-    }
+    { "id": "n_lunch", "from": "dir_park", "subject": "Lunch and learn moved to next Wednesday", "body": "The November lunch and learn moved to next Wednesday at noon. No action needed.", "at": { "date": "2026-10-22", "at": "08:20" } },
+    { "id": "n_parking", "from": "mgr_ortiz", "subject": "Garage resurfacing next Monday", "body": "The staff garage closes next Monday morning for resurfacing. Plan for the overflow lot.", "at": { "date": "2026-10-22", "at": "11:40" } },
+    { "id": "n_printer", "from": "emp_kowalski", "subject": "Printer is jammed again", "body": "The second floor printer is jammed. I put a sign on it.", "at": { "date": "2026-10-23", "at": "08:30" } }
   ],
   "steps": [
     {
@@ -71,69 +33,23 @@
       "title": "Read the payroll calendar",
       "from": "coach",
       "location": "board",
-      "receivedAt": {
-        "day": 9,
-        "at": "08:00"
-      },
-      "dueAt": {
-        "day": 9,
-        "at": "10:00"
-      },
+      "receivedAt": { "date": "2026-10-22", "at": "08:00" },
+      "dueAt": { "date": "2026-10-22", "at": "10:00" },
       "priority": "high",
-      "context": "Renee points at the payroll calendar on the bulletin board. \"Before you open a single timecard, tell me which date runs your next two days.\"",
-      "attachment": {
-        "kind": "calendar",
-        "title": "Biweekly payroll calendar",
-        "lines": [
-          "Pay period: Mon Oct 5 to Fri Oct 16",
-          "Manager approval deadline: Fri Oct 16, 12:00 PM",
-          "Payroll cutoff: Fri Oct 16, 5:00 PM",
-          "Pay date: Fri Oct 23"
-        ]
-      },
-      "policyIds": [
-        "cutoff"
-      ],
-      "hint": "Pay date is when people see the result. The deadline that controls your work is the one before it.",
+      "context": "Renee taps the payroll calendar on the bulletin board. \"These dates come straight from the real 2026 payroll calendar. Before you open anything, tell me how this week works.\"",
+      "attachment": { "kind": "calendar", "title": "2026 Payroll Calendar, biweekly period 22", "lines": ["Pay period: Sun Oct 11 to Sat Oct 24", "HCM transaction cutoff: Fri Oct 23", "Time cards due: Mon Oct 26 at noon", "Paycheck: Fri Oct 30"] },
+      "policyIds": ["calendar", "hcm_role"],
+      "hint": "Transactions and time cards don't share a deadline. One of them closes before the pay period even ends.",
       "hintMeter": "payrollAccuracy",
       "decisions": [
         {
-          "id": "date",
-          "prompt": "Which date controls your work today and tomorrow?",
-          "missedChoiceId": "pay_date",
+          "id": "deadlines",
+          "prompt": "Which statement is right?",
+          "missedChoiceId": "same_day",
           "choices": [
-            {
-              "id": "cutoff",
-              "text": "Payroll cutoff, Fri Oct 16 at 5:00 PM. Everything has to be approved before then.",
-              "correct": true,
-              "deltas": {
-                "payrollAccuracy": 0
-              },
-              "timeCost": 5,
-              "feedback": "Right. Cutoff is the hard stop. After it, fixes become off-cycle payments or corrections in the next run. Next time: put cutoff and the manager approval deadline on your own calendar on day 1 of every period."
-            },
-            {
-              "id": "pay_date",
-              "text": "Pay date, Fri Oct 23. That's when problems show up, so plan back from it.",
-              "correct": false,
-              "errorCode": "PAY_CALENDAR",
-              "deltas": {
-                "payrollAccuracy": -3
-              },
-              "timeCost": 5,
-              "feedback": "Pay date is when employees see the result, but payroll locks a week earlier at cutoff. Planning from pay date leaves you no time to fix anything. Next time: plan from cutoff, and from the manager approval deadline before it."
-            },
-            {
-              "id": "period_end",
-              "text": "End of the pay period, Fri Oct 16 at midnight.",
-              "correct": false,
-              "errorCode": "PAY_CALENDAR",
-              "deltas": {
-                "payrollAccuracy": -2
-              },
-              "timeCost": 5,
-              "feedback": "The period ends at midnight, but cutoff is earlier that day. Work done after 5:00 PM misses this run. Next time: check the cutoff time, not only the date."
-            }
+            { "id": "two", "text": "Transactions, like a raise, must be entered and approved by Friday's HCM transaction cutoff. Time cards must be approved by Monday at noon.", "correct": true, "deltas": { "payrollAccuracy": 0 }, "timeCost": 5, "feedback": "Right. Two deadlines, two kinds of work. Transactions close Friday, before the period even ends on Saturday. Time cards close Monday at noon, then payroll signs off and runs payroll. Next time: put both dates on your calendar at the start of every period." },
+            { "id": "same_day", "text": "Everything is due Monday at noon, when time cards are due.", "correct": false, "errorCode": "PAY_CALENDAR", "deltas": { "payrollAccuracy": -3 }, "timeCost": 5, "feedback": "Time cards are due Monday at noon, but transactions close earlier, at Friday's HCM transaction cutoff. A raise entered Monday misses this payroll. Next time: check both dates on the payroll calendar." },
+            { "id": "paycheck", "text": "Nothing is due until the paycheck date, Fri Oct 30.", "correct": false, "errorCode": "PAY_CALENDAR", "deltas": { "payrollAccuracy": -4 }, "timeCost": 5, "feedback": "The paycheck date is when people see the result. By then payroll has already run. Next time: work back from the HCM transaction cutoff and the time card deadline." }
           ]
         }
       ]
@@ -141,95 +57,26 @@
     {
       "id": "reminder",
       "type": "form",
-      "title": "Send the timecard reminder",
+      "title": "Send the time card reminder",
       "from": "coach",
       "location": "terminal",
-      "receivedAt": {
-        "day": 9,
-        "at": "08:00"
-      },
-      "dueAt": {
-        "day": 9,
-        "at": "12:00"
-      },
+      "receivedAt": { "date": "2026-10-22", "at": "08:00" },
+      "dueAt": { "date": "2026-10-22", "at": "17:00" },
       "priority": "high",
-      "context": "Some timecards for the second week are still incomplete. Send a reminder so people finish their time and managers can approve by Friday noon.",
-      "policyIds": [
-        "timecard_order",
-        "save_not_submit"
-      ],
-      "hint": "Who has to act before Friday noon? It isn't only the employees.",
+      "context": "Week 2 time cards are still in progress. Send a reminder so employees finish their time and managers approve it by Monday at noon.",
+      "policyIds": ["timecard_order", "save_not_submit"],
+      "hint": "Who has to act before Monday at noon? It isn't only the employees.",
       "hintMeter": "payrollAccuracy",
       "decisions": [
         {
           "id": "timing",
           "label": "Send",
           "prompt": "When should the reminder go out?",
-          "missedChoiceId": "fri_am",
+          "missedChoiceId": "monday",
           "choices": [
-            {
-              "id": "now",
-              "text": "Now, Thursday morning",
-              "correct": true,
-              "deltas": {
-                "employeeTrust": 2
-              },
-              "timeCost": 10,
-              "feedback": "Thursday morning gives employees a full day to finish and managers time to approve before Friday noon. Next time: send it the day before the approval deadline, every period.",
-              "previewAdjust": {
-                "employeeId": "emp_grant",
-                "regHours": 8,
-                "note": "Wed entered after your reminder"
-              }
-            },
-            {
-              "id": "fri_am",
-              "text": "Friday morning, closer to the deadline",
-              "correct": false,
-              "errorCode": "PAY_REMINDER_LATE",
-              "deltas": {
-                "payrollAccuracy": -4
-              },
-              "timeCost": 10,
-              "feedback": "Friday morning leaves managers a few hours to approve, and anyone out Friday can't fix their time. Next time: send it the day before the approval deadline.",
-              "consequences": [
-                {
-                  "at": "payday",
-                  "speaker": "emp_grant",
-                  "tone": "negative",
-                  "line": "My check is short. I saw the reminder Friday, but I was out and couldn't add Wednesday's hours in time.",
-                  "summary": "Aisha's Wednesday hours missed the run.",
-                  "deltas": {
-                    "employeeTrust": -6,
-                    "payrollAccuracy": -4
-                  }
-                }
-              ]
-            },
-            {
-              "id": "fri_pm",
-              "text": "Friday at 4:00 PM, as a last call",
-              "correct": false,
-              "errorCode": "PAY_REMINDER_LATE",
-              "deltas": {
-                "payrollAccuracy": -6
-              },
-              "timeCost": 10,
-              "feedback": "By 4:00 PM Friday the manager approval deadline has passed. A last call that late can't change anything. Next time: send it the day before the approval deadline.",
-              "consequences": [
-                {
-                  "at": "payday",
-                  "speaker": "emp_grant",
-                  "tone": "negative",
-                  "line": "The reminder came after the deadline. My Wednesday hours aren't on my check.",
-                  "summary": "Aisha's Wednesday hours missed the run.",
-                  "deltas": {
-                    "employeeTrust": -8,
-                    "payrollAccuracy": -5
-                  }
-                }
-              ]
-            }
+            { "id": "now", "text": "Today, Thursday, so people can fix gaps before the weekend", "correct": true, "deltas": { "employeeTrust": 2 }, "timeCost": 10, "feedback": "Thursday gives employees two workdays to finish their time and gives managers a clear target: approved by Monday at noon. Next time: send it two workdays before the time card deadline, every period.", "totalsAdjust": { "employeeId": "emp_grant", "week2": 8, "note": "Wed Oct 21 entered after your reminder" } },
+            { "id": "monday", "text": "Monday morning, right before the deadline", "correct": false, "errorCode": "PAY_REMINDER_LATE", "deltas": { "payrollAccuracy": -4 }, "timeCost": 10, "feedback": "Monday morning leaves managers a few hours to approve, and anyone out Monday can't fix their time. Next time: send it before the weekend.", "consequences": [{ "at": "payday", "speaker": "emp_grant", "tone": "negative", "line": "My check is short. I saw the reminder Monday, but I was out and couldn't add Wednesday's hours in time.", "summary": "Aisha's Wednesday hours missed the run.", "deltas": { "employeeTrust": -6, "payrollAccuracy": -4 } }] },
+            { "id": "last_call", "text": "Monday at 11:30 AM, as a last call", "correct": false, "errorCode": "PAY_REMINDER_LATE", "deltas": { "payrollAccuracy": -6 }, "timeCost": 10, "feedback": "Thirty minutes before the deadline is too late to change anything. Next time: send it before the weekend.", "consequences": [{ "at": "payday", "speaker": "emp_grant", "tone": "negative", "line": "The reminder came half an hour before the deadline. My Wednesday hours aren't on my check.", "summary": "Aisha's Wednesday hours missed the run.", "deltas": { "employeeTrust": -8, "payrollAccuracy": -5 } }] }
           ]
         },
         {
@@ -238,38 +85,9 @@
           "prompt": "Who should get it?",
           "missedChoiceId": "employees_only",
           "choices": [
-            {
-              "id": "both",
-              "text": "Non-exempt employees and their managers",
-              "correct": true,
-              "deltas": {
-                "managerSatisfaction": 2
-              },
-              "timeCost": 0,
-              "feedback": "Employees finish their time, managers see the approval deadline. Both have to act. Next time: always include the approvers."
-            },
-            {
-              "id": "employees_only",
-              "text": "Only employees with incomplete timecards",
-              "correct": false,
-              "errorCode": "PAY_LATE_APPROVAL",
-              "deltas": {
-                "managerSatisfaction": -3
-              },
-              "timeCost": 0,
-              "feedback": "Employees can finish their time, but nobody told managers the approval deadline. Late approvals are the most common reason time misses a run. Next time: include managers."
-            },
-            {
-              "id": "everyone",
-              "text": "Everyone in the department, including exempt staff",
-              "correct": false,
-              "deltas": {
-                "managerSatisfaction": -2,
-                "employeeTrust": -1
-              },
-              "timeCost": 0,
-              "feedback": "Exempt staff don't submit timecards here, so the message is noise for them and people learn to ignore your reminders. Next time: send it to the people who have to act. [SME] Confirm which exempt groups, if any, record time."
-            }
+            { "id": "both", "text": "Non-exempt employees and their managers", "correct": true, "deltas": { "managerSatisfaction": 2 }, "timeCost": 0, "feedback": "Employees finish their time; managers see the approval deadline. Both have to act. Next time: always include the approvers." },
+            { "id": "employees_only", "text": "Only employees with incomplete time cards", "correct": false, "errorCode": "PAY_LATE_APPROVAL", "deltas": { "managerSatisfaction": -3 }, "timeCost": 0, "feedback": "Employees can finish their time, but nobody told managers the deadline. Late approvals are the most common reason time misses a run. Next time: include managers." },
+            { "id": "everyone", "text": "Everyone in the department, including exempt staff", "correct": false, "deltas": { "managerSatisfaction": -2, "employeeTrust": -1 }, "timeCost": 0, "feedback": "Exempt staff don't submit time cards here, so the message is noise for them, and people learn to ignore your reminders. Next time: send it to the people who have to act. [SME] Confirm which exempt groups, if any, record time." }
           ]
         }
       ]
@@ -277,322 +95,61 @@
     {
       "id": "timecards",
       "type": "grid",
-      "title": "Review timecard exceptions",
+      "title": "Weekly time card check",
       "from": "coach",
       "location": "terminal",
-      "receivedAt": {
-        "day": 9,
-        "at": "08:30"
-      },
-      "dueAt": {
-        "day": 10,
-        "at": "12:00"
-      },
+      "receivedAt": { "date": "2026-10-22", "at": "08:30" },
+      "dueAt": { "date": "2026-10-23", "at": "17:00" },
       "priority": "urgent",
-      "context": "Timecard Review shows three exceptions for the week of Oct 12. Resolve each one.",
-      "policyIds": [
-        "documented_edits",
-        "overtime",
-        "pto_increment"
-      ],
-      "hint": "For every exception ask: who knows the right answer, and how will I prove later that they confirmed it?",
+      "context": "Your weekly time card check shows three exceptions in period 22. Managers review their team's time and ask employees about anything unclear. Your job is to spot problems, get them to the right manager, and help them fix them.",
+      "policyIds": ["who_fixes", "overtime", "pto_increment"],
+      "hint": "For each exception, ask: whose employee is this, and what does that manager need from you to fix it?",
       "hintMeter": "complianceRisk",
       "grid": {
-        "days": [
-          "Mon Oct 12",
-          "Tue Oct 13",
-          "Wed Oct 14",
-          "Thu Oct 15"
-        ],
+        "caption": "Timecard Review · period 22, Oct 11 to Oct 24 (week 1: Oct 11 to 17)",
+        "days": ["Week 1 total", "Mon Oct 19", "Tue Oct 20", "Wed Oct 21"],
         "rows": [
-          {
-            "employeeId": "emp_reyes",
-            "cells": [
-              "8.0",
-              "IN 8:00 / OUT ?",
-              "8.0",
-              "8.0"
-            ],
-            "total": "24.0 + ?",
-            "exceptionDecision": "reyes_punch",
-            "exceptionCell": 1,
-            "exceptionLabel": "Missed out punch"
-          },
-          {
-            "employeeId": "emp_nair",
-            "cells": [
-              "10.0",
-              "10.0",
-              "12.0",
-              "12.0"
-            ],
-            "total": "44.0",
-            "exceptionDecision": "nair_ot",
-            "exceptionCell": 3,
-            "exceptionLabel": "Overtime not pre-approved"
-          },
-          {
-            "employeeId": "emp_okafor",
-            "cells": [
-              "8.0",
-              "8.0",
-              "5.0 + PTO 3.0",
-              "8.0"
-            ],
-            "total": "32.0",
-            "exceptionDecision": "okafor_pto",
-            "exceptionCell": 2,
-            "exceptionLabel": "PTO not in a 4-hour increment"
-          },
-          {
-            "employeeId": "emp_kowalski",
-            "cells": [
-              "8.0",
-              "8.0",
-              "8.0",
-              "8.0"
-            ],
-            "total": "32.0"
-          },
-          {
-            "employeeId": "emp_rivera",
-            "cells": [
-              "8.0",
-              "8.0",
-              "8.0",
-              "8.0"
-            ],
-            "total": "32.0"
-          },
-          {
-            "employeeId": "emp_grant",
-            "cells": [
-              "8.0",
-              "8.0",
-              "",
-              "8.0"
-            ],
-            "total": "24.0",
-            "note": "Wednesday not entered yet"
-          }
+          { "employeeId": "emp_reyes", "cells": ["40.0", "8.0", "IN 8:00 / OUT ?", "8.0"], "total": "56.0 + ?", "exceptionDecision": "reyes_punch", "exceptionCell": 2, "exceptionLabel": "Missed out punch" },
+          { "employeeId": "emp_nair", "cells": ["44.0", "8.0", "8.0", "8.0"], "total": "68.0", "exceptionDecision": "nair_ot", "exceptionCell": 0, "exceptionLabel": "Overtime, manager note" },
+          { "employeeId": "emp_okafor", "cells": ["40.0", "8.0", "8.0", "5.0 + PTO 3.0"], "total": "64.0", "exceptionDecision": "okafor_pto", "exceptionCell": 3, "exceptionLabel": "PTO not in a 4-hour increment" },
+          { "employeeId": "emp_kowalski", "cells": ["40.0", "8.0", "8.0", "8.0"], "total": "64.0" },
+          { "employeeId": "emp_rivera", "cells": ["40.0", "8.0", "8.0", "8.0"], "total": "64.0" },
+          { "employeeId": "emp_grant", "cells": ["40.0", "8.0", "8.0", ""], "total": "56.0", "note": "Wednesday not entered yet" }
         ]
       },
       "decisions": [
         {
           "id": "reyes_punch",
-          "label": "Jordan Reyes, Tue Oct 13",
-          "prompt": "Jordan clocked in at 8:00 and has no out punch. Jordan usually leaves at 5:00. What do you do?",
+          "label": "Jordan Reyes, Tue Oct 20",
+          "prompt": "Jordan clocked in at 8:00 and has no out punch. Jordan usually leaves at 5:00 and reports to Marcus Bell. What do you do?",
           "missedChoiceId": "leave",
           "choices": [
-            {
-              "id": "confirm",
-              "text": "Ask Jordan for the out time, get Marcus Bell to confirm it in writing, then correct the punch and note the confirmation.",
-              "correct": true,
-              "deltas": {
-                "complianceRisk": -2,
-                "employeeTrust": 2
-              },
-              "timeCost": 20,
-              "feedback": "Jordan actually left at 3:30 for an appointment. Because you asked, the timecard is right and you have the confirmation on file. Next time: same move. Confirm with both, document, then edit.",
-              "previewAdjust": {
-                "employeeId": "emp_reyes",
-                "regHours": 6.5,
-                "note": "Tue out 3:30 PM, confirmed"
-              }
-            },
-            {
-              "id": "self_fix",
-              "text": "Enter a 5:00 PM out punch. That's Jordan's normal schedule.",
-              "correct": false,
-              "errorCode": "PAY_UNDOC_EDIT",
-              "deltas": {
-                "complianceRisk": 12
-              },
-              "timeCost": 2,
-              "feedback": "Jordan left at 3:30 that day, so you just paid 1.5 hours that weren't worked, with no record of who said what. Next time: get the time from the employee, confirmation from the manager, and keep the record.",
-              "previewAdjust": {
-                "employeeId": "emp_reyes",
-                "regHours": 8,
-                "note": "Tue out 5:00 PM, entered by HCM"
-              },
-              "consequences": [
-                {
-                  "at": "payday",
-                  "speaker": "emp_reyes",
-                  "tone": "negative",
-                  "line": "Quick thing. I left at 3:30 on the 13th for a doctor visit, but I was paid for a full day. I don't want that coming back on me.",
-                  "summary": "Overpayment to Jordan. Recovery task next period.",
-                  "deltas": {
-                    "complianceRisk": 6,
-                    "payrollAccuracy": -4
-                  },
-                  "task": "Recover 1.5 hours overpaid to Jordan Reyes next period."
-                }
-              ]
-            },
-            {
-              "id": "leave",
-              "text": "Leave it blank. Jordan can fix it next period.",
-              "correct": false,
-              "errorCode": "PAY_EXCEPTION_IGNORED",
-              "deltas": {
-                "payrollAccuracy": -6
-              },
-              "timeCost": 0,
-              "feedback": "A missing punch means Tuesday doesn't pay at all. Jordan is short a day until a correction runs. Next time: resolve every exception before the approval deadline.",
-              "previewAdjust": {
-                "employeeId": "emp_reyes",
-                "regHours": 0,
-                "note": "Tue unpaid: missing punch"
-              },
-              "consequences": [
-                {
-                  "at": "payday",
-                  "speaker": "emp_reyes",
-                  "tone": "negative",
-                  "line": "My check is missing all of Tuesday the 13th. I have rent due.",
-                  "summary": "Jordan was underpaid a full day.",
-                  "deltas": {
-                    "employeeTrust": -10,
-                    "payrollAccuracy": -5
-                  },
-                  "task": "Request an off-cycle payment for Jordan's missing Tuesday."
-                }
-              ]
-            }
+            { "id": "route", "text": "Send Marcus the details (Jordan, Tue Oct 20, no out punch). Ask him to confirm the out time with Jordan and correct it before Monday at noon, and offer to walk him through the fix.", "correct": true, "deltas": { "complianceRisk": -2, "managerSatisfaction": 2 }, "timeCost": 15, "feedback": "Marcus checked with Jordan, who left at 3:30 for an appointment, and fixed the punch with your help. The manager reviewed it, the record is right, and nobody guessed. Next time: same move. Route it to the manager and support the fix.", "totalsAdjust": { "employeeId": "emp_reyes", "week2": 6.5, "note": "Tue out 3:30 PM, corrected by Marcus" } },
+            { "id": "self_fix", "text": "Enter a 5:00 PM out punch yourself. That's Jordan's normal schedule.", "correct": false, "errorCode": "PAY_UNDOC_EDIT", "deltas": { "complianceRisk": 12 }, "timeCost": 2, "feedback": "Jordan left at 3:30 that day, so you just paid 1.5 hours that weren't worked, and Marcus never reviewed it. Next time: send it to the manager to confirm with the employee.", "totalsAdjust": { "employeeId": "emp_reyes", "week2": 8, "note": "Tue out 5:00 PM, entered by HCM" }, "consequences": [{ "at": "payday", "speaker": "emp_reyes", "tone": "negative", "line": "Quick thing. I left at 3:30 on the 20th for a doctor visit, but I was paid for a full day. I don't want that coming back on me.", "summary": "Overpayment to Jordan. Recovery task next period.", "deltas": { "complianceRisk": 6, "payrollAccuracy": -4 }, "task": "Work with payroll to recover 1.5 hours overpaid to Jordan Reyes." }] },
+            { "id": "ask_employee", "text": "Ask Jordan for the out time and correct the punch yourself.", "correct": false, "errorCode": "PAY_BYPASS_MANAGER", "deltas": { "complianceRisk": 6, "managerSatisfaction": -3 }, "timeCost": 10, "feedback": "Jordan said 3:30, so the hours are right, but Marcus never saw it. Managers review their team's time and ask their employees about it; you support them. Next time: route it to the manager and help them fix it.", "totalsAdjust": { "employeeId": "emp_reyes", "week2": 6.5, "note": "Tue out 3:30 PM, entered by HCM" } },
+            { "id": "leave", "text": "Leave it. Jordan will notice and fix it.", "correct": false, "errorCode": "PAY_EXCEPTION_IGNORED", "deltas": { "payrollAccuracy": -6 }, "timeCost": 0, "feedback": "A missing punch means Tuesday doesn't pay at all, and Marcus approves a card with a hole in it. Next time: get every exception to the manager before the deadline.", "totalsAdjust": { "employeeId": "emp_reyes", "note": "Tue unpaid: missing punch" }, "consequences": [{ "at": "payday", "speaker": "emp_reyes", "tone": "negative", "line": "My check is missing all of Tuesday the 20th. I have rent due.", "summary": "Jordan was underpaid a full day.", "deltas": { "employeeTrust": -10, "payrollAccuracy": -5 }, "task": "Work with payroll on an off-cycle payment for Jordan's missing Tuesday." }] }
           ]
         },
         {
           "id": "nair_ot",
-          "label": "Priya Nair, week of Oct 12",
-          "prompt": "Priya worked 44 hours this week setting up the fall event. Dana Ortiz didn't approve overtime in advance and added a note: \"I didn't approve OT.\" What do you do?",
-          "missedChoiceId": "straight",
+          "label": "Priya Nair, week 1",
+          "prompt": "Priya worked 44 hours in week 1 setting up the fall event. Dana Ortiz didn't approve overtime in advance and left a note: \"I didn't approve OT. Can I change her time to 40?\" What do you tell Dana?",
+          "missedChoiceId": "cut",
           "choices": [
-            {
-              "id": "pay_flag",
-              "text": "Pay the 4 hours as overtime. Tell Dana the hours must be paid and that pre-approval is a conduct conversation she can have with Priya.",
-              "correct": true,
-              "deltas": {
-                "complianceRisk": -2,
-                "managerSatisfaction": 1
-              },
-              "timeCost": 15,
-              "feedback": "Correct. Federal law requires paying non-exempt staff overtime for hours over 40 in a workweek, approved or not. The approval issue is real, but it's the manager's conduct conversation, not a pay decision. Next time: pay it, then route the policy issue to the manager.",
-              "previewAdjust": {
-                "employeeId": "emp_nair",
-                "otHours": 4,
-                "note": "OT 4.0 paid at 1.5x"
-              }
-            },
-            {
-              "id": "shift",
-              "text": "Move 4 hours to next week so Priya stays at 40.",
-              "correct": false,
-              "errorCode": "PAY_OT_DENIED",
-              "deltas": {
-                "complianceRisk": 20
-              },
-              "timeCost": 5,
-              "feedback": "Overtime is calculated per workweek. Moving hours into another week to avoid overtime is a wage and hour violation, and it falsifies the record. Next time: pay the overtime and send the approval issue to the manager.",
-              "consequences": [
-                {
-                  "at": "payday",
-                  "speaker": "emp_nair",
-                  "tone": "negative",
-                  "line": "My overtime from the event setup isn't here, and next week shows hours I haven't worked yet. Who changed my timecard?",
-                  "summary": "Priya's overtime was shifted. Wage and hour exposure.",
-                  "deltas": {
-                    "employeeTrust": -10,
-                    "complianceRisk": 10
-                  },
-                  "task": "Correct Priya's timecard and pay the overtime off cycle."
-                }
-              ]
-            },
-            {
-              "id": "straight",
-              "text": "Pay the 4 hours at her regular rate, since overtime wasn't approved.",
-              "correct": false,
-              "errorCode": "PAY_OT_DENIED",
-              "deltas": {
-                "complianceRisk": 14
-              },
-              "timeCost": 5,
-              "feedback": "Hours over 40 in a workweek must be paid at 1.5 times the regular rate, whether or not they were approved. Next time: pay it as overtime and send the approval issue to the manager.",
-              "previewAdjust": {
-                "employeeId": "emp_nair",
-                "regHours": 4,
-                "note": "4.0 hrs paid at straight time"
-              },
-              "consequences": [
-                {
-                  "at": "payday",
-                  "speaker": "emp_nair",
-                  "tone": "negative",
-                  "line": "I worked 44 hours that week. Why were the extra four paid at my normal rate?",
-                  "summary": "Priya was underpaid overtime.",
-                  "deltas": {
-                    "employeeTrust": -8,
-                    "complianceRisk": 8
-                  },
-                  "task": "Pay Priya the overtime difference off cycle."
-                }
-              ]
-            }
+            { "id": "pay", "text": "The 4 hours must be paid as overtime, approved or not. Pre-approval is a conversation she can have with Priya.", "correct": true, "deltas": { "complianceRisk": -2, "managerSatisfaction": 1 }, "timeCost": 10, "feedback": "Correct. Federal law requires paying non-exempt staff overtime for hours over 40 in a workweek, approved or not. Dana handles the approval issue with Priya; the time stays as worked. Next time: same answer, and point the manager to the policy.", "totalsAdjust": { "employeeId": "emp_nair", "note": "4.0 OT in week 1, paid at 1.5x" } },
+            { "id": "shift", "text": "She can move 4 hours into week 2 so Priya stays at 40.", "correct": false, "errorCode": "PAY_OT_DENIED", "deltas": { "complianceRisk": 20 }, "timeCost": 5, "feedback": "Overtime is counted per workweek. Moving hours into another week to avoid it is a wage and hour violation, and it falsifies the record. Next time: the time stays as worked, and the overtime is paid.", "totalsAdjust": { "employeeId": "emp_nair", "week1": -4, "week2": 4, "note": "4 hours moved to week 2 by manager" }, "consequences": [{ "at": "payday", "speaker": "emp_nair", "tone": "negative", "line": "My overtime from the event setup isn't here, and week 2 shows hours I didn't work. Who changed my time card?", "summary": "Priya's overtime was moved. Wage and hour exposure.", "deltas": { "employeeTrust": -10, "complianceRisk": 10 }, "task": "Correct Priya's time card and pay the overtime." }] },
+            { "id": "cut", "text": "Yes. Since overtime wasn't approved, she can change it to 40.", "correct": false, "errorCode": "PAY_OT_DENIED", "deltas": { "complianceRisk": 14 }, "timeCost": 5, "feedback": "Hours worked must be paid, and hours over 40 in a workweek at 1.5 times the regular rate, approved or not. Cutting the time underpays Priya and falsifies the record. Next time: tell the manager the time stays as worked.", "totalsAdjust": { "employeeId": "emp_nair", "week1": -4, "note": "Cut to 40.0 by manager" }, "consequences": [{ "at": "payday", "speaker": "emp_nair", "tone": "negative", "line": "I worked 44 hours that week. Why was I paid for 40?", "summary": "Priya was underpaid 4 hours of overtime.", "deltas": { "employeeTrust": -8, "complianceRisk": 8 }, "task": "Work with payroll to pay Priya's missing overtime." }] }
           ]
         },
         {
           "id": "okafor_pto",
-          "label": "Sam Okafor, Wed Oct 14",
-          "prompt": "Sam entered 5 hours worked and 3 hours of PTO on Wednesday. What do you do?",
+          "label": "Sam Okafor, Wed Oct 21",
+          "prompt": "Sam entered 5 hours worked and 3 hours of PTO. Sam reports to Dana Ortiz. What do you do?",
           "missedChoiceId": "keep",
           "choices": [
-            {
-              "id": "confirm",
-              "text": "Explain the 4-hour PTO increment to Sam and Dana, confirm Sam's actual hours, and have the entry corrected with their confirmation.",
-              "correct": true,
-              "deltas": {
-                "complianceRisk": -1,
-                "employeeTrust": 1
-              },
-              "timeCost": 15,
-              "feedback": "Sam worked 4 hours and takes 4 hours of PTO. The entry follows policy and Sam and Dana both confirmed. Next time: same move, and mention the increment in your reminder.",
-              "previewAdjust": {
-                "employeeId": "emp_okafor",
-                "regHours": -1,
-                "ptoHours": 1,
-                "note": "Wed 4.0 worked + PTO 4.0, confirmed"
-              }
-            },
-            {
-              "id": "keep",
-              "text": "Leave it. 5 plus 3 adds up to 8 hours.",
-              "correct": false,
-              "errorCode": "PAY_PTO_INCREMENT",
-              "deltas": {
-                "payrollAccuracy": -4,
-                "complianceRisk": 4
-              },
-              "timeCost": 0,
-              "feedback": "Non-exempt PTO is entered in 4-hour increments. A 3-hour entry can be rejected or throw off Sam's balance. Next time: catch it in review and have it corrected with the employee's confirmation."
-            },
-            {
-              "id": "self_fix",
-              "text": "Change the PTO to 4 hours yourself and reduce worked time to 4.",
-              "correct": false,
-              "errorCode": "PAY_UNDOC_EDIT",
-              "deltas": {
-                "complianceRisk": 8
-              },
-              "timeCost": 2,
-              "feedback": "The math may be right, but you changed someone's worked time without them or the manager confirming it. Next time: confirm with both, then correct and document.",
-              "previewAdjust": {
-                "employeeId": "emp_okafor",
-                "regHours": -1,
-                "ptoHours": 1,
-                "note": "Wed edited by HCM, unconfirmed"
-              }
-            }
+            { "id": "route", "text": "Let Dana know non-exempt PTO goes in 4-hour increments. She confirms Sam's actual hours with Sam, and the entry is corrected before she approves.", "correct": true, "deltas": { "complianceRisk": -1, "managerSatisfaction": 1 }, "timeCost": 10, "feedback": "Sam worked 4 hours and takes 4 hours of PTO. The entry follows policy, and Dana confirmed it with Sam. Next time: same move, and mention the increment in your reminder.", "totalsAdjust": { "employeeId": "emp_okafor", "note": "Wed 4.0 worked + PTO 4.0, confirmed by Dana" } },
+            { "id": "keep", "text": "Leave it. 5 plus 3 adds up to 8.", "correct": false, "errorCode": "PAY_PTO_INCREMENT", "deltas": { "payrollAccuracy": -4, "complianceRisk": 4 }, "timeCost": 0, "feedback": "Non-exempt PTO is entered in 4-hour increments. A 3-hour entry can be rejected or throw off Sam's balance. Next time: catch it in your weekly check and get it to the manager.", "totalsAdjust": { "employeeId": "emp_okafor", "note": "Wed PTO 3.0, not a 4-hour increment" } },
+            { "id": "self_fix", "text": "Change it to 4 hours of PTO and 4 worked yourself.", "correct": false, "errorCode": "PAY_UNDOC_EDIT", "deltas": { "complianceRisk": 8 }, "timeCost": 2, "feedback": "The math may be right, but you changed someone's worked time without Sam or Dana confirming it. Next time: get it to the manager to confirm with the employee.", "totalsAdjust": { "employeeId": "emp_okafor", "note": "Wed edited by HCM, unconfirmed" } }
           ]
         }
       ]
@@ -603,31 +160,13 @@
       "title": "Enter a retro pay increase",
       "from": "mgr_bell",
       "location": "office_b",
-      "receivedAt": {
-        "day": 9,
-        "at": "10:00"
-      },
-      "dueAt": {
-        "day": 10,
-        "at": "17:00"
-      },
-      "priority": "normal",
-      "context": "Marcus Bell: \"Jordan's raise finally came through. Approval letter attached. Can you get it into this payroll?\"",
-      "attachment": {
-        "kind": "letter",
-        "title": "Pay increase approval",
-        "lines": [
-          "Employee: Jordan Reyes, Program Coordinator",
-          "Current rate: $23.00 per hour",
-          "New rate: $24.50 per hour",
-          "Effective date: Monday, September 21",
-          "Approved: Dr. Helen Park, Director"
-        ]
-      },
-      "policyIds": [
-        "retro"
-      ],
-      "hint": "The approval letter already answers both fields. Copy, don't calculate.",
+      "receivedAt": { "date": "2026-10-22", "at": "10:00" },
+      "dueAt": { "date": "2026-10-23", "at": "17:00" },
+      "priority": "high",
+      "context": "Marcus Bell: \"Jordan's raise came through. Approval letter attached. Can you get it in before Friday's cutoff?\"",
+      "attachment": { "kind": "letter", "title": "Pay increase approval", "lines": ["Employee: Jordan Reyes, Program Coordinator", "Current rate: $23.00 per hour", "New rate: $24.50 per hour", "Effective date: Sunday, September 27 (start of pay period 21)", "Approved: Dr. Helen Park, Director"] },
+      "policyIds": ["retro", "calendar"],
+      "hint": "The approval letter answers both fields. Copy, don't calculate. Then make sure it's in before Friday's cutoff.",
       "hintMeter": "payrollAccuracy",
       "decisions": [
         {
@@ -636,120 +175,10 @@
           "prompt": "Effective date",
           "missedChoiceId": "not_entered",
           "choices": [
-            {
-              "id": "sep21",
-              "text": "Mon Sep 21",
-              "correct": true,
-              "deltas": {
-                "payrollAccuracy": 2,
-                "employeeTrust": 3
-              },
-              "timeCost": 10,
-              "feedback": "Sep 21 is the date on the approved letter. Payroll recalculates the past periods and pays Jordan the difference. Next time: always use the document's effective date, even when it's in the past.",
-              "consequences": [
-                {
-                  "at": "payday",
-                  "speaker": "emp_reyes",
-                  "tone": "positive",
-                  "line": "My back pay to September came through. Thank you for getting it in this run.",
-                  "summary": "Jordan received the full retro pay.",
-                  "deltas": {
-                    "employeeTrust": 3
-                  }
-                }
-              ],
-              "previewAdjust": {
-                "employeeId": "emp_reyes",
-                "rate": 24.5,
-                "retro": 120,
-                "note": "Raise from Sep 21, retro $120.00"
-              }
-            },
-            {
-              "id": "oct5",
-              "text": "Mon Oct 5, start of this period",
-              "correct": false,
-              "errorCode": "PAY_RETRO_WRONG_DATE",
-              "deltas": {
-                "payrollAccuracy": -6
-              },
-              "timeCost": 10,
-              "feedback": "Starting the raise at the current period drops two weeks of back pay Jordan is owed. Next time: use the effective date on the approved document.",
-              "consequences": [
-                {
-                  "at": "payday",
-                  "speaker": "emp_reyes",
-                  "tone": "negative",
-                  "line": "I was told my raise was back to September 21. The back pay only covers this period.",
-                  "summary": "Jordan was shorted two weeks of retro pay.",
-                  "deltas": {
-                    "employeeTrust": -8,
-                    "payrollAccuracy": -4
-                  },
-                  "task": "Correct the effective date and request the missing retro pay."
-                }
-              ],
-              "previewAdjust": {
-                "employeeId": "emp_reyes",
-                "rate": 24.5,
-                "note": "Raise from Oct 5"
-              }
-            },
-            {
-              "id": "oct15",
-              "text": "Thu Oct 15, today",
-              "correct": false,
-              "errorCode": "PAY_RETRO_WRONG_DATE",
-              "deltas": {
-                "payrollAccuracy": -8
-              },
-              "timeCost": 10,
-              "feedback": "Today's date ignores the approved effective date, so almost four weeks of back pay is missing. Next time: use the effective date on the approved document.",
-              "consequences": [
-                {
-                  "at": "payday",
-                  "speaker": "emp_reyes",
-                  "tone": "negative",
-                  "line": "My raise only shows for one day. It was supposed to start September 21.",
-                  "summary": "Jordan was shorted almost four weeks of retro pay.",
-                  "deltas": {
-                    "employeeTrust": -10,
-                    "payrollAccuracy": -5
-                  },
-                  "task": "Correct the effective date and request the missing retro pay."
-                }
-              ],
-              "previewAdjust": {
-                "employeeId": "emp_reyes",
-                "retro": 24,
-                "note": "Raise from Oct 15 only"
-              }
-            },
-            {
-              "id": "not_entered",
-              "hidden": true,
-              "text": "Not entered",
-              "correct": false,
-              "errorCode": "PAY_RETRO_WRONG_DATE",
-              "deltas": {
-                "managerSatisfaction": -6
-              },
-              "timeCost": 0,
-              "feedback": "The raise wasn't entered before cutoff, so Jordan's increase and back pay wait for another run. Next time: enter retro changes the day they arrive.",
-              "consequences": [
-                {
-                  "at": "payday",
-                  "speaker": "mgr_bell",
-                  "tone": "negative",
-                  "line": "I sent Jordan's raise Thursday morning. Why isn't it on this check?",
-                  "summary": "Jordan's raise missed the run.",
-                  "deltas": {
-                    "managerSatisfaction": -6,
-                    "employeeTrust": -6
-                  }
-                }
-              ]
-            }
+            { "id": "sep27", "text": "Sun Sep 27", "correct": true, "deltas": { "payrollAccuracy": 2, "employeeTrust": 3 }, "timeCost": 10, "feedback": "Sep 27 is the date on the approved letter. Entered before Friday's HCM transaction cutoff, the raise makes this payroll, and payroll pays Jordan the difference for period 21. Next time: always use the document's effective date, even when it's in the past.", "consequences": [{ "at": "payday", "speaker": "emp_reyes", "tone": "positive", "line": "My raise and the back pay for September came through. Thank you for getting it in before the cutoff.", "summary": "Jordan received the raise and retro pay.", "deltas": { "employeeTrust": 3 } }] },
+            { "id": "oct11", "text": "Sun Oct 11, start of this period", "correct": false, "errorCode": "PAY_RETRO_WRONG_DATE", "deltas": { "payrollAccuracy": -6 }, "timeCost": 10, "feedback": "Starting the raise this period drops the two weeks of back pay Jordan is owed for period 21. Next time: use the effective date on the approved document.", "consequences": [{ "at": "payday", "speaker": "emp_reyes", "tone": "negative", "line": "I was told my raise went back to September 27. The back pay isn't here.", "summary": "Jordan was shorted two weeks of retro pay.", "deltas": { "employeeTrust": -8, "payrollAccuracy": -4 }, "task": "Correct the effective date and get the missing retro pay processed." }] },
+            { "id": "oct22", "text": "Thu Oct 22, today", "correct": false, "errorCode": "PAY_RETRO_WRONG_DATE", "deltas": { "payrollAccuracy": -8 }, "timeCost": 10, "feedback": "Today's date ignores the approved effective date, so almost four weeks of back pay is missing. Next time: use the effective date on the approved document.", "consequences": [{ "at": "payday", "speaker": "emp_reyes", "tone": "negative", "line": "My raise only shows for the last few days. It was supposed to start September 27.", "summary": "Jordan was shorted almost four weeks of retro pay.", "deltas": { "employeeTrust": -10, "payrollAccuracy": -5 }, "task": "Correct the effective date and get the missing retro pay processed." }] },
+            { "id": "not_entered", "hidden": true, "text": "Not entered", "correct": false, "errorCode": "PAY_TRANSACTION_LATE", "deltas": { "managerSatisfaction": -6 }, "timeCost": 0, "feedback": "The raise wasn't entered and approved by Friday's HCM transaction cutoff, so it waits for the next payroll, with retro. Next time: enter transactions the day they arrive and leave time for every approver.", "consequences": [{ "at": "payday", "speaker": "mgr_bell", "tone": "negative", "line": "I sent Jordan's raise Thursday morning. Why isn't it on this check?", "summary": "Jordan's raise missed the HCM transaction cutoff.", "deltas": { "managerSatisfaction": -6, "employeeTrust": -6 } }] }
           ]
         },
         {
@@ -761,51 +190,9 @@
           "expected": 24.5,
           "missedChoiceId": "not_entered",
           "choices": [
-            {
-              "id": "right",
-              "text": "24.50",
-              "correct": true,
-              "deltas": {
-                "payrollAccuracy": 2
-              },
-              "timeCost": 0,
-              "feedback": "$24.50 matches the approval letter. Next time: same. Read it off the document."
-            },
-            {
-              "id": "wrong",
-              "text": "Other amount",
-              "correct": false,
-              "errorCode": "PAY_RETRO_WRONG_RATE",
-              "deltas": {
-                "payrollAccuracy": -8,
-                "complianceRisk": 4
-              },
-              "timeCost": 0,
-              "feedback": "The rate doesn't match the approval letter, so every hour since Sep 21 pays wrong. Next time: copy the rate straight from the approved document and check it twice.",
-              "consequences": [
-                {
-                  "at": "payday",
-                  "speaker": "emp_reyes",
-                  "tone": "negative",
-                  "line": "My new rate on the pay stub doesn't match my letter.",
-                  "summary": "Jordan's new rate was keyed wrong.",
-                  "deltas": {
-                    "employeeTrust": -6,
-                    "payrollAccuracy": -4
-                  },
-                  "task": "Correct Jordan's rate and settle the difference."
-                }
-              ]
-            },
-            {
-              "id": "not_entered",
-              "hidden": true,
-              "text": "Not entered",
-              "correct": false,
-              "deltas": {},
-              "timeCost": 0,
-              "feedback": "The rate wasn't entered before cutoff."
-            }
+            { "id": "right", "text": "24.50", "correct": true, "deltas": { "payrollAccuracy": 2 }, "timeCost": 0, "feedback": "$24.50 matches the approval letter. Next time: same. Read it off the document." },
+            { "id": "wrong", "text": "Other amount", "correct": false, "errorCode": "PAY_RETRO_WRONG_RATE", "deltas": { "payrollAccuracy": -8, "complianceRisk": 4 }, "timeCost": 0, "feedback": "The rate doesn't match the approval letter, so every hour since Sep 27 pays wrong. Next time: copy the rate straight from the approved document and check it twice.", "consequences": [{ "at": "payday", "speaker": "emp_reyes", "tone": "negative", "line": "My new rate on the pay stub doesn't match my letter.", "summary": "Jordan's new rate was keyed wrong.", "deltas": { "employeeTrust": -6, "payrollAccuracy": -4 }, "task": "Correct Jordan's rate and settle the difference." }] },
+            { "id": "not_entered", "hidden": true, "text": "Not entered", "correct": false, "deltas": {}, "timeCost": 0, "feedback": "The rate wasn't entered before the HCM transaction cutoff." }
           ]
         }
       ]
@@ -813,76 +200,73 @@
     {
       "id": "approvals",
       "type": "choice",
-      "title": "Chase late manager approvals",
+      "title": "Chase late approvals",
       "from": "coach",
-      "location": "office_b",
-      "receivedAt": {
-        "day": 9,
-        "at": "13:00"
-      },
-      "dueAt": {
-        "day": 10,
-        "at": "09:00"
-      },
-      "priority": "high",
-      "context": "Marcus Bell hasn't approved timecards for Jordan Reyes, Tomás Rivera, and Aisha Grant. The manager approval deadline is Fri Oct 16 at 12:00 PM.",
-      "policyIds": [
-        "manager_approval",
-        "timecard_order"
-      ],
+      "location": "terminal",
+      "receivedAt": { "date": "2026-10-26", "at": "08:00" },
+      "dueAt": { "date": "2026-10-26", "at": "10:00" },
+      "priority": "urgent",
+      "context": "Monday, 8:00 AM. Time cards are due at noon. In Timecard Review, Approval State shows Submitted for Jordan Reyes, Tomás Rivera, and Aisha Grant on Marcus Bell's team. Dana Ortiz's team shows Approved (PayPrep Ready).",
+      "policyIds": ["manager_approval", "timecard_order"],
       "hint": "You can make it easy for Marcus. You can't do it for him.",
       "hintMeter": "complianceRisk",
       "decisions": [
         {
           "id": "remind",
-          "prompt": "It's Thursday afternoon. What do you do?",
+          "prompt": "What do you do?",
           "missedChoiceId": "wait",
           "choices": [
-            {
-              "id": "remind",
-              "text": "Email Marcus the three names and the Friday noon deadline, and ask who his backup approver is if he's out.",
-              "correct": true,
-              "deltas": {
-                "managerSatisfaction": 3
-              },
-              "timeCost": 10,
-              "feedback": "Specific names, a specific deadline, and a backup plan. That's the reminder managers can act on in a minute. Next time: same, and ask about the backup before you need one."
-            },
-            {
-              "id": "approve",
-              "text": "Approve the three timecards yourself. You've already reviewed them.",
-              "correct": false,
-              "errorCode": "PAY_APPROVE_FOR_MGR",
-              "deltas": {
-                "complianceRisk": 15
-              },
-              "timeCost": 3,
-              "feedback": "Manager approval is the manager attesting that the time is right. Approving as the manager removes that control, even if the hours look fine. Next time: remind, then escalate. Never approve for them.",
-              "consequences": [
-                {
-                  "at": "payday",
-                  "speaker": "mgr_bell",
-                  "tone": "negative",
-                  "line": "Audit flagged approvals under my team that I never made. I need to know why.",
-                  "summary": "Approvals made on a manager's behalf were flagged.",
-                  "deltas": {
-                    "managerSatisfaction": -8,
-                    "complianceRisk": 6
-                  }
-                }
-              ]
-            },
-            {
-              "id": "wait",
-              "text": "Wait. Marcus usually approves Friday morning.",
-              "correct": false,
-              "errorCode": "PAY_LATE_APPROVAL",
-              "deltas": {
-                "payrollAccuracy": -2
-              },
-              "timeCost": 0,
-              "feedback": "Usually isn't a plan. If Marcus is out Friday, you find out with three hours to spare. Next time: remind the afternoon before, with names and the deadline."
-            }
+            { "id": "remind", "text": "Email Marcus the three names, the pay period, and the noon deadline, and ask who his backup approver is if he's out.", "correct": true, "deltas": { "managerSatisfaction": 3 }, "timeCost": 10, "feedback": "Specific names, the period, the deadline, and a backup plan. That's a reminder a manager can act on in a minute. Next time: same, and ask about the backup before you need one." },
+            { "id": "approve", "text": "Approve the three time cards yourself. You've already checked them.", "correct": false, "errorCode": "PAY_APPROVE_FOR_MGR", "deltas": { "complianceRisk": 15 }, "timeCost": 3, "feedback": "You can see the time cards, but approving them is the manager attesting that the time is right. Doing it for Marcus removes his review, even if the hours look fine. Next time: remind, then escalate. Never approve for the manager.", "consequences": [{ "at": "payday", "speaker": "mgr_bell", "tone": "negative", "line": "Audit flagged approvals on my team that I never made. I need to know why.", "summary": "Approvals made for a manager were flagged.", "deltas": { "managerSatisfaction": -8, "complianceRisk": 6 } }] },
+            { "id": "wait", "text": "Wait. Marcus usually approves Monday morning.", "correct": false, "errorCode": "PAY_LATE_APPROVAL", "deltas": { "payrollAccuracy": -2 }, "timeCost": 0, "feedback": "Usually isn't a plan. If Marcus is out today, you find out with no time to spare. Next time: remind first thing, with names and the deadline." }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "finalcheck",
+      "type": "review",
+      "title": "Final time card check",
+      "from": "coach",
+      "location": "terminal",
+      "receivedAt": { "date": "2026-10-26", "at": "08:30" },
+      "dueAt": { "date": "2026-10-26", "at": "12:00" },
+      "priority": "urgent",
+      "requires": ["timecards"],
+      "context": "Before payroll signs off at noon, check the period 22 totals for Dana's and Marcus's teams. Lena Kowalski updated her time card Thursday night. Flag anything that needs a closer look.",
+      "policyIds": ["timecard_order", "who_fixes"],
+      "hint": "A normal two weeks is about 80 hours. Look for anything far from that.",
+      "hintMeter": "payrollAccuracy",
+      "review": {
+        "caption": "Timecard totals · period 22, Oct 11 to Oct 24",
+        "rows": [
+          { "employeeId": "emp_reyes", "week1": 40, "week2": 32, "approval": "Submitted" },
+          { "employeeId": "emp_nair", "week1": 44, "week2": 40, "approval": "Approved (PayPrep Ready)" },
+          { "employeeId": "emp_okafor", "week1": 40, "week2": 40, "approval": "Approved (PayPrep Ready)" },
+          { "employeeId": "emp_kowalski", "week1": 40, "week2": 112, "approval": "Approved (PayPrep Ready)", "anomaly": true, "note": "Thu Oct 22: 80.0" },
+          { "employeeId": "emp_rivera", "week1": 40, "week2": 40, "approval": "Submitted" },
+          { "employeeId": "emp_grant", "week1": 40, "week2": 32, "approval": "Submitted" }
+        ]
+      },
+      "decisions": [
+        {
+          "id": "flag",
+          "prompt": "Flag the rows that need a closer look, then submit.",
+          "missedChoiceId": "missed",
+          "choices": [
+            { "id": "caught", "text": "Flagged Lena Kowalski", "correct": true, "deltas": { "payrollAccuracy": 4 }, "timeCost": 10, "feedback": "Lena's Thursday shows 80.0 hours. She meant 8.0, and Dana approved it without noticing. Catching it before payroll signs off saves a $2,376 overpayment and a recovery conversation. Next time: scan totals for anything far from a normal 80." },
+            { "id": "missed", "text": "Did not flag Lena Kowalski", "correct": false, "errorCode": "PAY_MISSED_ANOMALY", "deltas": { "payrollAccuracy": -10 }, "timeCost": 5, "feedback": "Lena's Thursday shows 80.0 hours instead of 8.0. Dana approved it, payroll signed off, and Lena was overpaid $2,376. Next time: scan totals for anything far from a normal 80 before the deadline.", "consequences": [{ "at": "payday", "speaker": "emp_kowalski", "tone": "negative", "line": "My check is huge. I think I typed 80 instead of 8 on Thursday. I don't want to spend money that isn't mine.", "summary": "Lena was overpaid $2,376. Recovery task next period.", "deltas": { "employeeTrust": -4, "complianceRisk": 8, "payrollAccuracy": -4 }, "task": "Work with payroll to recover $2,376 overpaid to Lena Kowalski." }] }
+          ]
+        },
+        {
+          "id": "fix",
+          "prompt": "Lena confirms she meant 8.0, and Dana already approved her time card. How does it get fixed before noon?",
+          "showIf": { "decision": "flag", "choice": "caught" },
+          "missedChoiceId": "after",
+          "choices": [
+            { "id": "resubmit", "text": "Tell Dana. She removes her approval, Lena corrects Thursday to 8.0, and Dana approves again before noon.", "correct": true, "deltas": { "complianceRisk": -1, "managerSatisfaction": 1 }, "timeCost": 20, "feedback": "The employee fixes her own entry, and the manager reviews it again before payroll signs off. Clean record. Next time: same order.", "totalsAdjust": { "employeeId": "emp_kowalski", "week2": -72, "clearsAnomaly": true, "note": "Corrected to 8.0 by Lena, approved again by Dana" } },
+            { "id": "self_fix", "text": "Change 80.0 to 8.0 yourself. It's obviously a typo.", "correct": false, "errorCode": "PAY_UNDOC_EDIT", "deltas": { "complianceRisk": 5 }, "timeCost": 2, "feedback": "The number is right, but now the record shows you changed an approved time card with nothing from Lena or Dana. Next time: the employee corrects it and the manager approves it again.", "totalsAdjust": { "employeeId": "emp_kowalski", "week2": -72, "clearsAnomaly": true, "note": "Changed to 8.0 by HCM" } },
+            { "id": "after", "text": "Leave it approved and ask payroll to fix it after they sign off.", "correct": false, "errorCode": "PAY_MISSED_ANOMALY", "deltas": { "payrollAccuracy": -6 }, "timeCost": 5, "feedback": "Once payroll signs off, the approval can't be removed until payroll removes the sign-off, and the 80 hours can pay. You had time to fix it before noon. Next time: fix what you can before the deadline, and bring payroll only what you can't resolve.", "consequences": [{ "at": "payday", "speaker": "emp_kowalski", "tone": "negative", "line": "My check was way too big, and now there's a recovery. I told everyone Thursday was a typo.", "summary": "Lena was overpaid $2,376 after a fixable error.", "deltas": { "employeeTrust": -3, "complianceRisk": 6, "payrollAccuracy": -3 }, "task": "Work with payroll to recover $2,376 overpaid to Lena Kowalski." }] }
           ]
         }
       ]
@@ -893,324 +277,24 @@
       "title": "Marcus is out today",
       "from": "mgr_bell",
       "location": "office_b",
-      "receivedAt": {
-        "day": 10,
-        "at": "09:00"
-      },
-      "dueAt": {
-        "day": 10,
-        "at": "12:00"
-      },
+      "receivedAt": { "date": "2026-10-26", "at": "09:30" },
+      "dueAt": { "date": "2026-10-26", "at": "12:00" },
       "priority": "urgent",
-      "requires": [
-        "approvals"
-      ],
-      "context": "Marcus Bell's out of office: \"Out sick today, back Monday.\" Jordan, Tomás, and Aisha are still unapproved. The deadline is noon.",
-      "policyIds": [
-        "manager_approval"
-      ],
+      "requires": ["approvals"],
+      "skipIf": { "step": "approvals", "decision": "remind", "choice": "approve" },
+      "context": "Marcus Bell's out of office: \"Out sick today, back Tuesday.\" Jordan, Tomás, and Aisha still show Submitted. Time cards are due at noon.",
+      "policyIds": ["manager_approval"],
       "hint": "Whose job is it when the approver can't approve?",
       "hintMeter": "complianceRisk",
       "decisions": [
         {
           "id": "escalate",
-          "prompt": "It's Friday morning. What do you do?",
+          "prompt": "It's Monday morning. What do you do?",
           "missedChoiceId": "leave",
           "choices": [
-            {
-              "id": "escalate",
-              "text": "Send the three names and the noon deadline to Marcus's backup approver, and copy Dr. Park as his supervisor.",
-              "correct": true,
-              "deltas": {
-                "managerSatisfaction": 2,
-                "payrollAccuracy": 2
-              },
-              "timeCost": 15,
-              "feedback": "The backup approver signs off by 11:00. The control stays intact and nobody misses pay. Next time: same. Escalate early, with the names and deadline. [SME] Confirm Vanderbilt's backup approver rule."
-            },
-            {
-              "id": "approve",
-              "text": "Approve them yourself. Marcus is out, and people need to be paid.",
-              "correct": false,
-              "errorCode": "PAY_APPROVE_FOR_MGR",
-              "deltas": {
-                "complianceRisk": 15
-              },
-              "timeCost": 3,
-              "feedback": "Good intent, wrong control. Approving as the manager removes the manager's attestation. Next time: escalate to the backup approver or supervisor.",
-              "consequences": [
-                {
-                  "at": "payday",
-                  "speaker": "mgr_bell",
-                  "tone": "negative",
-                  "line": "I came back to find my team's time approved under my name. That can't happen.",
-                  "summary": "Approvals made on a manager's behalf were flagged.",
-                  "deltas": {
-                    "managerSatisfaction": -8,
-                    "complianceRisk": 6
-                  }
-                }
-              ]
-            },
-            {
-              "id": "leave",
-              "text": "Leave them. Unapproved time gets picked up in the next run.",
-              "correct": false,
-              "errorCode": "PAY_LATE_APPROVAL",
-              "deltas": {
-                "payrollAccuracy": -10
-              },
-              "timeCost": 0,
-              "feedback": "Three people's second-week hours miss this run. Next time: escalate to the backup approver before the deadline. [SME] Confirm what happens to unapproved time at Vanderbilt.",
-              "consequences": [
-                {
-                  "at": "payday",
-                  "speaker": "emp_rivera",
-                  "tone": "negative",
-                  "line": "Half my hours aren't on this check. Tomás, Aisha, and Jordan are all saying the same thing.",
-                  "summary": "Three employees' hours missed the run.",
-                  "deltas": {
-                    "employeeTrust": -12,
-                    "payrollAccuracy": -6
-                  },
-                  "task": "Request off-cycle payments for three employees."
-                }
-              ]
-            }
-          ]
-        }
-      ],
-      "skipIf": {
-        "step": "approvals",
-        "decision": "remind",
-        "choice": "approve"
-      }
-    },
-    {
-      "id": "preview",
-      "type": "preview",
-      "title": "Run Payroll Preview",
-      "from": "coach",
-      "location": "terminal",
-      "receivedAt": {
-        "day": 10,
-        "at": "11:00"
-      },
-      "dueAt": {
-        "day": 10,
-        "at": "17:00"
-      },
-      "priority": "urgent",
-      "requires": [
-        "timecards"
-      ],
-      "context": "Payroll Preview shows gross pay for every non-exempt employee this period. Lena Kowalski updated her timecard last night. Check every row before you approve. Flag anything that needs a closer look.",
-      "policyIds": [
-        "documented_edits",
-        "cutoff"
-      ],
-      "hint": "Compare each row's hours to what a normal two weeks looks like.",
-      "hintMeter": "payrollAccuracy",
-      "preview": {
-        "rows": [
-          {
-            "employeeId": "emp_reyes",
-            "regHours": 72,
-            "otHours": 0,
-            "ptoHours": 0
-          },
-          {
-            "employeeId": "emp_nair",
-            "regHours": 80,
-            "otHours": 0,
-            "ptoHours": 0
-          },
-          {
-            "employeeId": "emp_okafor",
-            "regHours": 77,
-            "otHours": 0,
-            "ptoHours": 3
-          },
-          {
-            "employeeId": "emp_kowalski",
-            "regHours": 152,
-            "otHours": 0,
-            "ptoHours": 0,
-            "anomaly": true,
-            "note": "Wed Oct 14: 80.0"
-          },
-          {
-            "employeeId": "emp_rivera",
-            "regHours": 80,
-            "otHours": 0,
-            "ptoHours": 0
-          },
-          {
-            "employeeId": "emp_grant",
-            "regHours": 72,
-            "otHours": 0,
-            "ptoHours": 0
-          }
-        ]
-      },
-      "decisions": [
-        {
-          "id": "flag",
-          "prompt": "Flag the rows that need a closer look, then submit.",
-          "missedChoiceId": "missed",
-          "choices": [
-            {
-              "id": "caught",
-              "text": "Flagged Lena Kowalski",
-              "correct": true,
-              "deltas": {
-                "payrollAccuracy": 4
-              },
-              "timeCost": 10,
-              "feedback": "Lena's Wednesday shows 80.0 hours. She meant 8.0. Catching it here saves a $1,584 overpayment and a recovery conversation. Next time: scan totals for anything far from a normal 80."
-            },
-            {
-              "id": "missed",
-              "text": "Did not flag Lena Kowalski",
-              "correct": false,
-              "errorCode": "PAY_MISSED_ANOMALY",
-              "deltas": {
-                "payrollAccuracy": -10
-              },
-              "timeCost": 5,
-              "feedback": "Lena's Wednesday shows 80.0 hours instead of 8.0. It went through, and she was overpaid $1,584. Next time: scan totals for anything far from a normal 80 before you approve.",
-              "consequences": [
-                {
-                  "at": "payday",
-                  "speaker": "emp_kowalski",
-                  "tone": "negative",
-                  "line": "My check is huge. I think I typed 80 instead of 8 on Wednesday. I don't want to spend money that isn't mine.",
-                  "summary": "Lena was overpaid $1,584. Recovery task next period.",
-                  "deltas": {
-                    "employeeTrust": -4,
-                    "complianceRisk": 8,
-                    "payrollAccuracy": -4
-                  },
-                  "task": "Recover $1,584 overpaid to Lena Kowalski."
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "id": "fix",
-          "prompt": "Lena confirms she meant 8.0. How does it get fixed?",
-          "showIf": {
-            "decision": "flag",
-            "choice": "caught"
-          },
-          "missedChoiceId": "self_fix",
-          "choices": [
-            {
-              "id": "resubmit",
-              "text": "Lena corrects her entry, and Dana Ortiz re-approves before cutoff.",
-              "correct": true,
-              "deltas": {
-                "complianceRisk": -1
-              },
-              "timeCost": 20,
-              "feedback": "The person who entered the time fixes it, and the manager approves the fix. Clean record. Next time: same order.",
-              "previewAdjust": {
-                "employeeId": "emp_kowalski",
-                "regHours": -72,
-                "note": "Corrected to 8.0 by employee, re-approved",
-                "clearsAnomaly": true
-              }
-            },
-            {
-              "id": "self_fix",
-              "text": "Change 80.0 to 8.0 yourself. It's obviously a typo.",
-              "correct": false,
-              "errorCode": "PAY_UNDOC_EDIT",
-              "deltas": {
-                "complianceRisk": 5
-              },
-              "timeCost": 2,
-              "feedback": "The fix is right, but now the record shows you changed an approved timecard with nothing from Lena or Dana. Next time: have the employee correct it and the manager re-approve.",
-              "previewAdjust": {
-                "employeeId": "emp_kowalski",
-                "regHours": -72,
-                "note": "Changed to 8.0 by HCM",
-                "clearsAnomaly": true
-              }
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "id": "approve",
-      "type": "approve",
-      "title": "Approve payroll",
-      "from": "coach",
-      "location": "terminal",
-      "receivedAt": {
-        "day": 10,
-        "at": "11:00"
-      },
-      "dueAt": {
-        "day": 10,
-        "at": "17:00"
-      },
-      "priority": "urgent",
-      "requires": [
-        "preview"
-      ],
-      "context": "Approve payroll for the Office of Learning Operations before cutoff. Anything still open when you approve is processed as it stands.",
-      "policyIds": [
-        "cutoff",
-        "off_cycle"
-      ],
-      "hint": "Open items don't wait for you. Check the inbox before you approve.",
-      "hintMeter": "payrollAccuracy",
-      "decisions": [
-        {
-          "id": "final",
-          "prompt": "Approve payroll now?",
-          "missedChoiceId": "missed",
-          "choices": [
-            {
-              "id": "approved",
-              "text": "Approve payroll",
-              "correct": true,
-              "deltas": {
-                "managerSatisfaction": 3
-              },
-              "timeCost": 5,
-              "feedback": "Payroll is approved before cutoff. Next time: leave yourself an hour of buffer."
-            },
-            {
-              "id": "missed",
-              "hidden": true,
-              "text": "Cutoff passed",
-              "correct": false,
-              "errorCode": "PAY_MISSED_CUTOFF",
-              "deltas": {
-                "managerSatisfaction": -10,
-                "payrollAccuracy": -10
-              },
-              "timeCost": 0,
-              "feedback": "Cutoff passed before you approved. Payroll ran without your final review, and every fix is now an off-cycle request. Next time: approve with time to spare, and triage requests that can wait.",
-              "consequences": [
-                {
-                  "at": "payday",
-                  "speaker": "dir_park",
-                  "tone": "negative",
-                  "line": "Payroll went out without our final review. I'm hearing about problems from three directions.",
-                  "summary": "Payroll missed cutoff. Fixes became off-cycle requests.",
-                  "deltas": {
-                    "managerSatisfaction": -8,
-                    "employeeTrust": -4
-                  },
-                  "task": "Submit off-cycle requests for every correction."
-                }
-              ]
-            }
+            { "id": "escalate", "text": "Send the three names, the pay period, and the noon deadline to Marcus's backup approver, and copy Dr. Park as his supervisor.", "correct": true, "deltas": { "managerSatisfaction": 2, "payrollAccuracy": 2 }, "timeCost": 15, "feedback": "The backup approver approves by 11:00. The review stays with a manager, and nobody misses pay. Next time: same. Escalate early, with the names and deadline. [SME] Confirm Vanderbilt's backup approver rule." },
+            { "id": "approve", "text": "Approve them yourself. Marcus is out, and people need to be paid.", "correct": false, "errorCode": "PAY_APPROVE_FOR_MGR", "deltas": { "complianceRisk": 15 }, "timeCost": 3, "feedback": "Good intent, wrong control. Approving as the manager removes the manager's review. Next time: escalate to the backup approver or supervisor.", "consequences": [{ "at": "payday", "speaker": "mgr_bell", "tone": "negative", "line": "I came back to find my team's time approved without me. That can't happen.", "summary": "Approvals made for a manager were flagged.", "deltas": { "managerSatisfaction": -8, "complianceRisk": 6 } }] },
+            { "id": "leave", "text": "Leave them. Unapproved time gets picked up in the next run.", "correct": false, "errorCode": "PAY_LATE_APPROVAL", "deltas": { "payrollAccuracy": -10 }, "timeCost": 0, "feedback": "Three people's week 2 hours miss this run. Next time: escalate to the backup approver before the deadline. [SME] Confirm what happens to unapproved time at Vanderbilt.", "consequences": [{ "at": "payday", "speaker": "emp_rivera", "tone": "negative", "line": "Half my hours aren't on this check. Jordan and Aisha are saying the same thing.", "summary": "Three employees' hours missed the run.", "deltas": { "employeeTrust": -12, "payrollAccuracy": -6 }, "task": "Work with payroll on off-cycle payments for three employees." }] }
           ]
         }
       ]
