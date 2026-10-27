@@ -37,6 +37,9 @@ export async function startLive(conv: LiveConversationT, mode: LiveMode, h: Live
   h.onStatus('connecting');
   const session = await Conversation.startSession({
     agentId: conv.agentId,
+    // The agents only accept connections that carry the site's Origin header, and only the WebSocket transport
+    // sends it. The SDK would pick WebRTC for voice, which ElevenLabs refuses with "Client did not provide the origin header".
+    connectionType: 'websocket',
     textOnly: mode === 'text',
     stripAudioTags: true,
     clientTools: {

@@ -44,9 +44,11 @@ Every character has an ElevenLabs voice. Captions always show, and the Voices bu
   Dana Ortiz about Priya's overtime in the time card check (agent `agent_1901m5wnrbg4f9195cbqxtdfkst4`), and
   Marcus Bell about whether his new hire can start early (agent `agent_0401m5wwnmhteaesd74gzwsekttc`). A consent
   screen comes first; typing works instead of talking. Each agent's `record_outcome` tool reports what was
-  settled, and the player confirms before it counts. Agent settings: allowed origins `https://me5231979.github.io`
-  and `http://localhost:4173` / `5173`, origin header required, 3 minute cap, 5 at once, 100 a day, no bursting,
-  audio not recorded, transcripts deleted after 30 days. Change these in the ElevenLabs agent settings.
+  settled, and the player confirms before it counts. Agent settings: allowlist `me5231979.github.io`, `localhost:4173`,
+  and `localhost:5173` (each also listed with its scheme), origin header required, 3 minute cap, 5 at once, 100 a
+  day, no bursting, audio not recorded, transcripts deleted after 30 days. Change these in the ElevenLabs agent
+  settings. Because the origin header is required, `src/audio/live.ts` connects over the WebSocket even for voice:
+  WebRTC sessions don't carry the Origin header, and ElevenLabs refuses them.
 - **Answer out loud (opt in).** Settings turns on a mic button for multiple-choice answers. The browser's speech
   recognition turns speech into text; `src/audio/match.ts` matches it to an option on the device. A match only
   selects the option; Decide still confirms.

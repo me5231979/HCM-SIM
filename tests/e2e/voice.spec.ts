@@ -18,8 +18,9 @@ async function fakeAgent(page: Page, opts: { fail?: boolean } = {}) {
     let event = 1;
     const say = (text: string) => ws.send(JSON.stringify({ type: 'agent_response', agent_response_event: { agent_response: text, event_id: event++ } }));
     ws.onMessage((raw) => {
-      const msg = JSON.parse(String(raw)) as { type: string; text?: string };
+      const msg = JSON.parse(String(raw)) as { type: string; text?: string; conversation_config_override?: { conversation?: { text_only?: boolean } } };
       sent.push(msg.type);
+      if (msg.type === 'conversation_initiation_client_data') sent.push(`text_only:${msg.conversation_config_override?.conversation?.text_only}`);
       if (msg.type === 'conversation_initiation_client_data') {
         ws.send(JSON.stringify({ type: 'conversation_initiation_metadata', conversation_initiation_metadata_event: { conversation_id: 'conv_test', agent_output_audio_format: 'pcm_16000', user_input_audio_format: 'pcm_16000' } }));
         say('Hi, thanks for coming by. Priya put down 44 hours in week 1, and I never approved overtime. Can I just change her time to 40?');
@@ -98,7 +99,28 @@ test('live conversation: consent, typed talk with Dana, outcome recorded with co
   await expect(done).toContainText('Good call');
   await expect(done.locator('.live-recap')).toContainText('From your live conversation');
   expect(sent).toContain('conversation_initiation_client_data');
+  expect(sent).toContain('text_only:true');
   expect(sent).toContain('user_message');
+});
+
+test('live conversation by voice: connects over the WebSocket, which carries the site origin', async ({ page, context }) => {
+  // The agents refuse connections without the site's Origin header. WebRTC sessions don't carry it, so a spoken
+  // conversation must use the same WebSocket as a typed one and never ask for a WebRTC token.
+  await context.grantPermissions(['microphone']);
+  const requests: string[] = [];
+  page.on('request', (r) => requests.push(r.url()));
+  const sent = await fakeAgent(page);
+  await start(page, { view: '2d' });
+  await openTask(page, 'timecards');
+  await page.locator('.live-offer').getByTestId('live-voice').click();
+  await page.getByRole('dialog', { name: /Talk it through, live/ }).getByTestId('live-agree').click();
+
+  const talk = page.getByRole('dialog', { name: /Talk it through with Dana/ });
+  await expect(talk.locator('.msg--agent').first()).toContainText('Can I just change her time to 40?');
+  await expect(talk.getByTestId('live-input')).toHaveAttribute('placeholder', 'Or type a reply');
+  expect(sent).toContain('text_only:false');
+  expect(requests.filter((u) => /convai\/conversation\/token|livekit/.test(u))).toEqual([]);
+  await talk.getByTestId('live-end').click();
 });
 
 test('live conversation: a refused connection falls back to the options', async ({ page }) => {
