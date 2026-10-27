@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { live, liveFor, personById } from '../content';
-import { resolveOutcome, startLive, type LiveMessage, type LiveMode, type LiveOutcomeT, type LiveSession, type LiveStatus } from '../audio/live';
+import { liveErrorText, resolveOutcome, startLive, type LiveMessage, type LiveMode, type LiveOutcomeT, type LiveSession, type LiveStatus } from '../audio/live';
 import { voicePlayer } from '../audio/voice';
 import { useGame } from '../store/game';
 import type { ActiveStep } from '../engine/game';
@@ -11,16 +11,6 @@ import { Icon } from './icons';
 import { SpeakingAvatar, useLevel } from './Voice';
 
 const micAvailable = () => typeof navigator !== 'undefined' && !!navigator.mediaDevices?.getUserMedia;
-
-/** Turn SDK and browser errors into something a player can act on. */
-function friendly(err: unknown): string {
-  const text = err instanceof Error ? `${err.name} ${err.message}` : String(err ?? '');
-  if (/NotAllowed|Permission|denied/i.test(text)) return 'Your microphone is blocked for this site. Allow it in your browser, or type instead.';
-  if (/NotFound|no.*device|Requested device/i.test(text)) return "We couldn't find a microphone. You can type instead.";
-  if (/limit|quota|concurren|busy|429/i.test(text)) return "Live practice is busy or has reached today's limit. Try again later, or choose your answer from the options.";
-  if (/origin|allowlist|forbidden|403/i.test(text)) return "Live practice only runs on the game's own site. You can still choose your answer from the options.";
-  return "The conversation couldn't connect or continue. You can try again, type instead, or choose your answer from the options.";
-}
 
 /** Shown with a decision that has a live conversation. Talking is optional; the options below still work. */
 export function LiveOffer({ step, d, disabled }: { step: ActiveStep; d: DecisionT; disabled: boolean }) {
@@ -77,6 +67,8 @@ function LiveDialog({ conv, step, d, initialMode, onClose }: { conv: LiveConvers
   const [draft, setDraft] = useState('');
   const session = useRef<LiveSession | null>(null);
   const settled = useRef(false);
+  const talkingNow = useRef<LiveStatus>('connecting');
+  const hangUp = useRef(0);
   const nextId = useRef(1);
   const lastTyped = useRef('');
   const logRef = useRef<HTMLOListElement>(null);
@@ -90,8 +82,9 @@ function LiveDialog({ conv, step, d, initialMode, onClose }: { conv: LiveConvers
     if (attempt === 0) return;
     let cancelled = false;
     settled.current = false;
+    const end = () => { window.clearInterval(hangUp.current); hangUp.current = 0; void session.current?.end(); };
     startLive(conv, mode, {
-      onStatus: (s) => { if (cancelled) return; setStatus(s); if (s !== 'connecting') setPhase((p) => (p === 'connecting' ? 'talking' : p)); },
+      onStatus: (s) => { if (cancelled) return; talkingNow.current = s; setStatus(s); if (s !== 'connecting') setPhase((p) => (p === 'connecting' ? 'talking' : p)); },
       onMessage: (m) => {
         if (cancelled) return;
         // Typed messages are shown on send; skip the server's echo of the same words.
@@ -103,24 +96,31 @@ function LiveDialog({ conv, step, d, initialMode, onClose }: { conv: LiveConvers
         settled.current = true;
         setOutcome(o);
         setPhase('outcome');
-        void session.current?.end();
+        if (mode === 'text') { end(); return; }
+        // The closing line comes with the outcome. Stop listening now, and hang up once it has been said (8 s at most).
+        session.current?.setMuted(true);
+        const t0 = Date.now();
+        hangUp.current = window.setInterval(() => {
+          const waited = Date.now() - t0;
+          if ((waited > 1200 && talkingNow.current !== 'speaking') || waited > 8000) end();
+        }, 250);
       },
       onEnd: (reason, message) => {
         if (cancelled) return;
         setStatus('ended');
         if (settled.current) return;
         settled.current = true;
-        if (reason === 'error') { setError(friendly(message)); setPhase('error'); } else setPhase('unresolved');
+        if (reason === 'error') { setError(liveErrorText(message)); setPhase('error'); } else setPhase('unresolved');
       },
     }).then((s) => {
       if (cancelled) void s.end(); else session.current = s;
     }).catch((e: unknown) => {
       if (cancelled) return;
       settled.current = true;
-      setError(friendly(e));
+      setError(liveErrorText(e));
       setPhase('error');
     });
-    return () => { cancelled = true; void session.current?.end(); session.current = null; };
+    return () => { cancelled = true; end(); session.current = null; };
   }, [attempt, conv, mode]);
 
   // The service stops each conversation at the cap; the countdown shows how long is left.

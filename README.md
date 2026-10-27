@@ -46,11 +46,14 @@ Every character has an ElevenLabs voice. Captions always show, and the Voices bu
   Marcus Bell about whether his new hire can start early (agent `agent_0401m5wwnmhteaesd74gzwsekttc`). The practice
   card's text is `offer` and each conversation's `scene` in that file. A consent screen comes first; typing works
   instead of talking. Each agent's `record_outcome` tool reports what was
-  settled, and the player confirms before it counts. Agent settings: allowlist `me5231979.github.io`, `localhost:4173`,
-  and `localhost:5173` (each also listed with its scheme), origin header required, 3 minute cap, 5 at once, 100 a
-  day, no bursting, audio not recorded, transcripts deleted after 30 days. Change these in the ElevenLabs agent
-  settings. Because the origin header is required, `src/audio/live.ts` connects over the WebSocket even for voice:
-  WebRTC sessions don't carry the Origin header, and ElevenLabs refuses them.
+  settled, and the player confirms before it counts. Agent settings: allowlist `me5231979.github.io`,
+  `hcm-sim.vercel.app`, `localhost:4173`, and `localhost:5173` (each also listed with its scheme), origin header
+  required, 3 minute cap, 5 at once, 100 a day, no bursting, audio not recorded, transcripts deleted after 30 days,
+  and replies capped at 1,000 tokens (the model thinks before it speaks, and a 250 cap cut replies off mid-sentence).
+  Change these in the ElevenLabs agent settings. A site that isn't on the allowlist is refused with "Host ... is not
+  allowed to connect to this agent", and the game says live practice isn't turned on for that web address: add the
+  host to both agents. Because the origin header is required, `src/audio/live.ts` connects over the WebSocket even
+  for voice: WebRTC sessions don't carry the Origin header, and ElevenLabs refuses them.
 - **Answer out loud (opt in).** Settings turns on a mic button for multiple-choice answers. The browser's speech
   recognition turns speech into text; `src/audio/match.ts` matches it to an option on the device. A match only
   selects the option; Decide still confirms.

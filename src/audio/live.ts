@@ -32,6 +32,17 @@ export interface LiveSession {
 /** Captions follow the house style: no em or en dashes. */
 export const tidy = (text: string) => text.replace(/\s*[—–]\s*/g, ', ').replace(/\s+/g, ' ').trim();
 
+/** Turn SDK, agent, and browser errors into something a player can act on. */
+export function liveErrorText(err: unknown): string {
+  const text = err instanceof Error ? `${err.name} ${err.message}` : String(err ?? '');
+  // The agent refuses any web address that isn't on its allowlist: "Host example.com is not allowed to connect to this agent".
+  if (/not allowed to connect|allowlist|origin|forbidden|403/i.test(text)) return "Live practice isn't turned on for this web address. You can still choose your answer from the options.";
+  if (/NotAllowed|Permission|denied/i.test(text)) return 'Your microphone is blocked for this site. Allow it in your browser, or type instead.';
+  if (/NotFound|no.*device|Requested device/i.test(text)) return "We couldn't find a microphone. You can type instead.";
+  if (/limit|quota|concurren|busy|429/i.test(text)) return "Live practice is busy or has reached today's limit. Try again later, or choose your answer from the options.";
+  return "The conversation couldn't connect or continue. You can try again, type instead, or choose your answer from the options.";
+}
+
 export async function startLive(conv: LiveConversationT, mode: LiveMode, h: LiveHandlers): Promise<LiveSession> {
   const { Conversation } = await import('@elevenlabs/client');
   h.onStatus('connecting');
