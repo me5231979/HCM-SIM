@@ -39,11 +39,13 @@ Every character has an ElevenLabs voice. Captions always show, and the Voices bu
   2. Record the changed lines with the cast voice (eleven_v4), save the run status JSON, then
      `node tools/fetch-voice.mjs <status.json>` saves them to `public/audio/<line id>.mp3` (64 kbps mono).
   3. `node tools/voice-envelopes.mjs` rebuilds the loudness envelopes that animate whoever is talking.
-  `npm test` fails if a caption has no recording or a recording no longer matches its caption.
+  `npm test` fails if a caption has no recording or a recording no longer matches its caption. When a caption
+  changes, step 1 deletes its old recording, so the line shows up as one to record.
 - **Live conversations (opt in).** Two requests offer a live talk with an ElevenLabs agent (`content/live.json`):
   Dana Ortiz about Priya's overtime in the time card check (agent `agent_1901m5wnrbg4f9195cbqxtdfkst4`), and
-  Marcus Bell about whether his new hire can start early (agent `agent_0401m5wwnmhteaesd74gzwsekttc`). A consent
-  screen comes first; typing works instead of talking. Each agent's `record_outcome` tool reports what was
+  Marcus Bell about whether his new hire can start early (agent `agent_0401m5wwnmhteaesd74gzwsekttc`). The practice
+  card's text is `offer` and each conversation's `scene` in that file. A consent screen comes first; typing works
+  instead of talking. Each agent's `record_outcome` tool reports what was
   settled, and the player confirms before it counts. Agent settings: allowlist `me5231979.github.io`, `localhost:4173`,
   and `localhost:5173` (each also listed with its scheme), origin header required, 3 minute cap, 5 at once, 100 a
   day, no bursting, audio not recorded, transcripts deleted after 30 days. Change these in the ElevenLabs agent
@@ -53,4 +55,12 @@ Every character has an ElevenLabs voice. Captions always show, and the Voices bu
   recognition turns speech into text; `src/audio/match.ts` matches it to an option on the device. A match only
   selects the option; Decide still confirms.
 
-A Futures Learning Hub simulation. The department, people, and CampusHR (Sim) are fictional.
+## Portraits
+
+Characters can have a portrait, which shows wherever their avatar appears; without one, the avatar shows initials.
+Save each portrait as `<person id>.png` (or .jpg, .webp) in a folder, then run `node tools/avatars.mjs <folder>`. It
+writes a 256 px WebP to `public/avatars` and records it as the person's `photo` in `content/employees.json`.
+`npm test` fails if a photo is missing or over 40 KB.
+
+A Futures Learning Hub simulation. The department and people are fictional. Oracle and the time card system appear as
+simplified practice screens, never copies of the real ones.

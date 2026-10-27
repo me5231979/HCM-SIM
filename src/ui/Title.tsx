@@ -53,7 +53,7 @@ export function Title() {
           <button className="link-btn" onClick={() => setSettings({ view: settings.view === '3d' ? '2d' : '3d' })} aria-pressed={settings.view === '2d'}>
             {settings.view === '3d' ? <><Icon.list /> Play in List view (no 3D)</> : <><Icon.cube /> Play in 3D view</>}
           </button>
-          <span>About 60 minutes. Saves as you go, so you can stop and come back. A Futures Learning Hub simulation: fictional department, people, and HR system; real payroll calendar dates.</span>
+          <span>About 60 minutes. Saves as you go, so you can stop and come back. A Futures Learning Hub simulation: a fictional department and people, practice versions of Oracle screens, and real payroll calendar dates.</span>
         </motion.div>
       </main>
     </div>

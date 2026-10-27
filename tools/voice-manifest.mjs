@@ -1,8 +1,8 @@
 // Builds content/voice.json: the cast (one ElevenLabs voice per character) and every voiced line.
 // Every line is copied verbatim from content (briefing, openers, spoken decisions, hints, pay day
 // reactions, greetings), so captions always match the game text; tests/unit/voice.test.ts fails if they drift.
-// Run: node tools/voice-manifest.mjs   (then regenerate audio for any changed line ids)
-import { copyFileSync, existsSync, readFileSync, writeFileSync } from 'node:fs';
+// Run: node tools/voice-manifest.mjs   (then record the lines it lists with --list; changed lines lose their old audio)
+import { copyFileSync, existsSync, readFileSync, unlinkSync, writeFileSync } from 'node:fs';
 import { speakable } from './speakable.mjs';
 
 const read = (p) => JSON.parse(readFileSync(new URL(`../content/${p}`, import.meta.url), 'utf8'));
@@ -86,6 +86,14 @@ if (ids.size !== lines.length) throw new Error('Duplicate line ids');
 for (const k of Object.keys(say)) if (!ids.has(k)) throw new Error(`say entry for unknown line ${k}`);
 const missingCast = [...new Set(lines.filter((l) => !cast[l.speaker]).map((l) => l.speaker))];
 if (missingCast.length) throw new Error(`No voice for ${missingCast.join(', ')}`);
+
+// A line whose words changed under the same id has a stale recording: remove it, so it shows up to record.
+const previousById = new Map(previous.map((l) => [l.id, l]));
+for (const l of lines) {
+  const was = previousById.get(l.id);
+  const file = new URL(`../public/audio/${l.id}.mp3`, import.meta.url);
+  if (was && (was.speaker !== l.speaker || was.text !== l.text) && existsSync(file)) { unlinkSync(file); console.log(`stale ${l.id}: removed its recording`); }
+}
 
 // A line that moved to a new id keeps its recording.
 for (const l of lines) {

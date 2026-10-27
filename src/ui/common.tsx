@@ -1,5 +1,5 @@
 import { motion } from 'motion/react';
-import { useEffect, useRef, type CSSProperties, type ReactNode } from 'react';
+import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from 'react';
 import { personById } from '../content';
 import { useGame } from '../store/game';
 import { Icon } from './icons';
@@ -8,7 +8,12 @@ export const asset = (p: string) => `${import.meta.env.BASE_URL}${p}`;
 
 export function Avatar({ id, size = 40 }: { id: string; size?: number }) {
   const p = personById(id);
+  const [broken, setBroken] = useState(false);
   const initials = p.name.replace(/^Dr\.\s*/, '').split(/\s+/).map((w) => w[0]).slice(0, 2).join('');
+  // A portrait when there is one; initials otherwise, or if it fails to load.
+  if (p.photo && !broken) {
+    return <span className="avatar avatar--photo" style={{ width: size, height: size }} aria-hidden="true"><img src={asset(p.photo)} alt="" width={size} height={size} loading="lazy" decoding="async" onError={() => setBroken(true)} /></span>;
+  }
   return <span className={`avatar avatar--${p.outfit}`} style={{ width: size, height: size, fontSize: size * 0.38 }} aria-hidden="true">{initials}</span>;
 }
 

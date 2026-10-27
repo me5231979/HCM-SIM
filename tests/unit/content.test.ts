@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest';
+import { existsSync, statSync } from 'node:fs';
 import { allSteps, crossCheck, events, learnerText, week, people, policies, uncovered } from '../../src/content';
 
 /** Every multiple-choice decision in the week, with its visible options. */
@@ -13,6 +14,11 @@ describe('content', () => {
   });
   it('every cross reference points at something real', () => {
     expect(crossCheck()).toEqual([]);
+  });
+  it('every portrait is a real, small file in public', () => {
+    const photos = people.filter((p) => p.photo).map((p) => `public/${p.photo}`);
+    expect(photos.filter((f) => !existsSync(f))).toEqual([]);
+    expect(photos.filter((f) => statSync(f).size > 40_000)).toEqual([]);
   });
   it('every [SME] policy is logged in CONTENT_TODO.md', async () => {
     const fs = await import('node:fs');

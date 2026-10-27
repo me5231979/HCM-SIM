@@ -23,7 +23,7 @@ const year = (y) => (y >= 2000 && y < 2010 ? words(y) : `${words(Math.floor(y / 
 const num = (s) => Number(s.replace(/,/g, ''));
 
 // Acronyms said letter by letter, so the voice never guesses "Campus-hur" or "ferdic".
-const LETTERS = { CampusHR: 'Campus H R', FERDC: 'F E R D C', PEBC: 'P E B C', HCM: 'H C M', HCMs: 'H C Ms', EC: 'E C', FTE: 'F T E' };
+const LETTERS = { PCB: 'P C B', FERDC: 'F E R D C', HCM: 'H C M', HCMs: 'H C Ms', EC: 'E C', FTE: 'F T E' };
 
 export function speakable(text) {
   let t = text.replace(new RegExp(`\\b(${Object.keys(LETTERS).join('|')})\\b`, 'g'), (w) => LETTERS[w]);

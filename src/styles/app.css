@@ -100,6 +100,8 @@ svg { flex: none; }
 .avatar--black { background: #2C2C2C; color: var(--gold); }
 .avatar--gold { background: var(--gold); color: var(--black); }
 .avatar--cream { background: var(--cream); color: var(--black); }
+.avatar--photo { overflow: hidden; background: #2C2C2C; }
+.avatar--photo img { display: block; width: 100%; height: 100%; object-fit: cover; }
 
 /* HUD */
 .hud-top { position: fixed; top: 16px; left: 16px; right: 16px; display: grid; grid-template-columns: auto 1fr auto; gap: 12px; align-items: start; z-index: 20; pointer-events: none; }
@@ -216,7 +218,7 @@ svg { flex: none; }
 .policy h3 { margin-bottom: .3rem; }
 .policy p { margin: 0 0 .3rem; }
 
-/* CampusHR (Sim) */
+/* Practice screens: Oracle, the time card system, email */
 .sim-brand { font: 700 .78rem var(--cond); letter-spacing: .14em; text-transform: uppercase; color: var(--gold); margin: 0 0 .6rem; }
 .sim-brand span { color: var(--muted); }
 .sim-form { padding: 1.1rem; border-radius: 14px; background: rgba(245,243,239,.04); border: 1px solid var(--line-soft); display: grid; gap: .9rem; margin: 1rem 0; }

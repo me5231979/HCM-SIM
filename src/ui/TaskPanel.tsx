@@ -89,6 +89,12 @@ function ChoiceDecision({ step, d, seed, disabled }: { step: ActiveStep; d: Deci
   );
 }
 
+/** Names the real system a practice screen stands in for, and says it's a practice version. */
+function ScreenLabel({ step, block }: { step: ActiveStep; block?: boolean }) {
+  const Tag = block ? 'p' : 'span';
+  return <Tag className="sim-brand" aria-hidden={block || undefined}>{step.screen} <span>practice screen</span></Tag>;
+}
+
 function FormStep({ step, seed, disabled }: { step: ActiveStep; seed: string; disabled: boolean }) {
   const resolutions = useGame((s) => s.snap?.resolutions[step.id]);
   const decide = useGame((s) => s.decide);
@@ -100,7 +106,7 @@ function FormStep({ step, seed, disabled }: { step: ActiveStep; seed: string; di
   const ready = decisions.every((d) => (vals[d.id] ?? '').trim() !== '');
   return (
     <form className="sim-form" onSubmit={(e) => { e.preventDefault(); if (ready) decisions.forEach((d) => decide(step.id, d.id, vals[d.id])); }}>
-      <p className="sim-brand" aria-hidden="true">CampusHR <span>(Sim)</span></p>
+      <ScreenLabel step={step} block />
       {orders.map(({ d, order }) => (
         <div className="field" key={d.id}>
           <label htmlFor={`f-${step.id}-${d.id}`}>{d.prompt}</label>
@@ -128,7 +134,7 @@ function GridStep({ step, seed, disabled }: { step: ActiveStep; seed: string; di
     <>
       <div className="table-wrap" tabIndex={0} role="region" aria-label={g.caption}>
         <table className="grid">
-          <caption><span className="sim-brand">CampusHR <span>(Sim)</span></span> {g.caption}</caption>
+          <caption><ScreenLabel step={step} /> {g.caption}</caption>
           <thead><tr><th scope="col">Employee</th>{g.days.map((d) => <th key={d} scope="col">{d}</th>)}<th scope="col">Total</th><th scope="col" className="ex-col">Exception</th></tr></thead>
           <tbody>
             {g.rows.map((r) => {
@@ -168,7 +174,7 @@ function ReviewStep({ step, seed, disabled }: { step: ActiveStep; seed: string; 
     <>
       <div className="table-wrap" tabIndex={0} role="region" aria-label={caption}>
         <table className="grid review">
-          <caption><span className="sim-brand">CampusHR <span>(Sim)</span></span> {caption}</caption>
+          <caption><ScreenLabel step={step} /> {caption}</caption>
           <thead><tr>{!res?.flag && <th scope="col" className="flag-col">Flag</th>}<th scope="col">Employee</th><th scope="col">Week 1 hrs</th><th scope="col">Week 2 hrs</th><th scope="col">Total hrs</th><th scope="col">Approval state</th><th scope="col">Notes</th></tr></thead>
           <tbody>
             {lines.map((l) => (

@@ -68,7 +68,9 @@ test('live conversation: consent, typed talk with Dana, outcome recorded with co
   await start(page, { view: '2d' });
   await openTask(page, 'timecards');
   const offer = page.locator('.live-offer');
-  await expect(offer).toContainText('Talk it through with Dana');
+  await expect(offer).toContainText('Practice it live · with Dana');
+  await expect(offer.getByRole('heading', { name: 'Have the conversation. Live.' })).toBeVisible();
+  await expect(offer).toContainText('Dana Ortiz, Operations Manager');
   await offer.getByTestId('live-text').click();
 
   // Consent comes first and names what is shared.

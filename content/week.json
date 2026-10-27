@@ -289,7 +289,7 @@
       "context": "A partner foundation is sending an evaluator to observe Dr. Park's fall workshops for six weeks. The foundation pays her. The office will not.",
       "opener": {
         "speaker": "dir_park",
-        "line": "Our evaluator needs CampusHR access while she's here. How do we set her up?"
+        "line": "Our evaluator needs Oracle access while she's here. How do we set her up?"
       },
       "policyIds": [
         "hiring_non_worker"
@@ -307,7 +307,7 @@
       "decisions": [
         {
           "id": "setup",
-          "prompt": "How do you set up the evaluator in CampusHR?",
+          "prompt": "How do you set up the evaluator in Oracle?",
           "missedChoiceId": "staff",
           "courses": [
             "hire-non-worker"
@@ -387,14 +387,14 @@
           "choices": [
             {
               "id": "wait",
-              "text": "She can start once PEBC sends clear to start and I convert her, so plan on Mon Oct 26",
+              "text": "She can start once PCB sends clear to start and I convert her, so plan on Mon Oct 26",
               "correct": true,
               "deltas": {
                 "complianceRisk": -2,
                 "managerSatisfaction": 1
               },
               "timeCost": 10,
-              "feedback": "No one starts work until PEBC sends clear to start and you convert her, because that is what gives her a hire record, a time card, and pay. Next time: give the manager that rule and a realistic first day as soon as the offer is accepted."
+              "feedback": "No one starts work until PCB sends clear to start and you convert her, because that is what gives her a hire record, a time card, and pay. Next time: give the manager that rule and a realistic first day as soon as the offer is accepted."
             },
             {
               "id": "start_wed",
@@ -799,13 +799,13 @@
             },
             {
               "id": "today_default",
-              "text": "Today's date, and the last day CampusHR fills in",
+              "text": "Today's date, and the last day Oracle fills in",
               "correct": false,
               "deltas": {
                 "accuracy": -3
               },
               "timeCost": 3,
-              "feedback": "Today is only the day you enter it, and CampusHR may fill in a termination date from the notice period that is not their real last day. Next time: use the day they told the manager, and replace any filled in date with the actual last day."
+              "feedback": "Today is only the day you enter it, and Oracle may fill in a termination date from the notice period that is not their real last day. Next time: use the day they told the manager, and replace any filled in date with the actual last day."
             }
           ]
         }
@@ -938,7 +938,7 @@
         {
           "id": "record",
           "label": "Maya's record",
-          "prompt": "In CampusHR, Maya has only an enrolled student (N) record. What do you add to set her up as a paid student worker?",
+          "prompt": "In Oracle, Maya has only an enrolled student (N) record. What do you add to set her up as a paid student worker?",
           "missedChoiceId": "not_set_up",
           "courses": [
             "work-relationship-vs-assignment",
@@ -988,7 +988,7 @@
                 "accuracy": -8
               },
               "timeCost": 15,
-              "feedback": "CampusHR keeps one person record per person. A second record splits Maya's history and pay across two records that are hard to merge. Next time: search first and add the work relationship to the record she has.",
+              "feedback": "Oracle keeps one person record per person. A second record splits Maya's history and pay across two records that are hard to merge. Next time: search first and add the work relationship to the record she has.",
               "consequences": [
                 {
                   "at": "payday",
@@ -1052,7 +1052,7 @@
             },
             {
               "id": "i9_bg",
-              "text": "An I-9 and a background check, with clear to start from PEBC",
+              "text": "An I-9 and a background check, with clear to start from PCB",
               "correct": false,
               "deltas": {
                 "managerSatisfaction": -4
@@ -1417,7 +1417,7 @@
       "policyIds": [
         "start_structure"
       ],
-      "hint": "Where does a manager live in CampusHR: on the person, or somewhere more specific?",
+      "hint": "Where does a manager live in Oracle: on the person, or somewhere more specific?",
       "hintMeter": "accuracy",
       "receivedAt": {
         "date": "2026-10-19",
@@ -1511,14 +1511,14 @@
           "choices": [
             {
               "id": "add_absence",
-              "text": "Enter it in CampusHR with Add Absence, after a look at her balance",
+              "text": "Enter it in Oracle with Add Absence, after a look at her balance",
               "correct": true,
               "deltas": {
                 "accuracy": 2,
                 "employeeTrust": 1
               },
               "timeCost": 10,
-              "feedback": "Right. Exempt time off lives in CampusHR absences; the time card system is for non-exempt staff. Check Absence Balance and Existing Absences first, then use Add Absence with the right type and date. Next time: check exempt status before you enter any time off."
+              "feedback": "Right. Exempt time off lives in Oracle absences; the time card system is for non-exempt staff. Check Absence Balance and Existing Absences first, then use Add Absence with the right type and date. Next time: check exempt status before you enter any time off."
             },
             {
               "id": "timecard",
@@ -1528,18 +1528,18 @@
                 "accuracy": -6
               },
               "timeCost": 10,
-              "feedback": "The time card system holds non-exempt time. Mei is exempt, so her time off belongs in CampusHR absences, and a time card row puts it in the wrong system with the wrong balance. Next time: exempt time off goes in CampusHR with Add Absence; non-exempt time off goes on the time card.",
+              "feedback": "The time card system holds non-exempt time. Mei is exempt, so her time off belongs in Oracle absences, and a time card row puts it in the wrong system with the wrong balance. Next time: exempt time off goes in Oracle with Add Absence; non-exempt time off goes on the time card.",
               "consequences": [
                 {
                   "at": "payday",
                   "speaker": "pay_liu",
                   "tone": "negative",
-                  "line": "Mei is exempt, but her Friday off showed up on the time card system. It doesn't belong there, and her CampusHR balance never changed.",
-                  "summary": "Mei's day off went into the wrong system, so her CampusHR balance is wrong.",
+                  "line": "Mei is exempt, but her Friday off showed up on the time card system. It doesn't belong there, and her Oracle balance never changed.",
+                  "summary": "Mei's day off went into the wrong system, so her Oracle balance is wrong.",
                   "deltas": {
                     "accuracy": -4
                   },
-                  "task": "Remove the time card row and enter Mei's absence in CampusHR."
+                  "task": "Remove the time card row and enter Mei's absence in Oracle."
                 }
               ]
             },
@@ -1551,7 +1551,7 @@
                 "accuracy": -5
               },
               "timeCost": 5,
-              "feedback": "Payroll doesn't enter absences; it pays from what's recorded. An email leaves no absence in CampusHR, so nothing tracks Mei's day off. Next time: enter exempt time off with Add Absence, or have the employee enter it herself.",
+              "feedback": "Payroll doesn't enter absences; it pays from what's recorded. An email leaves no absence in Oracle, so nothing tracks Mei's day off. Next time: enter exempt time off with Add Absence, or have the employee enter it herself.",
               "consequences": [
                 {
                   "at": "payday",
@@ -1562,7 +1562,7 @@
                   "deltas": {
                     "accuracy": -4
                   },
-                  "task": "Enter Mei's absence in CampusHR with Add Absence."
+                  "task": "Enter Mei's absence in Oracle with Add Absence."
                 }
               ]
             },
@@ -1574,7 +1574,7 @@
                 "accuracy": -5
               },
               "timeCost": 2,
-              "feedback": "Exempt staff don't use time cards, but their time off is still recorded, in CampusHR absences. Skipping it leaves her balance wrong and no record of the day. Next time: exempt time off goes in CampusHR with Add Absence.",
+              "feedback": "Exempt staff don't use time cards, but their time off is still recorded, in Oracle absences. Skipping it leaves her balance wrong and no record of the day. Next time: exempt time off goes in Oracle with Add Absence.",
               "consequences": [
                 {
                   "at": "payday",
@@ -1586,7 +1586,7 @@
                     "managerSatisfaction": -4,
                     "accuracy": -3
                   },
-                  "task": "Enter Mei's Friday absence in CampusHR."
+                  "task": "Enter Mei's Friday absence in Oracle."
                 }
               ]
             }
@@ -1595,7 +1595,7 @@
         {
           "id": "approval",
           "label": "Approval",
-          "prompt": "Once it's in CampusHR, Mei's absence still shows Awaiting approval with Dana on Tuesday afternoon. What do you do?",
+          "prompt": "Once it's in Oracle, Mei's absence still shows Awaiting approval with Dana on Tuesday afternoon. What do you do?",
           "missedChoiceId": "all_set",
           "courses": [
             "leave-workflows",
@@ -1681,13 +1681,13 @@
                 "accuracy": -5
               },
               "timeCost": 5,
-              "feedback": "Entering the day in two systems doesn't speed anything up. It puts an exempt absence where it doesn't belong and leaves the real one still waiting on Dana. Next time: one record, in CampusHR, and chase the approver.",
+              "feedback": "Entering the day in two systems doesn't speed anything up. It puts an exempt absence where it doesn't belong and leaves the real one still waiting on Dana. Next time: one record, in Oracle, and chase the approver.",
               "consequences": [
                 {
                   "at": "payday",
                   "speaker": "pay_liu",
                   "tone": "negative",
-                  "line": "Mei's day off is in CampusHR and on the time card system. She's exempt, so the time card entry has to come off.",
+                  "line": "Mei's day off is in Oracle and on the time card system. She's exempt, so the time card entry has to come off.",
                   "summary": "Mei's day off was entered twice, in two systems.",
                   "deltas": {
                     "accuracy": -4
@@ -1745,7 +1745,7 @@
                 "accuracy": 2
               },
               "timeCost": 3,
-              "feedback": "Right. A student who only needs expenses paid back, with no paid role, is Student Expense Only, with no I-9 and no background check. Its exact CampusHR setup is still being confirmed, so check with Ravi before you enter it. Next time: decide the setup first; paying back expenses isn't pay for work."
+              "feedback": "Right. A student who only needs expenses paid back, with no paid role, is Student Expense Only, with no I-9 and no background check. Its exact Oracle setup is still being confirmed, so check with Ravi before you enter it. Next time: decide the setup first; paying back expenses isn't pay for work."
             },
             {
               "id": "worker",
@@ -1943,7 +1943,7 @@
                 "complianceRisk": 8
               },
               "timeCost": 20,
-              "feedback": "Hiding a column is not security. The data is still in the analysis and in anything exported from it, and access comes from CampusHR roles, not from what you hide. Next time: leave out the columns you don't need.",
+              "feedback": "Hiding a column is not security. The data is still in the analysis and in anything exported from it, and access comes from Oracle roles, not from what you hide. Next time: leave out the columns you don't need.",
               "consequences": [
                 {
                   "at": "payday",
@@ -2006,7 +2006,7 @@
       "context": "Dana is drafting the Events Coordinator posting early. She wants the posting title to read Campus Events Coordinator, so candidates know what the job is.",
       "opener": {
         "speaker": "mgr_ortiz",
-        "line": "If we post it as Campus Events Coordinator, is that the title the new hire gets in CampusHR?"
+        "line": "If we post it as Campus Events Coordinator, is that the title the new hire gets in Oracle?"
       },
       "policyIds": [
         "hiring_requisition"
@@ -2431,6 +2431,7 @@
       "id": "hours",
       "area": "assignments",
       "type": "form",
+      "screen": "Oracle",
       "title": "Aisha moves to 30 hours",
       "from": "mgr_bell",
       "location": "office_b",
@@ -2521,18 +2522,18 @@
                 "accuracy": -6
               },
               "timeCost": 5,
-              "feedback": "Payroll pays from the record in CampusHR and from approved time cards; it doesn't change assignments. With only an email, Aisha's record still says 40 hours. Next time: the HCM enters the change, and payroll pays what the record shows.",
+              "feedback": "Payroll pays from the record in Oracle and from approved time cards; it doesn't change assignments. With only an email, Aisha's record still says 40 hours. Next time: the HCM enters the change, and payroll pays what the record shows.",
               "consequences": [
                 {
                   "at": "payday",
                   "speaker": "pay_liu",
                   "tone": "negative",
                   "line": "I got your email about Aisha, but her record still says 40 hours. I can't change assignments; that has to come from you.",
-                  "summary": "Aisha's hours change was emailed to payroll instead of entered in CampusHR.",
+                  "summary": "Aisha's hours change was emailed to payroll instead of entered in Oracle.",
                   "deltas": {
                     "accuracy": -4
                   },
-                  "task": "Enter Aisha's hours change in CampusHR, effective Sun Oct 25."
+                  "task": "Enter Aisha's hours change in Oracle, effective Sun Oct 25."
                 }
               ]
             },
@@ -2776,7 +2777,7 @@
                 "accuracy": 2
               },
               "timeCost": 3,
-              "feedback": "Net is what Mei takes home, and CampusHR grosses it up to cover the taxes. October's cutoff has passed, so date it the first day of the next payroll month. Next time: Net for an exact take-home amount, Amount for a gross one."
+              "feedback": "Net is what Mei takes home, and Oracle grosses it up to cover the taxes. October's cutoff has passed, so date it the first day of the next payroll month. Next time: Net for an exact take-home amount, Amount for a gross one."
             },
             {
               "id": "amount",
@@ -2926,7 +2927,7 @@
         {
           "id": "setup",
           "label": "Setting her up",
-          "prompt": "Dr. Park also wants the student set up in CampusHR before the holidays, so her access is ready in January. What do you do first?",
+          "prompt": "Dr. Park also wants the student set up in Oracle before the holidays, so her access is ready in January. What do you do first?",
           "missedChoiceId": "not_started",
           "courses": [
             "hire-interns",
@@ -3087,14 +3088,14 @@
       "context": "Dr. Park is presenting the office's org chart at a staff meeting on Mon Oct 26. Noor Haddad's first day is planned for that same day, and her hire is not final yet.",
       "opener": {
         "speaker": "dir_park",
-        "line": "Can you pull me a roster from CampusHR with names, titles, and managers for Monday's org chart? Make sure Noor is on it."
+        "line": "Can you pull me a roster from Oracle with names, titles, and managers for Monday's org chart? Make sure Noor is on it."
       },
       "policyIds": [
         "records_report_dates",
         "records_saving_reports",
         "start_data_integrity"
       ],
-      "hint": "CampusHR keeps every change with a date. Which date is Dr. Park's chart about?",
+      "hint": "Oracle keeps every change with a date. Which date is Dr. Park's chart about?",
       "hintMeter": "accuracy",
       "receivedAt": {
         "date": "2026-10-20",
@@ -3123,7 +3124,7 @@
                 "managerSatisfaction": 1
               },
               "timeCost": 10,
-              "feedback": "Right. CampusHR data is date effective, so a report shows what is in effect on its as-of date. A hire that starts Oct 26 appears only on a report run for Oct 26 or later [SME: which roster report HCMs run]. Next time: set the date prompt to the date the report is about."
+              "feedback": "Right. Oracle data is date effective, so a report shows what is in effect on its as-of date. A hire that starts Oct 26 appears only on a report run for Oct 26 or later [SME: which roster report HCMs run]. Next time: set the date prompt to the date the report is about."
             },
             {
               "id": "today",
@@ -3201,7 +3202,7 @@
           "prompt": "Noor's hire isn't final yet, so the roster may not show her. What do you do?",
           "spoken": {
             "speaker": "dir_park",
-            "line": "If Noor isn't in CampusHR yet, just type her in. The chart can't miss her."
+            "line": "If Noor isn't in Oracle yet, just type her in. The chart can't miss her."
           },
           "missedChoiceId": "type_in",
           "courses": [
@@ -3218,7 +3219,7 @@
                 "managerSatisfaction": 1
               },
               "timeCost": 10,
-              "feedback": "Right. A report only shows what is in CampusHR. Once Noor is converted and her hire is approved with an Oct 26 start, a rerun as of Oct 26 picks her up, and the chart matches the record [SME: whether pending workers show on roster reports]. Next time: tell the requester when the data will be final, and rerun then.",
+              "feedback": "Right. A report only shows what is in Oracle. Once Noor is converted and her hire is approved with an Oct 26 start, a rerun as of Oct 26 picks her up, and the chart matches the record [SME: whether pending workers show on roster reports]. Next time: tell the requester when the data will be final, and rerun then.",
               "consequences": [
                 {
                   "at": "payday",
@@ -3240,14 +3241,14 @@
                 "accuracy": -4
               },
               "timeCost": 5,
-              "feedback": "A typed-in name makes the roster disagree with CampusHR, and files like this get reused long after Monday. If her start date moves, the list is wrong and nobody can tell. Next time: let CampusHR be the source, and rerun once the hire is final.",
+              "feedback": "A typed-in name makes the roster disagree with Oracle, and files like this get reused long after Monday. If her start date moves, the list is wrong and nobody can tell. Next time: let Oracle be the source, and rerun once the hire is final.",
               "consequences": [
                 {
                   "at": "payday",
                   "speaker": "emp_chen",
                   "tone": "negative",
-                  "line": "I used your roster to plan the grant budget, and it doesn't match CampusHR. Which one is right?",
-                  "summary": "A hand-edited roster was reused for budgeting and didn't match CampusHR.",
+                  "line": "I used your roster to plan the grant budget, and it doesn't match Oracle. Which one is right?",
+                  "summary": "A hand-edited roster was reused for budgeting and didn't match Oracle.",
                   "deltas": {
                     "accuracy": -4
                   }
@@ -3256,7 +3257,7 @@
             },
             {
               "id": "direct_hire",
-              "text": "Add Noor in CampusHR as a direct hire so she shows up",
+              "text": "Add Noor in Oracle as a direct hire so she shows up",
               "correct": false,
               "deltas": {
                 "accuracy": -8
@@ -3612,7 +3613,7 @@
                   "at": "payday",
                   "speaker": "emp_chen",
                   "tone": "negative",
-                  "line": "Your fix shows in CampusHR, but September is still sitting on our budget. Did the retro form ever go in?",
+                  "line": "Your fix shows in Oracle, but September is still sitting on our budget. Did the retro form ever go in?",
                   "summary": "No retro form was sent, so Lena's September pay stayed on the department budget.",
                   "deltas": {
                     "managerSatisfaction": -5,
@@ -3668,7 +3669,7 @@
         "start_person_search",
         "start_confidentiality"
       ],
-      "hint": "Names and titles repeat across campus. What does CampusHR give each person that never repeats?",
+      "hint": "Names and titles repeat across campus. What does Oracle give each person that never repeats?",
       "hintMeter": "accuracy",
       "receivedAt": {
         "date": "2026-10-20",
@@ -3725,6 +3726,7 @@
       "id": "retro",
       "area": "payroll",
       "type": "form",
+      "screen": "Oracle",
       "title": "Enter a retro pay increase",
       "from": "mgr_bell",
       "location": "office_b",
@@ -3935,19 +3937,20 @@
       "id": "convert",
       "area": "hiring",
       "type": "form",
+      "screen": "Oracle",
       "title": "Clear to start: Noor Haddad",
-      "from": "pebc",
+      "from": "pcb",
       "location": "terminal",
       "priority": "high",
       "requires": [
         "start_early"
       ],
-      "context": "PEBC's clear to start email for Noor Haddad arrived this morning, and she now shows in Pending Workers. Once you submit her hire, her business unit approver, PEBC, and central HR each approve it.",
+      "context": "PCB's clear to start email for Noor Haddad arrived this morning, and she now shows in Pending Workers. Once you submit her hire, her business unit approver, PCB, and central HR each approve it.",
       "attachment": {
         "kind": "email",
         "title": "Clear to start: Noor Haddad",
         "lines": [
-          "From: PEBC Team",
+          "From: PCB Team",
           "Noor Haddad has cleared her pre-employment background check and is clear to start.",
           "She now appears in your Pending Workers list.",
           "Offer: Program Assistant, Staff non-exempt, $21.50 per hour",
@@ -4046,7 +4049,7 @@
                 "managerSatisfaction": -6
               },
               "timeCost": 0,
-              "feedback": "Noor's hire wasn't submitted in time for her business unit approver, PEBC, and central HR to approve it before Monday. Next time: convert the day the clear to start email arrives.",
+              "feedback": "Noor's hire wasn't submitted in time for her business unit approver, PCB, and central HR to approve it before Monday. Next time: convert the day the clear to start email arrives.",
               "consequences": [
                 {
                   "at": "payday",
@@ -4599,7 +4602,7 @@
           "Cc: Dana Ortiz",
           "Sam Okafor accepted the Data Assistant II offer from the posted requisition.",
           "Effective date: Sunday, November 8 (first day of a biweekly pay period)",
-          "Reply from Dana: Can you start Sam's promotion in CampusHR today so it's off Tyler's plate?"
+          "Reply from Dana: Can you start Sam's promotion in Oracle today so it's off Tyler's plate?"
         ]
       },
       "policyIds": [
@@ -4620,7 +4623,7 @@
         {
           "id": "who",
           "label": "Sam's transfer",
-          "prompt": "Dana wants Sam's promotion started in CampusHR today. What do you do?",
+          "prompt": "Dana wants Sam's promotion started in Oracle today. What do you do?",
           "missedChoiceId": "no_reply",
           "courses": [
             "transfer-with-requisition",
@@ -4762,7 +4765,7 @@
                 "accuracy": -6
               },
               "timeCost": 15,
-              "feedback": "A transfer doesn't end one job and add another; it moves the assignment Sam has. CampusHR also won't end someone's only assignment, which pushes people toward a termination by mistake. Next time: a transfer is not an ending, so leave his job for central recruiting's transaction.",
+              "feedback": "A transfer doesn't end one job and add another; it moves the assignment Sam has. Oracle also won't end someone's only assignment, which pushes people toward a termination by mistake. Next time: a transfer is not an ending, so leave his job for central recruiting's transaction.",
               "consequences": [
                 {
                   "at": "payday",
@@ -4979,7 +4982,7 @@
                 "complianceRisk": -2
               },
               "timeCost": 3,
-              "feedback": "Right. Staff and faculty both need an I-9 and a background check, and no one starts before PEBC emails clear to start. Whether her check runs from a requisition or a manual request is still being confirmed. Next time: give the hiring manager the rule and a start date to plan around."
+              "feedback": "Right. Staff and faculty both need an I-9 and a background check, and no one starts before PCB emails clear to start. Whether her check runs from a requisition or a manual request is still being confirmed. Next time: give the hiring manager the rule and a start date to plan around."
             },
             {
               "id": "start",
@@ -4989,7 +4992,7 @@
                 "complianceRisk": 8
               },
               "timeCost": 3,
-              "feedback": "Starting before clear to start puts someone on the job without a required check. Faculty need a background check and an I-9, the same as staff. Next time: the start date follows PEBC's clear to start email."
+              "feedback": "Starting before clear to start puts someone on the job without a required check. Faculty need a background check and an I-9, the same as staff. Next time: the start date follows PCB's clear to start email."
             },
             {
               "id": "i9_only",
@@ -5448,6 +5451,7 @@
       "id": "reminder",
       "area": "payroll",
       "type": "form",
+      "screen": "Email",
       "title": "Send the time card reminder",
       "from": "coach",
       "location": "terminal",
@@ -5619,6 +5623,7 @@
       "id": "timecards",
       "area": "payroll",
       "type": "grid",
+      "screen": "Time card system",
       "title": "Weekly time card check",
       "from": "coach",
       "location": "terminal",
@@ -6089,7 +6094,7 @@
       "location": "terminal",
       "opener": {
         "speaker": "pay_liu",
-        "line": "Marcus Bell's retention increase failed in CampusHR after it was approved. His September pay used his old salary, and October's will too. Get me what I need by Friday at noon, and I can pay him in this week's off-cycle run."
+        "line": "Marcus Bell's retention increase failed in Oracle after it was approved. His September pay used his old salary, and October's will too. Get me what I need by Friday at noon, and I can pay him in this week's off-cycle run."
       },
       "receivedAt": {
         "date": "2026-10-22",
@@ -6107,7 +6112,7 @@
         "lines": [
           "Employee: Marcus Bell, Program Manager (exempt, paid monthly)",
           "Retention increase: $88,000 to $94,000 a year, effective Tue Sep 1",
-          "Approved Aug 24, then failed in CampusHR with a system error",
+          "Approved Aug 24, then failed in Oracle with a system error",
           "Short $500 a month (gross) for September and October",
           "Off-cycle criteria: met (system failure, over the $200 gross threshold)",
           "Needed by Fri Oct 23 at noon for this week's off-cycle run"
@@ -6508,7 +6513,7 @@
       "policyIds": [
         "costing_basics"
       ],
-      "hint": "What does CampusHR charge when an assignment has no costing? And on what date does Noor's record begin?",
+      "hint": "What does Oracle charge when an assignment has no costing? And on what date does Noor's record begin?",
       "hintMeter": "accuracy",
       "receivedAt": {
         "date": "2026-10-22",
@@ -6641,7 +6646,7 @@
                 "accuracy": -4
               },
               "timeCost": 5,
-              "feedback": "Noor's record starts Oct 26, so a search on Oct 25 returns no data, and it looks like she isn't in CampusHR at all. Next time: search on the hire date, never before it.",
+              "feedback": "Noor's record starts Oct 26, so a search on Oct 25 returns no data, and it looks like she isn't in Oracle at all. Next time: search on the hire date, never before it.",
               "consequences": [
                 {
                   "at": "payday",
@@ -6709,7 +6714,7 @@
                 "accuracy": 2
               },
               "timeCost": 20,
-              "feedback": "One line per funding source, totaling 100%. CampusHR doesn't validate account strings, so check both against Mei's email, then run the HCM Cost Allocation Verification Plan report and fix anything it lists. Next time: costing has no approval step, so the report is your check."
+              "feedback": "One line per funding source, totaling 100%. Oracle doesn't validate account strings, so check both against Mei's email, then run the HCM Cost Allocation Verification Plan report and fix anything it lists. Next time: costing has no approval step, so the report is your check."
             },
             {
               "id": "one50",
@@ -6743,7 +6748,7 @@
                 "accuracy": -5
               },
               "timeCost": 10,
-              "feedback": "Lena's lines carry her own team's program code, and CampusHR doesn't check strings against the job. Noor's department half would charge Lena's team instead of Marcus's program. Next time: enter exactly the strings finance sent for this person.",
+              "feedback": "Lena's lines carry her own team's program code, and Oracle doesn't check strings against the job. Noor's department half would charge Lena's team instead of Marcus's program. Next time: enter exactly the strings finance sent for this person.",
               "consequences": [
                 {
                   "at": "payday",
@@ -6876,7 +6881,7 @@
                   "at": "payday",
                   "speaker": "mgr_ortiz",
                   "tone": "negative",
-                  "line": "Today is Kai's last day, and his design job still shows active in CampusHR. Who was handling it?",
+                  "line": "Today is Kai's last day, and his design job still shows active in Oracle. Who was handling it?",
                   "summary": "Kai's design job was never ended.",
                   "deltas": {
                     "managerSatisfaction": -6
@@ -6930,17 +6935,17 @@
                 "managerSatisfaction": 1
               },
               "timeCost": 15,
-              "feedback": "CampusHR won't end a primary assignment, so the job Kai keeps has to become primary first, effective on or before Oct 30. Tell the School of Education HCM your date and plan, and agree on who submits what [SME]. Next time: talk to the other HCM before you submit anything."
+              "feedback": "Oracle won't end a primary assignment, so the job Kai keeps has to become primary first, effective on or before Oct 30. Tell the School of Education HCM your date and plan, and agree on who submits what [SME]. Next time: talk to the other HCM before you submit anything."
             },
             {
               "id": "auto",
-              "text": "Submit the End Assignment; CampusHR shifts primary to teaching",
+              "text": "Submit the End Assignment; Oracle shifts primary to teaching",
               "correct": false,
               "deltas": {
                 "accuracy": -5
               },
               "timeCost": 5,
-              "feedback": "CampusHR won't end a primary assignment directly, so your End Assignment stalls and Kai's design job stays active. Next time: make the job the person keeps primary first, after you talk to the other HCM.",
+              "feedback": "Oracle won't end a primary assignment directly, so your End Assignment stalls and Kai's design job stays active. Next time: make the job the person keeps primary first, after you talk to the other HCM.",
               "consequences": [
                 {
                   "at": "payday",
@@ -7114,7 +7119,7 @@
                 "accuracy": 2
               },
               "timeCost": 3,
-              "feedback": "Right. Vanderbilt's emeritus setup in CampusHR, including worker type, hire reason, status, and who approves, is still being confirmed, so nothing gets entered until Ravi confirms it. Positions are never reactivated or repurposed across worker types. Next time: when a setup isn't documented, ask before you build."
+              "feedback": "Right. Vanderbilt's emeritus setup in Oracle, including worker type, hire reason, status, and who approves, is still being confirmed, so nothing gets entered until Ravi confirms it. Positions are never reactivated or repurposed across worker types. Next time: when a setup isn't documented, ask before you build."
             },
             {
               "id": "reuse",
@@ -7185,7 +7190,7 @@
                 "accuracy": 1
               },
               "timeCost": 3,
-              "feedback": "Right. When the office sets the schedule, directs the work, and supplies the tools, the facts point to an employee, whatever anyone prefers. Get the classification confirmed before she starts [SME: classification contact], then hire through CampusHR. Next time: settle classification before any work begins."
+              "feedback": "Right. When the office sets the schedule, directs the work, and supplies the tools, the facts point to an employee, whatever anyone prefers. Get the classification confirmed before she starts [SME: classification contact], then hire through Oracle. Next time: settle classification before any work begins."
             },
             {
               "id": "llc",
@@ -7286,6 +7291,7 @@
       "id": "doc_record",
       "area": "records",
       "type": "form",
+      "screen": "Oracle",
       "title": "File Jordan's signed raise letter",
       "from": "mgr_bell",
       "location": "office_b",
@@ -7342,7 +7348,7 @@
                 "managerSatisfaction": 1
               },
               "timeCost": 10,
-              "feedback": "Right. Signed letters go on the employee's CampusHR file as Document Records, and only the final signed copy goes on. Payroll pays from the approved salary record, not from letters. Next time: name the record the way the type's description shows, so it's easy to find [SME: naming convention for compensation letters]."
+              "feedback": "Right. Signed letters go on the employee's Oracle file as Document Records, and only the final signed copy goes on. Payroll pays from the approved salary record, not from letters. Next time: name the record the way the type's description shows, so it's easy to find [SME: naming convention for compensation letters]."
             },
             {
               "id": "both",
@@ -7627,7 +7633,7 @@
                 "accuracy": 2
               },
               "timeCost": 3,
-              "feedback": "Right. What FERDC covers and how it's set up in CampusHR are still being confirmed. So you search the person first, since CampusHR keeps one person record, and confirm the setup with Ravi before you enter anything. Next time: confirm an unfamiliar appointment type before you build it."
+              "feedback": "Right. What FERDC covers and how it's set up in Oracle are still being confirmed. So you search the person first, since Oracle keeps one person record, and confirm the setup with Ravi before you enter anything. Next time: confirm an unfamiliar appointment type before you build it."
             },
             {
               "id": "copy",
@@ -7647,7 +7653,7 @@
                 "accuracy": -4
               },
               "timeCost": 3,
-              "feedback": "CampusHR keeps one person record, so you search before adding anyone, and the setup itself still needs confirming. Next time: search the person, then confirm the setup with Ravi."
+              "feedback": "Oracle keeps one person record, so you search before adding anyone, and the setup itself still needs confirming. Next time: search the person, then confirm the setup with Ravi."
             }
           ]
         }
@@ -7661,7 +7667,7 @@
       "from": "mgr_bell",
       "location": "office_b",
       "priority": "normal",
-      "context": "Noor Haddad starts Monday, on site at the Nashville office, and that is the work location on her CampusHR assignment.",
+      "context": "Noor Haddad starts Monday, on site at the Nashville office, and that is the work location on her Oracle assignment.",
       "opener": {
         "speaker": "mgr_bell",
         "line": "Good news: Noor's moving to Illinois in January, and I told her she can work remotely from there. Anything you need from me?"
@@ -7821,8 +7827,8 @@
         },
         {
           "id": "location",
-          "label": "In CampusHR",
-          "prompt": "When Noor starts working in Illinois, what do you change in CampusHR?",
+          "label": "In Oracle",
+          "prompt": "When Noor starts working in Illinois, what do you change in Oracle?",
           "missedChoiceId": "not_changed",
           "courses": [
             "out-of-state-risk",
@@ -7949,7 +7955,7 @@
             },
             {
               "id": "self",
-              "text": "Look up Illinois leave law yourself, then set up her sick leave in CampusHR",
+              "text": "Look up Illinois leave law yourself, then set up her sick leave in Oracle",
               "correct": false,
               "deltas": {
                 "accuracy": -3
@@ -8207,7 +8213,7 @@
       "context": "Tomás Rivera, a Facilities Technician paid weekly, worked 8 hours each on Mon, Tue, and Wed this week. He has been on approved leave since Thu Oct 22.",
       "opener": {
         "speaker": "emp_rivera",
-        "line": "I'm back at work Monday. Marcus says CampusHR still shows me on leave, so he told me to check with you."
+        "line": "I'm back at work Monday. Marcus says Oracle still shows me on leave, so he told me to check with you."
       },
       "attachment": {
         "kind": "email",
@@ -8258,7 +8264,7 @@
                   "at": "payday",
                   "speaker": "emp_rivera",
                   "tone": "positive",
-                  "line": "I came back Monday and everything in CampusHR was right. Thanks for having it ready.",
+                  "line": "I came back Monday and everything in Oracle was right. Thanks for having it ready.",
                   "summary": "Tomás came back to an accurate record.",
                   "deltas": {
                     "employeeTrust": 3
@@ -8280,7 +8286,7 @@
                   "at": "payday",
                   "speaker": "emp_rivera",
                   "tone": "negative",
-                  "line": "I've been back all week, but CampusHR still says I'm on leave. Will this week's hours even pay?",
+                  "line": "I've been back all week, but Oracle still says I'm on leave. Will this week's hours even pay?",
                   "summary": "Tomás's assignment still showed leave after he came back.",
                   "deltas": {
                     "employeeTrust": -8,
@@ -8298,7 +8304,7 @@
                 "accuracy": -5
               },
               "timeCost": 5,
-              "feedback": "Approving a time card pays his hours; it doesn't change his assignment status in CampusHR. That change is yours to make, for weekly staff too. Next time: the manager approves time, and you update the leave status.",
+              "feedback": "Approving a time card pays his hours; it doesn't change his assignment status in Oracle. That change is yours to make, for weekly staff too. Next time: the manager approves time, and you update the leave status.",
               "consequences": [
                 {
                   "at": "payday",
@@ -8518,7 +8524,7 @@
             },
             {
               "id": "one_by_one",
-              "text": "Open each person's costing in CampusHR, one record at a time",
+              "text": "Open each person's costing in Oracle, one record at a time",
               "correct": false,
               "deltas": {
                 "accuracy": -3
@@ -8813,6 +8819,7 @@
       "id": "finalcheck",
       "area": "payroll",
       "type": "review",
+      "screen": "Time card system",
       "title": "Final time card check",
       "from": "coach",
       "location": "terminal",
@@ -9021,7 +9028,7 @@
       "from": "mgr_ortiz",
       "location": "terminal",
       "priority": "normal",
-      "context": "Dana, in chat: \"My Fri Nov 6 vacation day is already approved in CampusHR. A site visit just moved to that day, so I'll be working.\"",
+      "context": "Dana, in chat: \"My Fri Nov 6 vacation day is already approved in Oracle. A site visit just moved to that day, so I'll be working.\"",
       "opener": {
         "speaker": "mgr_ortiz",
         "line": "My Nov 6 day off is approved, but now I have to work that day. Can you just delete it?"
@@ -9052,7 +9059,7 @@
           "choices": [
             {
               "id": "withdraw",
-              "text": "Withdraw the absence in CampusHR and check the withdrawal gets approved",
+              "text": "Withdraw the absence in Oracle and check the withdrawal gets approved",
               "correct": true,
               "deltas": {
                 "accuracy": 2
@@ -9078,7 +9085,7 @@
                 "accuracy": -3
               },
               "timeCost": 3,
-              "feedback": "Payroll doesn't delete absences; it pays from what's recorded. An approved absence that won't happen is withdrawn in CampusHR, which you or Dana can do. Next time: withdraw it yourself and track the withdrawal."
+              "feedback": "Payroll doesn't delete absences; it pays from what's recorded. An approved absence that won't happen is withdrawn in Oracle, which you or Dana can do. Next time: withdraw it yourself and track the withdrawal."
             },
             {
               "id": "leave_it",
@@ -9213,7 +9220,7 @@
       "location": "terminal",
       "opener": {
         "speaker": "rec_nguyen",
-        "line": "Noor's offer letter promised a $1,000 sign-on bonus, but I left it off her offer in CampusHR. Can you add it on your side?"
+        "line": "Noor's offer letter promised a $1,000 sign-on bonus, but I left it off her offer in Oracle. Can you add it on your side?"
       },
       "receivedAt": {
         "date": "2026-10-26",
@@ -9257,7 +9264,7 @@
                 "accuracy": -4
               },
               "timeCost": 3,
-              "feedback": "Net is take-home pay, so CampusHR would gross it up and pay Noor more than her offer promised. Next time: a bonus stated before taxes goes in Amount."
+              "feedback": "Net is take-home pay, so Oracle would gross it up and pay Noor more than her offer promised. Next time: a bonus stated before taxes goes in Amount."
             },
             {
               "id": "salary",

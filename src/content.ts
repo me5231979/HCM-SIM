@@ -92,6 +92,7 @@ export function crossCheck(): string[] {
     (s.requires ?? []).forEach((r) => stepIds.has(r) || errors.push(`${s.id}: unknown requires ${r}`));
     if (s.skipIf && !stepIds.has(s.skipIf.step)) errors.push(`${s.id}: unknown skipIf step`);
     if (s.quick && s.decisions.length !== 1) errors.push(`${s.id}: a quick question has exactly one decision`);
+    if ((s.type === 'form' || s.grid || s.review) && !s.screen) errors.push(`${s.id}: a practice screen needs the system it stands in for (screen)`);
     if (dash.test(s.context + s.title + s.hint + (s.opener?.line ?? ''))) errors.push(`${s.id}: contains an em or en dash`);
     for (const d of s.decisions) {
       if (!d.choices.some((c) => c.id === d.missedChoiceId)) errors.push(`${s.id}.${d.id}: missedChoiceId not found`);

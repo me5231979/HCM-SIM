@@ -117,8 +117,7 @@
     {
       "id": "open.q_observer",
       "speaker": "dir_park",
-      "text": "Our evaluator needs CampusHR access while she's here. How do we set her up?",
-      "say": "Our evaluator needs Campus H R access while she's here. How do we set her up?"
+      "text": "Our evaluator needs Oracle access while she's here. How do we set her up?"
     },
     {
       "id": "open.start_early",
@@ -171,8 +170,7 @@
     {
       "id": "open.q_business_title",
       "speaker": "mgr_ortiz",
-      "text": "If we post it as Campus Events Coordinator, is that the title the new hire gets in CampusHR?",
-      "say": "If we post it as Campus Events Coordinator, is that the title the new hire gets in Campus H R?"
+      "text": "If we post it as Campus Events Coordinator, is that the title the new hire gets in Oracle?"
     },
     {
       "id": "open.bell",
@@ -216,8 +214,7 @@
     {
       "id": "open.report_date",
       "speaker": "dir_park",
-      "text": "Can you pull me a roster from CampusHR with names, titles, and managers for Monday's org chart? Make sure Noor is on it.",
-      "say": "Can you pull me a roster from Campus H R with names, titles, and managers for Monday's org chart? Make sure Noor is on it."
+      "text": "Can you pull me a roster from Oracle with names, titles, and managers for Monday's org chart? Make sure Noor is on it."
     },
     {
       "id": "open.q_search_firm",
@@ -311,8 +308,7 @@
     {
       "id": "open.offcycle",
       "speaker": "pay_liu",
-      "text": "Marcus Bell's retention increase failed in CampusHR after it was approved. His September pay used his old salary, and October's will too. Get me what I need by Friday at noon, and I can pay him in this week's off-cycle run.",
-      "say": "Marcus Bell's retention increase failed in Campus H R after it was approved. His September pay used his old salary, and October's will too. Get me what I need by Friday at noon, and I can pay him in this week's off-cycle run."
+      "text": "Marcus Bell's retention increase failed in Oracle after it was approved. His September pay used his old salary, and October's will too. Get me what I need by Friday at noon, and I can pay him in this week's off-cycle run."
     },
     {
       "id": "open.ferpa",
@@ -381,8 +377,7 @@
     {
       "id": "open.leave_return",
       "speaker": "emp_rivera",
-      "text": "I'm back at work Monday. Marcus says CampusHR still shows me on leave, so he told me to check with you.",
-      "say": "I'm back at work Monday. Marcus says Campus H R still shows me on leave, so he told me to check with you."
+      "text": "I'm back at work Monday. Marcus says Oracle still shows me on leave, so he told me to check with you."
     },
     {
       "id": "open.q_rif_notice",
@@ -423,8 +418,8 @@
     {
       "id": "open.q_signon",
       "speaker": "rec_nguyen",
-      "text": "Noor's offer letter promised a $1,000 sign-on bonus, but I left it off her offer in CampusHR. Can you add it on your side?",
-      "say": "Noor's offer letter promised a one thousand dollar sign-on bonus, but I left it off her offer in Campus H R. Can you add it on your side?"
+      "text": "Noor's offer letter promised a $1,000 sign-on bonus, but I left it off her offer in Oracle. Can you add it on your side?",
+      "say": "Noor's offer letter promised a one thousand dollar sign-on bonus, but I left it off her offer in Oracle. Can you add it on your side?"
     },
     {
       "id": "open.headcount",
@@ -444,8 +439,7 @@
     {
       "id": "spoken.report_date.noor",
       "speaker": "dir_park",
-      "text": "If Noor isn't in CampusHR yet, just type her in. The chart can't miss her.",
-      "say": "If Noor isn't in Campus H R yet, just type her in. The chart can't miss her."
+      "text": "If Noor isn't in Oracle yet, just type her in. The chart can't miss her."
     },
     {
       "id": "spoken.timecards.nair_ot",
@@ -496,8 +490,7 @@
     {
       "id": "hint.q_two_assignments",
       "speaker": "coach",
-      "text": "Where does a manager live in CampusHR: on the person, or somewhere more specific?",
-      "say": "Where does a manager live in Campus H R: on the person, or somewhere more specific?"
+      "text": "Where does a manager live in Oracle: on the person, or somewhere more specific?"
     },
     {
       "id": "hint.exempt_pto",
@@ -558,8 +551,7 @@
     {
       "id": "hint.report_date",
       "speaker": "coach",
-      "text": "CampusHR keeps every change with a date. Which date is Dr. Park's chart about?",
-      "say": "Campus H R keeps every change with a date. Which date is Dr. Park's chart about?"
+      "text": "Oracle keeps every change with a date. Which date is Dr. Park's chart about?"
     },
     {
       "id": "hint.q_search_firm",
@@ -574,8 +566,7 @@
     {
       "id": "hint.q_find_person",
       "speaker": "coach",
-      "text": "Names and titles repeat across campus. What does CampusHR give each person that never repeats?",
-      "say": "Names and titles repeat across campus. What does Campus H R give each person that never repeats?"
+      "text": "Names and titles repeat across campus. What does Oracle give each person that never repeats?"
     },
     {
       "id": "hint.retro",
@@ -671,8 +662,7 @@
     {
       "id": "hint.newhire_costing",
       "speaker": "coach",
-      "text": "What does CampusHR charge when an assignment has no costing? And on what date does Noor's record begin?",
-      "say": "What does Campus H R charge when an assignment has no costing? And on what date does Noor's record begin?"
+      "text": "What does Oracle charge when an assignment has no costing? And on what date does Noor's record begin?"
     },
     {
       "id": "hint.resign",
@@ -928,8 +918,7 @@
     {
       "id": "pay.exempt_pto.system.timecard",
       "speaker": "pay_liu",
-      "text": "Mei is exempt, but her Friday off showed up on the time card system. It doesn't belong there, and her CampusHR balance never changed.",
-      "say": "Mei is exempt, but her Friday off showed up on the time card system. It doesn't belong there, and her Campus H R balance never changed."
+      "text": "Mei is exempt, but her Friday off showed up on the time card system. It doesn't belong there, and her Oracle balance never changed."
     },
     {
       "id": "pay.exempt_pto.system.email_payroll",
@@ -959,8 +948,7 @@
     {
       "id": "pay.exempt_pto.approval.card_too",
       "speaker": "pay_liu",
-      "text": "Mei's day off is in CampusHR and on the time card system. She's exempt, so the time card entry has to come off.",
-      "say": "Mei's day off is in Campus H R and on the time card system. She's exempt, so the time card entry has to come off."
+      "text": "Mei's day off is in Oracle and on the time card system. She's exempt, so the time card entry has to come off."
     },
     {
       "id": "pay.confidential.send.minimum",
@@ -1123,8 +1111,7 @@
     {
       "id": "pay.report_date.noor.type_in",
       "speaker": "emp_chen",
-      "text": "I used your roster to plan the grant budget, and it doesn't match CampusHR. Which one is right?",
-      "say": "I used your roster to plan the grant budget, and it doesn't match Campus H R. Which one is right?"
+      "text": "I used your roster to plan the grant budget, and it doesn't match Oracle. Which one is right?"
     },
     {
       "id": "pay.report_date.noor.direct_hire",
@@ -1166,8 +1153,7 @@
     {
       "id": "pay.retro_costing.retro.nothing",
       "speaker": "emp_chen",
-      "text": "Your fix shows in CampusHR, but September is still sitting on our budget. Did the retro form ever go in?",
-      "say": "Your fix shows in Campus H R, but September is still sitting on our budget. Did the retro form ever go in?"
+      "text": "Your fix shows in Oracle, but September is still sitting on our budget. Did the retro form ever go in?"
     },
     {
       "id": "pay.retro_costing.retro.late",
@@ -1468,8 +1454,7 @@
     {
       "id": "pay.resign.action.wait",
       "speaker": "mgr_ortiz",
-      "text": "Today is Kai's last day, and his design job still shows active in CampusHR. Who was handling it?",
-      "say": "Today is Kai's last day, and his design job still shows active in Campus H R. Who was handling it?"
+      "text": "Today is Kai's last day, and his design job still shows active in Oracle. Who was handling it?"
     },
     {
       "id": "pay.resign.action.not_entered",
@@ -1604,14 +1589,12 @@
     {
       "id": "pay.leave_return.status.change_assignment",
       "speaker": "emp_rivera",
-      "text": "I came back Monday and everything in CampusHR was right. Thanks for having it ready.",
-      "say": "I came back Monday and everything in Campus H R was right. Thanks for having it ready."
+      "text": "I came back Monday and everything in Oracle was right. Thanks for having it ready."
     },
     {
       "id": "pay.leave_return.status.wait",
       "speaker": "emp_rivera",
-      "text": "I've been back all week, but CampusHR still says I'm on leave. Will this week's hours even pay?",
-      "say": "I've been back all week, but Campus H R still says I'm on leave. Will this week's hours even pay?"
+      "text": "I've been back all week, but Oracle still says I'm on leave. Will this week's hours even pay?"
     },
     {
       "id": "pay.leave_return.status.timecard",

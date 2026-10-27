@@ -16,7 +16,9 @@ Rules:
 - Never rely on color alone for meaning. Status = icon shape + text.
 - Mark unknown policy details [SME] and log in CONTENT_TODO.md.
 - Vanderbilt brand: black #1C1C1C, gold #CFAE70, oak #946E24, cream #F5F3EF. Libre Caslon Display headlines with one italic word, Inter body, Antonio for numerals and labels. No em or en dashes in copy.
-- No real people's names, real departments, or real Oracle screens. CampusHR (Sim) is fictional.
+- No real people's names, real departments, or copies of real Oracle screens.
+  Approved (October 2026): the HR system is called Oracle and the background check team PCB, the names learners use
+  at work. Practice screens stay simplified and say which system they stand in for (`screen` on forms, grids, reviews).
 - Run `npm test` and `npm run test:e2e` before every commit.
 - Keep model payload under 8 MB and draw calls under 150. Use instancing for repeated furniture.
 - Build in phase order. Do not skip acceptance criteria.

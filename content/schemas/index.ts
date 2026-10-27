@@ -91,6 +91,8 @@ const stepFields = {
   /** A quick question from a colleague: one decision, a short chat message, due a few hours later. */
   quick: z.boolean().optional(),
   type: StepType,
+  /** The real system a practice screen stands in for (Oracle, the time card system). Forms, grids, and reviews have one. */
+  screen: z.string().optional(),
   title: z.string(),
   from: z.string(),
   location: Location,
@@ -157,6 +159,8 @@ export const Person = z.object({
   arrives: SimAt.optional(),
   /** Said when you click someone with nothing waiting. */
   greeting: z.string().optional(),
+  /** Portrait under public/, such as avatars/mgr_ortiz.webp. Without one, the avatar shows initials. */
+  photo: z.string().optional(),
 });
 export const Employees = z.object({ people: z.array(Person).min(1) });
 
@@ -237,6 +241,8 @@ export const VoiceEnvelopes = z.object({ rate: z.number().int().positive(), line
 /** Opt-in live conversations with an ElevenLabs agent. Each one can settle a decision, which the player confirms. */
 export const Live = z.object({
   privacy: z.object({ provider: z.string(), points: z.array(z.string()).min(1) }),
+  /** The practice card shown with the decision. {first} in a step becomes the character's first name. */
+  offer: z.object({ eyebrow: z.string(), headline: z.string(), italic: z.string(), steps: z.array(z.string()).length(3) }),
   conversations: z.array(z.object({
     id: z.string(),
     agentId: z.string().regex(/^agent_[a-z0-9]+$/),
@@ -245,6 +251,8 @@ export const Live = z.object({
     decisionId: z.string(),
     title: z.string(),
     pitch: z.string(),
+    /** The situation, on the practice card: what's happening, who you're talking to, and what to settle. */
+    scene: z.string(),
     maxSeconds: z.number().int().positive(),
     /** Outcome reported by the agent's record_outcome tool, mapped to a choice id. Anything else means unresolved. */
     outcomes: z.record(z.string(), z.string()),

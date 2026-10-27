@@ -12,7 +12,7 @@
       "begin": "2026-10-01",
       "end": "2026-10-31",
       "hcmCutoff": { "date": "2026-10-18", "at": "17:00" },
-      "note": "October's cutoff has passed when the week starts. Exempt changes approved this week pay in November, with retro for October where the element supports it. Next cutoff: Wed Nov 18. Exempt time off is entered in CampusHR absences, not on time cards.",
+      "note": "October's cutoff has passed when the week starts. Exempt changes approved this week pay in November, with retro for October where the element supports it. Next cutoff: Wed Nov 18. Exempt time off is entered in Oracle absences, not on time cards.",
       "source": "2026 Payroll Calendar, monthly payroll (the published rows put each monthly cutoff on the 18th)",
       "sme": true
     },

@@ -28,24 +28,31 @@ export function LiveOffer({ step, d, disabled }: { step: ActiveStep; d: Decision
   const enabled = useGame((s) => s.settings.live);
   const [mode, setMode] = useState<LiveMode | null>(null);
   if (!conv || !enabled) return null;
-  const first = personById(conv.speaker).name.split(' ')[0];
+  const person = personById(conv.speaker);
+  const first = person.name.split(' ')[0];
   const mic = micAvailable();
   return (
-    <div className="live-offer">
-      <SpeakingAvatar id={conv.speaker} size={44} />
-      <div className="live-offer-body">
-        <p className="eyebrow"><Icon.chat /> Live practice, optional</p>
-        <h3>{conv.title}</h3>
-        <p className="muted">{conv.pitch}</p>
-        <div className="live-offer-actions">
-          <button type="button" className="btn btn--ghost btn--sm" disabled={disabled || !mic} onClick={() => setMode('voice')} data-testid="live-voice"><Icon.mic /> Talk out loud</button>
-          <button type="button" className="btn btn--ghost btn--sm" disabled={disabled} onClick={() => setMode('text')} data-testid="live-text"><Icon.keyboard /> Type to {first}</button>
+    <section className="live-offer" aria-labelledby={`live-offer-${conv.id}`}>
+      <div className="live-offer-top">
+        <SpeakingAvatar id={conv.speaker} size={128} />
+        <div className="live-offer-body">
+          <p className="eyebrow">{live.offer.eyebrow} · with {first}</p>
+          <h3 id={`live-offer-${conv.id}`}>{live.offer.headline} <em>{live.offer.italic}</em></h3>
+          <p className="live-scene">{conv.scene}</p>
+          <p className="live-meta">{person.name}, {person.title} · Up to {Math.round(conv.maxSeconds / 60)} minutes · {mic ? 'Microphone or keyboard' : 'Keyboard'}</p>
         </div>
-        {!mic && <p className="fine">This browser can't share a microphone here, so typing is the way in.</p>}
-        <p className="fine">Uses an outside voice service; you'll see what's shared before anything connects. Or choose your answer below. Talking to {first} is never required.</p>
       </div>
+      <ol className="live-steps">
+        {live.offer.steps.map((s, i) => <li key={i}><span className="live-step-num" aria-hidden="true">{i + 1}</span><span>{s.replace(/\{first\}/g, first)}</span></li>)}
+      </ol>
+      <div className="live-offer-actions">
+        {mic && <button type="button" className="btn btn--gold btn--lg" disabled={disabled} onClick={() => setMode('voice')} data-testid="live-voice"><Icon.mic /> Start the conversation</button>}
+        <button type="button" className={`btn ${mic ? 'btn--ghost' : 'btn--gold btn--lg'}`} disabled={disabled} onClick={() => setMode('text')} data-testid="live-text"><Icon.keyboard /> {mic ? 'Type instead' : 'Start typing'}</button>
+      </div>
+      {!mic && <p className="fine">This browser can't share a microphone here, so typing is the way in.</p>}
+      <p className="fine">Optional. It uses an outside voice service, and you'll see what's shared before anything connects. Or choose your answer below.</p>
       {mode && createPortal(<><div className="live-backdrop" aria-hidden="true" /><LiveDialog conv={conv} step={step} d={d} initialMode={mode} onClose={() => setMode(null)} /></>, document.body)}
-    </div>
+    </section>
   );
 }
 
