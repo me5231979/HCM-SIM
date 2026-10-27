@@ -62,5 +62,9 @@ Save each portrait as `<person id>.png` (or .jpg, .webp) in a folder, then run `
 writes a 256 px WebP to `public/avatars` and records it as the person's `photo` in `content/employees.json`.
 `npm test` fails if a photo is missing or over 40 KB.
 
+When the images are only online (the cast portraits were generated with Higgsfield), list them in
+`.github/avatar-urls.json` as `[{"id", "url"}]` and push to a branch named `avatars`. The Fetch portraits workflow
+downloads them, runs the same tool, and commits the results to that branch; review it, then merge it into main.
+
 A Futures Learning Hub simulation. The department and people are fictional. Oracle and the time card system appear as
 simplified practice screens, never copies of the real ones.
