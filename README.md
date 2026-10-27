@@ -46,7 +46,13 @@ Every character has an ElevenLabs voice. Captions always show, and the Voices bu
   Marcus Bell about whether his new hire can start early (agent `agent_0401m5wwnmhteaesd74gzwsekttc`). The practice
   card's text is `offer` and each conversation's `scene` in that file. A consent screen comes first; typing works
   instead of talking. Each agent's `record_outcome` tool reports what was
-  settled, and the player confirms before it counts. Agent settings: allowlist `me5231979.github.io`,
+  settled, and the player confirms before it counts. It grades the whole conversation: the agent rereads every learner
+  message, counts a point made at any time in any words, writes its summary first, and sets each field to agree with
+  it. A point a manager pushed back on (unpaid shadowing for Marcus, moving hours for Dana) only earns a note when the
+  learner turned it down, so a pushback that never came up costs nothing. The tool's field descriptions and the
+  prompt's grading section must match `coaching` in `content/live.json`. ElevenLabs tests replay real conversations
+  (Marcus: a learner who names the I-9 late and turns down unpaid shadowing; Dana: points made early and late); the
+  test runner can't run Claude models, so they run on the backup model, Gemini 2.5 Flash. Agent settings: allowlist `me5231979.github.io`,
   `hcm-sim.vercel.app`, `localhost:4173`, and `localhost:5173` (each also listed with its scheme), origin header
   required, 3 minute cap, 5 at once, 100 a day, no bursting, audio not recorded, transcripts deleted after 30 days,
   and replies capped at 1,000 tokens (the model thinks before it speaks, and a 250 cap cut replies off mid-sentence).

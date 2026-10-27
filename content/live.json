@@ -34,6 +34,7 @@
       "coaching": [
         { "field": "explained_overtime_rule", "is": true, "good": true, "text": "You named the rule: hours over 40 in a workweek are paid as overtime, approved or not." },
         { "field": "explained_overtime_rule", "is": false, "good": false, "text": "Name the rule out loud next time: hours over 40 in a workweek are paid as overtime, approved or not." },
+        { "field": "turned_down_shift", "is": true, "good": true, "text": "You kept the hours in week 1: overtime is counted per workweek, so moving hours would make the record false." },
         { "field": "suggested_conduct_conversation", "is": true, "good": true, "text": "You gave Dana the real fix: a conversation with Priya about getting approval first." },
         { "field": "suggested_conduct_conversation", "is": false, "good": false, "text": "Give Dana the real fix: a conversation with Priya about getting approval first. The time card stays as worked." },
         { "field": "hcm_edit", "is": true, "good": false, "text": "Managers fix their own team's time. You advise and follow up; you don't edit it for them." },
@@ -53,10 +54,11 @@
       "maxSeconds": 180,
       "outcomes": { "wait": "wait", "start_wed": "start_wed", "volunteer": "volunteer" },
       "coaching": [
-        { "field": "explained_clear_to_start", "is": true, "good": true, "text": "You named the gate: no one starts until PCB sends clear to start and you convert her." },
+        { "field": "explained_clear_to_start", "is": true, "good": true, "text": "You held the gate: no one starts until PCB sends clear to start and you convert her." },
         { "field": "explained_clear_to_start", "is": false, "good": false, "text": "Name the gate next time: no one starts until PCB sends clear to start and you convert her." },
-        { "field": "explained_i9", "is": true, "good": true, "text": "You named the timing: I-9 Section 1 is due on her first day, so the paperwork can't come after." },
-        { "field": "explained_i9", "is": false, "good": false, "text": "Add the I-9 next time: Section 1 is due on her first day, so the paperwork can't come after." },
+        { "field": "explained_i9", "is": true, "good": true, "text": "You kept the I-9 on time: Section 1 is due by her first day, so the paperwork can't come after." },
+        { "field": "explained_i9", "is": false, "good": false, "text": "Add the I-9 next time: Section 1 is due by her first day, so the paperwork can't come after." },
+        { "field": "turned_down_unpaid", "is": true, "good": true, "text": "You turned down unpaid shadowing: anything Noor does for the office is work, and work is paid." },
         { "field": "gave_date", "is": true, "good": true, "text": "You gave Marcus a plan he can work with, not just a no." },
         { "field": "gave_date", "is": false, "good": false, "text": "Give Marcus a date or a plan, so the no comes with a next step." },
         { "field": "tone", "is": "respectful", "good": true, "text": "You kept it respectful. Managers come back to the HCM who helps them, not the one who corrects them." },
